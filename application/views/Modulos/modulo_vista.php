@@ -70,11 +70,28 @@
 			alert(this.id);
     	});
 		$(document).on("click", "#modificar", function () {
-			alert(this.id);
+			alert($(this).attr('data-id'));
     	});
 		$('#btnAgregar').click(function() {
-			$('#mdlAgregar').modal();
+			$('#mdlAgregar').modal('toggle');
 		});
+		
+		$('#btnRegistrar').click(function () {
+			$.ajax({
+				url: base_url+'index.php/Modulos/guardarModulo/',
+				type: 'POST',
+				data: $('form').serialize(),
+				success: function() {
+					obtenerDatos($('#opciones').val());
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log($('form').serialize());
+					console.log('error::'+errorThrown);
+				}
+			});
+			$('#btnCerrar').trigger('click');
+		});
+		
 		function obtenerDatos(estatus) {
 			$.ajax({
 				url: base_url+'index.php/Modulos/obtenerModulos/'+estatus,
@@ -113,7 +130,7 @@
 					item['ruta'],
 					"<i class = '"+item['icono']+" fa-lg'></i>",
 					output,
-					"<i id='modificar' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
+					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
 					output2
 				]).draw(false).node();
 				$('td:eq(4)', fila).attr('class', 'text-center');

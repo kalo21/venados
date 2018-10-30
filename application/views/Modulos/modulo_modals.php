@@ -12,25 +12,25 @@
             <form class="form-horizontal">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Nombre</label>
-                    <div class="col-sm-9"><input type="text" class="form-control" id="NombreModulo"></div>        
+                    <div class="col-sm-9"><input type="text" class="form-control" id="nombreModulo" name="inpNombre"></div>        
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Descripcion</label>
-                    <div class="col-sm-9"><input type="text" class="form-control" id="DescrpcionModulo"></div> 
+                    <div class="col-sm-9"><input type="text" class="form-control" id="descrpcionModulo" name="inpDescripcion"></div> 
                 </div>
                 <div class="form-group">
-                <label class="col-sm-3 control-label">Ruta</label>
-                    <div class="col-sm-9"><input type="text" class="form-control" id="RutaModulo"></div> 
+                	<label class="col-sm-3 control-label">Ruta</label>
+                    <div class="col-sm-9"><input type="text" class="form-control" id="rutaModulo" name="inpRuta"></div> 
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">icono</label>
-                    <input type="file" class="custom-file-input" id="IconoModulo" required>     
-                </div>   
+                	<label class="col-sm-3 control-label">Icono</label>
+                    <div class="col-sm-9"><input type="text" class="form-control" id="iconoModulo" name="inpIcono"></div> 
+                </div>
             </form>
             </div>
             <div class="modal-footer bg-gray">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-rojo">Registrar</button>
+                <button id="btnCerrar" type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-rojo" id="btnRegistrar">Registrar</button>
             </div>
         </div>
     </div>    
