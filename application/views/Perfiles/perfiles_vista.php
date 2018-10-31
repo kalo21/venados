@@ -135,7 +135,7 @@
     	});
 		
 		$(document).on("click", "#modificar", function () {
-			alert($(this).attr('data-id'));
+			var id = $(this).attr('data-id');
 			BootstrapDialog.show({
 				
                 title: 'Modificar Perfil', // Aquí se pone el título
@@ -147,7 +147,7 @@
 					return $message;
 				},
 				data: {
-					'pageToLoad': base_url+'index.php/Perfiles/formulario/'
+					'pageToLoad': base_url+'index.php/Perfiles/formulario/'+id
 				},
 				buttons: [{ //agrega los botones del modal
 					label: 'Cancelar',

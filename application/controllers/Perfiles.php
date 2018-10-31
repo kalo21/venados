@@ -24,12 +24,7 @@ class Perfiles extends CI_Controller {
         else{
             show_404();
         }
-		
 	}
-    
-    public function formulario(){
-        $this->load->view('Perfiles/perfiles_modals');
-    }
     
     public function agregarPerfil() {
         $this->form_validation->set_rules('inpNombre', 'Nombre', 'numeric');
@@ -42,8 +37,13 @@ class Perfiles extends CI_Controller {
         }
     }
 	
-	public function prueba() {
-		$data = $this->Perfiles_modelo->obtenerDatos();
-		$this->load->view('Perfiles/perfiles_modal2');
+	public function formulario($id = '') {
+		if(empty($id)) {
+			$this->load->view('Perfiles/perfiles_modal2');
+		}
+		else {
+			$data['datos'] = $this->Perfiles_modelo->obtenerDatos($id);
+			$this->load->view('Perfiles/perfiles_modal2',$data);
+		}
 	}
 }
