@@ -53,6 +53,7 @@
 		</div>
 	</section>
 </div>
+<!--hola-->
 
 <?php $this->load->view('Global/footer'); ?>
 
