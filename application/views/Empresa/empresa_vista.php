@@ -49,19 +49,19 @@
 						  	</table>
 						</div>
 					</div>
-					<!-- ./box-body -->
+<!-- ./box-body -->
 					<div class="box-footer">
 						<div class="row-fluid pull-right">
 							<button type="button" id="btnAgregar" class="btn btn-rojo">Agregar</button>
 						</div>
 					</div>
-				<!-- /.box-footer -->
+<!-- /.box-footer -->
 			  </div>
-			  <!-- /.box -->
+<!-- /.box -->
 			</div>
-			<!-- /.col -->
+<!-- /.col -->
 		</div>
-              <!-- /.row -->
+<!-- /.row -->
     </section>
 </div>
 
