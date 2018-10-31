@@ -13,4 +13,7 @@ class Productos extends CI_Controller {
 	public function obtenerProductos($estatus) {
 		echo json_encode($this->Productos_modelo->obtenerProductos($estatus));
 	}
+    public function cambiarEstado() {
+		$this->Productos_modelo->cambiarEstado($this->input->post('id'), $this->input->post('estatus'));
+	}
 }

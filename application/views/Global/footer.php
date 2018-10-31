@@ -34,7 +34,7 @@
 
 <script type="text/javascript" src="<?php echo base_url('assets/js/moment.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/moment-with-locales.min.js'); ?>"></script>
-
+<script type="text/javascript" src="<?php echo base_url('assets/js/fileinput.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap-dialog.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.dataTables.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/dataTables.bootstrap.min.js'); ?>"></script>
@@ -42,7 +42,6 @@
 
 <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap-filestyle.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap-datetimepicker.min.js'); ?>"></script>
-
 
 
 </div>
@@ -83,10 +82,12 @@
         setTimeout("hora()",1000);
         }
     
+    
 	window.onabort = function(){
         var contenedor = document.getElementById('contenedor_carga');
         contenedor.style.visibility = 'hidden';
         contenedor.style.opacity = '0';
     }
+    
 
 </script>

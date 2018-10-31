@@ -24,10 +24,41 @@ class Perfiles_modelo extends CI_Model{
 		}
 		else {
 			return false;
+		} 
+	   }
+    public function cambiarEstado($id, $estatus) {
+		if($estatus == 1) {
+			$estatus = 0;
 		}
+		else {
+			$estatus = 1;
+		}
+        //Consultar
+        $this->db->where('id', $id);
+        $registro = $this->db->get('perfiles')->row();
+        if($registro->estatus == $estatus){
+            return array('exito' => false,'msg' => 'El dato no se actualizó porque el cambio ya se habia realizado');
+        }
+        //Actualizar
+		$estado = array('estatus' => $estatus);
+		$this->db->where('id', $id);
+		$this->db->update('perfiles', $estado);
+        if($this->db->affected_rows() > 0){
+            return array('exito' => true,'msg' => '');
+        }
+        else{
+             return array('exito' => false,'msg' => 'No se modificó el estatus del perfil seleccionado');
+        }
 	}
 	
-	
+	public function agregarPerfil($data) {
+        $datos = array(
+            "nombre" => $data['inpNombre'],
+            "descripcion" => $data['inpDescripcion'],
+            "estatus" => 1
+        );
+        $this->db->insert('perfiles', $datos);
+    }
 	
 	
 	
@@ -84,6 +115,7 @@ class Perfiles_modelo extends CI_Model{
 			}
 		}
 	}
+    /*
 	function agregarPerfil($data){
 		$this->db->where('nombre', $data['nombre']);
 		$nomExiste = $this->db->get('perfiles');
@@ -100,6 +132,7 @@ class Perfiles_modelo extends CI_Model{
 			}
 		}
 	}
+    */
 	public function agregarModulo($data){
 	  $this->db->insert('perfiles_modulos', $data);
       if ($this->db->affected_rows() > 0) {

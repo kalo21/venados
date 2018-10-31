@@ -14,10 +14,7 @@ class Empresa extends CI_Controller {
 		echo json_encode($this->Empresa_modelo->obtenerEmpresa($estatus));
 	}
 	public function cambiarEstado() {
-		$this->Empresa_modelo->cambiarEstado($_POST['id'], $_POST['estatus']);
+		$this->Empresa_modelo->cambiarEstado($this->input->post('id'), $this->input->post('estatus'));
 	}
-    public function modal(){
-        
-    }
 }
 

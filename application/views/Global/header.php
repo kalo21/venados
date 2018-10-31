@@ -102,6 +102,199 @@
         .show > .btn-outline-rojo.dropdown-toggle:focus {
           box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5) !important;
         }
+       .modal-header {
+            background-color: #f6032f !important;
+        }
+       .bootstrap-dialog .bootstrap-dialog-title {
+            color: #fff !important;
+            display: inline-block !important;
+            font-size: 24px !important;
+
+        }
+       .modal-body {
+            position: relative;
+            padding: 15px;
+            background: #ecf0f5 !important;
+        }
+       .modal-footer {
+            padding: 15px;
+            text-align: right;
+            border-top: 1px solid #e5e5e5;
+            background: #d2d6de !important;
+        }
+
+       .valid-feedback {
+          display: none;
+          width: 100%;
+          margin-top: 0.25rem;
+          font-size: 80%;
+          color: #28a745;
+        }
+
+        .valid-tooltip {
+          position: absolute;
+          top: 100%;
+          z-index: 5;
+          display: none;
+          max-width: 100%;
+          padding: .5rem;
+          margin-top: .1rem;
+          font-size: .875rem;
+          line-height: 1;
+          color: #fff;
+          background-color: rgba(40, 167, 69, 0.8);
+          border-radius: .2rem;
+        }
+
+        .was-validated .form-control:valid, .form-control.is-valid, .was-validated
+        .custom-select:valid,
+        .custom-select.is-valid {
+          border-color: #28a745;
+        }
+
+        .was-validated .form-control:valid:focus, .form-control.is-valid:focus, .was-validated
+        .custom-select:valid:focus,
+        .custom-select.is-valid:focus {
+          border-color: #28a745;
+          box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+
+        .was-validated .form-control:valid ~ .valid-feedback,
+        .was-validated .form-control:valid ~ .valid-tooltip, .form-control.is-valid ~ .valid-feedback,
+        .form-control.is-valid ~ .valid-tooltip, .was-validated
+        .custom-select:valid ~ .valid-feedback,
+        .was-validated
+        .custom-select:valid ~ .valid-tooltip,
+        .custom-select.is-valid ~ .valid-feedback,
+        .custom-select.is-valid ~ .valid-tooltip {
+          display: block;
+        }
+
+        .was-validated .form-check-input:valid ~ .form-check-label, .form-check-input.is-valid ~ .form-check-label {
+          color: #28a745;
+        }
+
+        .was-validated .form-check-input:valid ~ .valid-feedback,
+        .was-validated .form-check-input:valid ~ .valid-tooltip, .form-check-input.is-valid ~ .valid-feedback,
+        .form-check-input.is-valid ~ .valid-tooltip {
+          display: block;
+        }
+
+        .was-validated .custom-control-input:valid ~ .custom-control-label, .custom-control-input.is-valid ~ .custom-control-label {
+          color: #28a745;
+        }
+
+        .was-validated .custom-control-input:valid ~ .custom-control-label::before, .custom-control-input.is-valid ~ .custom-control-label::before {
+          background-color: #71dd8a;
+        }
+
+        .was-validated .custom-control-input:valid ~ .valid-feedback,
+        .was-validated .custom-control-input:valid ~ .valid-tooltip, .custom-control-input.is-valid ~ .valid-feedback,
+        .custom-control-input.is-valid ~ .valid-tooltip {
+          display: block;
+        }
+
+        .was-validated .custom-control-input:valid:checked ~ .custom-control-label::before, .custom-control-input.is-valid:checked ~ .custom-control-label::before {
+          background-color: #34ce57;
+        }
+
+        .was-validated .custom-control-input:valid:focus ~ .custom-control-label::before, .custom-control-input.is-valid:focus ~ .custom-control-label::before {
+          box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+
+        .invalid-feedback {
+          display: none;
+          width: 100%;
+          margin-top: 0.25rem;
+          font-size: 80%;
+          color: #dc3545;
+        }
+
+        .invalid-tooltip {
+          position: absolute;
+          top: 100%;
+          z-index: 5;
+          display: none;
+          max-width: 100%;
+          padding: .5rem;
+          margin-top: .1rem;
+          font-size: .875rem;
+          line-height: 1;
+          color: #fff;
+          background-color: rgba(220, 53, 69, 0.8);
+          border-radius: .2rem;
+        }
+
+        .was-validated .form-control:invalid, .form-control.is-invalid, .was-validated
+        .custom-select:invalid,
+        .custom-select.is-invalid {
+          border-color: #dc3545;
+        }
+
+        .was-validated .form-control:invalid:focus, .form-control.is-invalid:focus, .was-validated
+        .custom-select:invalid:focus,
+        .custom-select.is-invalid:focus {
+          border-color: #dc3545;
+          box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+
+        .was-validated .form-control:invalid ~ .invalid-feedback,
+        .was-validated .form-control:invalid ~ .invalid-tooltip, .form-control.is-invalid ~ .invalid-feedback,
+        .form-control.is-invalid ~ .invalid-tooltip, .was-validated
+        .custom-select:invalid ~ .invalid-feedback,
+        .was-validated
+        .custom-select:invalid ~ .invalid-tooltip,
+        .custom-select.is-invalid ~ .invalid-feedback,
+        .custom-select.is-invalid ~ .invalid-tooltip {
+          display: block;
+        }
+
+        .was-validated .form-check-input:invalid ~ .form-check-label, .form-check-input.is-invalid ~ .form-check-label {
+          color: #dc3545;
+        }
+
+        .was-validated .form-check-input:invalid ~ .invalid-feedback,
+        .was-validated .form-check-input:invalid ~ .invalid-tooltip, .form-check-input.is-invalid ~ .invalid-feedback,
+        .form-check-input.is-invalid ~ .invalid-tooltip {
+          display: block;
+        }
+
+        .was-validated .custom-control-input:invalid ~ .custom-control-label, .custom-control-input.is-invalid ~ .custom-control-label {
+          color: #dc3545;
+        }
+
+        .was-validated .custom-control-input:invalid ~ .custom-control-label::before, .custom-control-input.is-invalid ~ .custom-control-label::before {
+          background-color: #efa2a9;
+        }
+
+        .was-validated .custom-control-input:invalid ~ .invalid-feedback,
+        .was-validated .custom-control-input:invalid ~ .invalid-tooltip, .custom-control-input.is-invalid ~ .invalid-feedback,
+        .custom-control-input.is-invalid ~ .invalid-tooltip {
+          display: block;
+        }
+
+        .was-validated .custom-control-input:invalid:checked ~ .custom-control-label::before, .custom-control-input.is-invalid:checked ~ .custom-control-label::before {
+          background-color: #e4606d;
+        }
+
+        .was-validated .custom-control-input:invalid:focus ~ .custom-control-label::before, .custom-control-input.is-invalid:focus ~ .custom-control-label::before {
+          box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+
+       .pagination > li > a:focus, .pagination > li > a:hover, .pagination > li > a, pagination > li > a, .pagination > li > span:focus, .pagination > li > span:hover {
+            z-index: 2;
+            color: #000;
+            background-color: white;
+            border-color: #ddd;
+
+        }
+       .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+            z-index: 3;
+            color: #fff;
+            cursor: default;
+            background-color: #f6032f;
+            border-color: #f6032f;
+        }
         #load { height: 100%; width: 100%; }
           #load {
             position    : fixed;
@@ -112,7 +305,7 @@
             text-indent : 100%;
             font-size   : 0;
             opacity     : 0.6;
-            background  : #E0E0E0  url(<?php echo base_url('assets/images/carga.gif');?>) center no-repeat;
+            background  : #000  url(<?php echo base_url('assets/images/carga.gif');?>) center no-repeat;
   }
    </style>
 </head>

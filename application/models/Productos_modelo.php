@@ -1,5 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Productos_modelo extends CI_Model {
 
@@ -18,5 +17,16 @@ class Productos_modelo extends CI_Model {
 		else {
 			return false;
 		}
+	}
+    public function cambiarEstado($id, $estatus) {
+		if($estatus == 1) {
+			$estatus = 0;
+		}
+		else {
+			$estatus = 1;
+		}
+		$estado = array('estatus' => $estatus);
+		$this->db->where('id', $id);
+		$this->db->update('productos', $estado);
 	}
 }

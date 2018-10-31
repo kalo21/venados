@@ -17,5 +17,33 @@ class Perfiles extends CI_Controller {
 	public function obtenerPerfil($estatus) {
 		echo json_encode($this->Perfiles_modelo->obtenerPerfil($estatus));
 	}
+    public function cambiarEstado() {
+        if($this->input->is_ajax_request()) {
+           echo json_encode($this->Perfiles_modelo->cambiarEstado($this->input->post('id'), $this->input->post('estatus')));
+        }
+        else{
+            show_404();
+        }
+		
+	}
+    
+    public function agregar(){
+        $this->load->view('Perfiles/agregar_modal');
+    }
+
+    public function modificar(){
+        $this->load->view('Perfiles/modificar_modal');
+    }
+    
+    public function agregarPerfil() {
+        $this->form_validation->set_rules('inpNombre', 'Nombre', 'required');
+        $this->form_validation->set_rules('inpDescripcion', 'Descripción', 'required');
+        if ($this->form_validation->run() === TRUE) {
+            $this->Perfiles_modelo->agregarPerfil($this->input->post());
+        }
+        else {
+            echo validation_errors('<li>', '</li>');
+        }
+    }
 	
 }

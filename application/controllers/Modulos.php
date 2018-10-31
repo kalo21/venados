@@ -16,8 +16,4 @@ class Modulos extends CI_Controller {
 		echo json_encode($this->Modulos_modelo->obtenerModulos($estatus));
 	}
 	
-	public function guardarModulo() {
-		$this->Modulos_modelo->guardarModulo($this->input->post('inpNombre'), $this->input->post('inpDescripcion'), $this->input->post('inpRuta'), $this->input->post('inpIcono'));
-	}
-	
 }

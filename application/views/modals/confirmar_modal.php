@@ -1,4 +1,4 @@
-<div class="modal fade" id="confirmar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="mdlConfirmar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
            <!-- titulo del modal -->
@@ -7,17 +7,17 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
                 <!--titulo -->
-                <h2 class="modal-title" id="TituloModalAviso"></h2>
+                <h3 class="modal-title" id="TituloModalConfirmacion"></h3>
             </div>
             <!-- cuerpo del modal -->
-            <div class="modal-body" style="background-color:#ecf0f5">
+            <div class="modal-body" style="background-color:#ecf0f5" id="BodyModalConfirmacion">
             
             </div>
             <!-- footer del modal-->
             <div class="modal-footer bg-gray">
                 <!--botones--> 
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-rojo">Confirmar</button> 
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="btnCancelar">Cancelar</button>
+                <button type="button" class="btn btn-rojo" id="btnConfirmar" >Confirmar</button> 
             </div>
         </div>
     </div>    

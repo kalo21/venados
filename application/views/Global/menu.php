@@ -19,7 +19,7 @@
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">Menú de navegación</li>
+        <li class="header"></li>
         <li style="border-top: 1px solid #ffffff;"><a href="<?= base_url();?>index.php/Inicio/index"><i class="fa fa-home"></i> <span>Inicio</span></a></li>
         <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/Empresa"><i class="fa fa-building"></i> <span>Empresa</span></a></li>
         <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/productos"><i class="fa fa-product-hunt"></i> <span>Productos</span></a></li>

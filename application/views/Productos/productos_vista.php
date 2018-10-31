@@ -25,23 +25,23 @@
 					</div>
 					<!-- /.box-header -->
 					<div class="box-body table-responsive no-padding">
-					  <table id="tabla" class="table table-hover">
-					  	<thead>
-							<tr>
-							  <th>ID</th>
-							  <th>Nombre</th>
-							  <th>Descripción</th>
-							  <th>Precio</th>
-							  <th style='text-align:center'>Imagen</th>
-							  <th style='text-align:center'>Estado</th>
-							  <th style='text-align:center'>Modificar</th>
-							  <th style='text-align:center'>Activar/Desactivar</th>
-							</tr>
-					  	</thead>
-					  	<tbody>
+					  	<table id="tabla" class="table table-hover">
+					  		<thead>
+									<tr>
+									<th>ID</th>
+									<th>Nombre</th>
+									<th>Descripción</th>
+									<th>Precio</th>
+									<th style='text-align:center'>Imagen</th>
+									<th style='text-align:center'>Estado</th>
+									<th style='text-align:center'>Modificar</th>
+									<th style='text-align:center'>Activar/Desactivar</th>
+								</tr>
+					  		</thead>
+					  		<tbody>
 					  	
-					  	</tbody>
-					  </table>
+					  		</tbody>
+					  	</table>
 					</div>
 					<!-- /.box-body -->
 					<div class="box-footer">
@@ -52,38 +52,87 @@
 				  </div>
 				  <!-- /.box -->
 				</div>
-			  </div>
-			  
+			</div> 
 		</div>
 	</section>
 </div>
 
 
 <?php $this->load->view('Global/footer'); ?>
+
+<!---------------------------------------------------------------------------------------------------------------->
+
 <script>
 	$(document).ready(function(){
 		
 		var tabla = insertarPaginado('tabla');
 		obtenerDatos($('#opciones').val());
 		
+
 		$('#opciones').change(function(){
 			obtenerDatos($('#opciones').val());
 		});
 		
+
 		$(document).on("click", "#cambiarEstado", function () {
-			alert(this.id);
+            var id = $(this).attr('data-id');
+            var estatus = $(this).attr('data-estatus');  
+            BootstrapDialog.confirm({
+				title: 'Advertencia',
+				message: 'Se cambiará el estatus del producto seleccionada ¿Desea continuar?',
+				type: BootstrapDialog.TYPE_DANGER, 
+				btnCancelLabel: 'Cancelar', 
+				btnOKLabel: 'Continuar', 
+				btnOKClass: 'btn-rojo', 
+				callback: function(result) {
+					if(result){
+						$.ajax({
+							url: base_url+'index.php/Productos/cambiarEstado/',
+							type:'POST',
+							data: {
+								id:id,
+								estatus:estatus
+							},
+							beforeSend: function(){
+								$('#load').show();
+							},
+							success: function() {
+								obtenerDatos($('#opciones').val());
+								/*BootstrapDialog.show({
+									title: 'No se actualizó',
+									message: 'No se modificó el estatus del perfil seleccionado'
+								});*/
+							},
+							error: function(jqXHR, textStatus, errorThrown) {
+								console.log('error::'+errorThrown);
+							},
+							complete: function(){
+							$('#load').hide();
+							}
+						});
+                	}
+              	}
+          	});
     	});
 		
+
 		$(document).on("click", "#modificar", function () {
 			$('#mdlModificar').modal();
     	});
+
+
 		$('#btnAgregar').click(function() {
 			$('#mdlAgregar').modal();
 		});
+
+
 		function obtenerDatos(estatus) {
 			$.ajax({
 				url: base_url+'index.php/Productos/obtenerProductos/'+estatus,
 				type:'POST',
+                beforeSend: function(){
+                    $('#load').show();
+                },
 				success: function(data) {
 					data = JSON.parse(data);
 					if(!data){
@@ -95,9 +144,14 @@
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					console.log('error::'+errorThrown);
-				}
+				},
+                complete:function(){
+                    $('#load').hide();
+                }
 			});
 		}
+
+		
 		function dibujarTabla(info) {
 			tabla.clear().draw();
 			$.each(info, function(index, item){
@@ -105,12 +159,12 @@
 				var output2 = null;
 				if(item['estatus'] == '0') {
 					output = "<small class='label label-danger'>Inactivo</small>";
-					output2 = "<i style='color:#f6032f' id='cambiarEstado' class='fa fa-plus-circle fa-sm fa-2x fa-lg'></i>";
+                output2 = "<i style='color:#f6032f' data-id='"+item['id']+"' data-estatus='"+item['estatus']+"' id='cambiarEstado' class='fa fa-plus-circle fa-sm fa-2x fa-lg'></i>";
 
 				}
 				else if(item['estatus'] == '1') {
 					output = "<small class='label label-success'>Activo</small>";
-					output2 = "<i style='color:#f6032f' id='cambiarEstado' class='fa fa-minus-circle fa-sm fa-2x fa-lg'></i>";
+					output2 = "<i style='color:#f6032f' data-id='"+item['id']+"' data-estatus='"+item['estatus']+"' id='cambiarEstado' class='fa fa-minus-circle fa-sm fa-2x fa-lg'></i>";
 				}
 				var fila = tabla.row.add([
 					item['id'],

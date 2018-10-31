@@ -26,31 +26,30 @@
 							</div>
 						<!-- /.box-header -->
 						<div class="box-body table-responsive">
-						  <table id="tabla" class="table table-hover">
-						  	<thead>
-								<tr>
-							  		<th>ID</th>
-									<th>Nombre</th>
-									<th>Descripción</th>
-									<th>Ruta</th>
-									<th style='text-align:center'>Icono</th>
-									<th style='text-align:center'>Estado</th>
-									<th style='text-align:center'>Modificar</th>
-							 		<th style='text-align:center'>Dar de baja</th>
-								</tr>
-							</thead>
-							<tbody>
-							
-							</tbody>
-						  </table>
+						  	<table id="tabla" class="table table-hover">
+						  		<thead>
+									<tr>
+										<th>ID</th>
+										<th>Nombre</th>
+										<th>Descripción</th>
+										<th>Ruta</th>
+										<th style='text-align:center'>Icono</th>
+										<th style='text-align:center'>Estado</th>
+										<th style='text-align:center'>Modificar</th>
+										<th style='text-align:center'>Dar de baja</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+						  	</table>
 						</div>
 						<!-- /.box-body -->
 						<div class="box-footer">
-						<div class="row-fluid pull-right">
-							<button type="button" id="btnAgregar" class="btn btn-rojo">Agregar</button>
+							<div class="row-fluid pull-right">
+								<button type="button" id="btnAgregar" class="btn btn-rojo">Agregar</button>
+							</div>
 						</div>
 					</div>
-					  </div>
 					  
 					</div>
 				</div>
@@ -59,43 +58,42 @@
 	</section>
 </div>
 <?php $this->load->view('Global/footer'); ?>
+
+<!--------------------------------------------------------------------------------------------------------------------------->
+
 <script>
 	$(document).ready(function(){
 		var tabla = insertarPaginado('tabla');
 		obtenerDatos($('#opciones').val());
+
+
 		$('#opciones').change(function(){
 			obtenerDatos($('#opciones').val());
 		});
+
+
 		$(document).on("click", "#cambiarEstado", function () {
 			alert(this.id);
     	});
+
+
 		$(document).on("click", "#modificar", function () {
-			alert($(this).attr('data-id'));
+			alert(this.id);
     	});
+
+
 		$('#btnAgregar').click(function() {
-			$('#mdlAgregar').modal('toggle');
+			$('#mdlAgregar').modal();
 		});
-		
-		$('#btnRegistrar').click(function () {
-			$.ajax({
-				url: base_url+'index.php/Modulos/guardarModulo/',
-				type: 'POST',
-				data: $('form').serialize(),
-				success: function() {
-					obtenerDatos($('#opciones').val());
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					console.log($('form').serialize());
-					console.log('error::'+errorThrown);
-				}
-			});
-			$('#btnCerrar').trigger('click');
-		});
-		
+
+
 		function obtenerDatos(estatus) {
 			$.ajax({
 				url: base_url+'index.php/Modulos/obtenerModulos/'+estatus,
 				type:'POST',
+                beforeSend: function(){
+                    $('#load').show();
+                },
 				success: function(data) {
 					data = JSON.parse(data);
 					if(!data){
@@ -107,9 +105,14 @@
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					console.log('error::'+errorThrown);
-				}
+				},
+                complete:function(){
+                    $('#load').hide();
+                }
 			});
 		}
+
+		
 		function dibujarTabla(info) {
 			tabla.clear().draw();
 			$.each(info, function(index, item) {
@@ -130,7 +133,7 @@
 					item['ruta'],
 					"<i class = '"+item['icono']+" fa-lg'></i>",
 					output,
-					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
+					"<i id='modificar' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
 					output2
 				]).draw(false).node();
 				$('td:eq(4)', fila).attr('class', 'text-center');

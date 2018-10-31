@@ -25,17 +25,6 @@ class Modulos_modelo extends CI_Model{
 		}
 	}
 	
-	public function guardarModulo($nombre, $descripcion, $ruta, $icono) {
-		$data = array(
-			"nombre" => $nombre,
-			"descripcion" => $descripcion,
-			"ruta" => $ruta,
-			"icono" => $icono,
-			"estatus" => 1
-		);
-		$this->db->insert('modulos', $data);
-	}
-	
 	
 	
 	

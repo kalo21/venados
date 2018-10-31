@@ -13,13 +13,6 @@
             <div class="modal-body" style="background-color:#ecf0f5" id="contenidomodal">
             <p>aviso</p>
             </div>
-            <!-- footer del modal
-            <div class="modal-footer bg-gray">
-                <!--botones 
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-rojo">Registrar</button>
-                
-            </div>-->
         </div>
     </div>    
 </div>
