@@ -97,49 +97,47 @@
             var id = $(this).attr('data-id');
             var estatus = $(this).attr('data-estatus');  
             BootstrapDialog.confirm({
-              title: 'Advertencia',
-              message: 'Se cambiará el estatus del perfil seleccionada ¿Desea continuar?',
-              //type: BootstrapDialog.TYPE_DANGER, 
-              btnCancelLabel: 'Cancelar', 
-              btnOKLabel: 'Continuar', 
-              btnOKClass: 'btn-rojo', 
-              callback: function(result) {
+				title: 'Advertencia',
+				message: 'Se cambiará el estatus del perfil seleccionada ¿Desea continuar?',
+				//type: BootstrapDialog.TYPE_DANGER, 
+				btnCancelLabel: 'Cancelar', 
+				btnOKLabel: 'Continuar', 
+				btnOKClass: 'btn-rojo', 
+				callback: function(result) {
                 if(result){
                      $.ajax({
-                        url: base_url+'index.php/Perfiles/cambiarEstado/',
-                        type:'POST',
-                        data: {
-                            id:id,
-                            estatus:estatus
-                        },
-                        beforeSend: function(){
-                            $('#load').show();
-                        },
-                        success: function(info) {
-                            info =  JSON.parse(info);
-                           
-                            if(info['exito']){
-                               obtenerDatos($('#opciones').val());
-                            }
-                            else{
-                               BootstrapDialog.show({
-                                    title: 'No se actualizó',
-                                    message: info['msg']
-                                });
-                                obtenerDatos($('#opciones').val());
-                            }
-                            
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            console.log('error::'+errorThrown);
-                        },
-                        complete: function(){
-                          $('#load').hide();
-                       }
-                    });
-                }
-              }
-          });
+						 url: base_url+'index.php/Perfiles/cambiarEstado/',
+                         type:'POST',
+                         data: {
+                             id:id,
+                             estatus:estatus
+                         },
+                         beforeSend: function(){
+                             $('#load').show();
+                         },
+                         success: function(info) {
+                             info =  JSON.parse(info);
+                             if(info['exito']){
+                             	obtenerDatos($('#opciones').val());
+                             }
+                             else {
+                                BootstrapDialog.show({
+                                     title: 'No se actualizó',
+                                     message: info['msg']
+                                 });
+                                 obtenerDatos($('#opciones').val());
+                             }
+                         },
+                         error: function(jqXHR, textStatus, errorThrown) {
+                             console.log('error::'+errorThrown);
+                         },
+                         complete: function(){
+                            $('#load').hide();
+                         }
+                     });
+				  }
+               }
+           });
     	});
 		$(document).on("click", "#modificar", function () {
 			$('#mdlModificar').modal();
@@ -147,73 +145,56 @@
      
 		$('#btnAgregar').click(function() {
 			BootstrapDialog.show({
-              title: 'Agregar Perfil', // Aquí se pone el título
-              size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
-              message: function(dialog) { 
-                  var $message = $('<div></div>');
-                  var pageToLoad = dialog.getData('pageToLoad');
-                  $message.load(pageToLoad); //Cargamos la vista
-                  return $message;
-              },
-              data: {
-                  'pageToLoad': base_url+'index.php/Perfiles/formulario/'
-              },
-              buttons: [{ //agrega los botones del modal
-                  label: 'Cancelar',
-                  cssClass: 'btn-default',
-                  action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
-                      dialogItself.close();
-                  },
+				
+                title: 'Agregar Perfil', // Aquí se pone el título
+				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
+				message: function(dialog) { 
+					var $message = $('<div></div>');
+					var pageToLoad = dialog.getData('pageToLoad');
+					$message.load(pageToLoad); //Cargamos la vista
+					return $message;
+				},
+				data: {
+					'pageToLoad': base_url+'index.php/Perfiles/formulario/'
+				},
+				buttons: [{ //agrega los botones del modal
+					label: 'Cancelar',
+					cssClass: 'btn-default',
+					action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+						dialogItself.close();
+					},
 
-              },
-              { //agrega los botones del modal
-                  label: 'Guardar',
-                  cssClass: 'btn-rojo',
-                  action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+				},
+                {	 //agrega los botones del modal
+				  	label: 'Guardar',
+				  	cssClass: 'btn-rojo',
+                  	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
                     //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
-                    var val = validar();
-                      if(val){
-                          $.ajax({
-                              url: base_url+'index.php/Perfiles/agregarPerfil/',
-                              type: 'POST',
-                              data: $('#frmAgregarPerfil').serialize(),
-                              beforeSend: function(){
-                                $('#load').show();
-                              },
-                              success: function (data) {
-                                $('#error').html(data);
-                                $('#error').show();
-                                obtenerDatos($('#opciones').val());
-                                $('#frmAgregarPerfil')[0].reset();
-                                //dialogItself.close();
-                              },
-                              error: function(jqXHR, textStatus, errorThrown) {
-                                console.log('error::'+errorThrown);
-                              },
-                              complete: function(){
-                                $('#load').hide();
-                              }
-                          });
-                      }
-                      
-                  },
-              }]
+						$.ajax({
+							url: base_url+'index.php/Perfiles/agregarPerfil/',
+						  	type: 'POST',
+						  	data: $('#frmAgregarPerfil').serialize(),
+						  	beforeSend: function(){
+							$('#load').show();
+							},
+							success: function (data) {
+								$('#error').html(data);
+								$('#error').show();
+								obtenerDatos($('#opciones').val());
+								$('#frmAgregarPerfil')[0].reset();
+							//dialogItself.close();
+						  	},
+						  	error: function(jqXHR, textStatus, errorThrown) {
+								console.log('error::'+errorThrown);
+							},
+							complete: function(){
+								$('#load').hide();
+						  	}
+					  	});
+					},
+			  	}]
             });
 		});
-		function validar(info="Campo requerido"){
-            var x = 0;
-            $.each($('#frmAgregarPerfil').serializeArray(),function(index, item){
-                console.log(this['name']);
-               if(this['value']== "" )  {
-                   console.log('entro');
-                    $('#'+this['name']).addClass('is-invalid');
-                    $('#'+this['name'] ).siblings().show();
-                    $('#'+this['name'] ).siblings().html(info);
-                    x = 1;
-               }                                                     
-            });
-            if(x==0)return true;else return false;
-        }
 		function dibujarTabla(info) {
 			tabla.clear().draw();
 			$.each(info, function(index, item){
