@@ -4,60 +4,54 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row-fluid">
-                <h3 class="text-center">Empresas</h3>
+                <h3 class="text-center">Perfiles</h3>
             </div>
         </div>
         <div class="row">
-        <div class="col-xs-3">
-        <select name="" id="opciones" class="form-control">
-          <option value="-1">Todos</option>
-          <option value="1">Activos</option>
-          <option value="0">Inactivos</option>
-        </select>
+            <div class="col-xs-3">
+                <select name="" id="opciones" class="form-control">
+                    <option value="-1">Todos</option>
+                    <option value="1">Activos</option>
+                    <option value="0">Inactivos</option>
+                </select>
+            </div>
         </div>
-      </div>
-      <br>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="box box-danger">
-          <div class="box-header with-border">
-            <h3 class="box-title">Listado de empresas</h3>
-            <div class="box-tools pull-right">
-               <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Listado de perfiles</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="box-body table-responsive no-padding">
+                            <table id="tabla" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th style='text-align:center'>Estatus</th>
+                                        <th style='text-align:center'>Modificar</th>
+                                        <th style='text-align:center'>Activar/Desactivar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="row-fluid pull-right">
+                            <button type="button" id="btnAgregar" class="btn btn-rojo">Agregar</button>
+                        </div>
+                    </div>
+                </div>      
             </div>
-          </div>
-        <!-- /.box-header -->
-          <div class="box-body">
-           <div class="box-body table-responsive no-padding">
-             <table id="tabla" class="table table-hover">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nombre</th>
-                  <th>Descripción</th>
-                  <th style='text-align:center'>Estatus</th>
-                  <th style='text-align:center'>Modificar</th>
-                  <th style='text-align:center'>Activar/Desactivar</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-              </table>
-            </div>
-          </div>
-          <!-- ./box-body -->
-          <div class="box-footer">
-            <div class="row-fluid pull-right">
-              <button type="button" id="btnAgregar" class="btn btn-rojo">Agregar</button>
-            </div>
-          </div>
-        <!-- /.box-footer -->
         </div>
-        <!-- /.box -->
-      </div>
-      <!-- /.col -->
-    </div>
-              <!-- /.row -->
     </section>
 </div>
 
@@ -106,34 +100,34 @@
 				callback: function(result) {
                 if(result){
                      $.ajax({
-						 url: base_url+'index.php/Perfiles/cambiarEstado/',
-                         type:'POST',
-                         data: {
-                             id:id,
-                             estatus:estatus
-                         },
-                         beforeSend: function(){
-                             $('#load').show();
-                         },
-                         success: function(info) {
-                             info =  JSON.parse(info);
-                             if(info['exito']){
+						url: base_url+'index.php/Perfiles/cambiarEstado/',
+                        type:'POST',
+                        data: {
+                            id:id,
+                            estatus:estatus
+                        },
+                        beforeSend: function(){
+                            $('#load').show();
+                        },
+                        success: function(info) {
+                            info =  JSON.parse(info);
+                            if(info['exito']){
                              	obtenerDatos($('#opciones').val());
-                             }
-                             else {
+                            }
+                            else {
                                 BootstrapDialog.show({
-                                     title: 'No se actualizó',
-                                     message: info['msg']
-                                 });
-                                 obtenerDatos($('#opciones').val());
-                             }
-                         },
-                         error: function(jqXHR, textStatus, errorThrown) {
-                             console.log('error::'+errorThrown);
-                         },
-                         complete: function(){
+                                    title: 'No se actualizó',
+                                    message: info['msg']
+                                });
+                                obtenerDatos($('#opciones').val());
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log('error::'+errorThrown);
+                        },
+                        complete: function(){
                             $('#load').hide();
-                         }
+                        }
                      });
 				  }
                }
