@@ -28,22 +28,22 @@
 					</div>
 				<!-- /.box-header -->
 					<div class="box-body">
-					 <div class="box-body table-responsive no-padding">
-						 <table id="tabla" class="table table-hover">
-							<thead>
-								<tr>
-									<th>ID</th>
-									<th>Nombre</th>
-									<th>Local</th>
-									<th style='text-align:center'>Logotipo</th>
-									<th style='text-align:center'>Estatus</th>
-									<th style='text-align:center'>Modificar</th>
-									<th style='text-align:center'>Activar/Desactivar</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						  </table>
+					 	<div class="box-body table-responsive no-padding">
+						 	<table id="tabla" class="table table-hover">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Nombre</th>
+										<th>Local</th>
+										<th style='text-align:center'>Logotipo</th>
+										<th style='text-align:center'>Estatus</th>
+										<th style='text-align:center'>Modificar</th>
+										<th style='text-align:center'>Activar/Desactivar</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+						 	</table>
 						</div>
 					</div>
 					<!-- ./box-body -->

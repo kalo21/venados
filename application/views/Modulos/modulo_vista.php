@@ -4,7 +4,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row-fluid">
-                <h3 class="text-center">Empresas</h3>
+                <h3 class="text-center">Modulos</h3>
             </div>
         </div>
         <div class="row">
@@ -21,30 +21,30 @@
 			<div class="col-md-12">
 				<div class="box box-danger">
 					<div class="box-header with-border">
-						<h3 class="box-title">Listado de empresas</h3>
+						<h3 class="box-title">Listado de modulos</h3>
 						<div class="box-tools pull-right">
 							 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 					</div>
 				<!-- /.box-header -->
 					<div class="box-body">
-					 <div class="box-body table-responsive no-padding">
-						 <table id="tabla" class="table table-hover">
-							<thead>
-								<tr>
-									<th>ID</th>
-									<th>Nombre</th>
-									<th>Descripción</th>
-									<th>Ruta</th>
-									<th style='text-align:center'>Icono</th>
-									<th style='text-align:center'>Estatus</th>
-									<th style='text-align:center'>Modificar</th>
-									<th style='text-align:center'>Activar/Desactivar</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						  </table>
+					 	<div class="box-body table-responsive no-padding">
+							<table id="tabla" class="table table-hover">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Nombre</th>
+										<th>Descripción</th>
+										<th>Ruta</th>
+										<th style='text-align:center'>Icono</th>
+										<th style='text-align:center'>Estatus</th>
+										<th style='text-align:center'>Modificar</th>
+										<th style='text-align:center'>Activar/Desactivar</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
 						</div>
 					</div>
 					<!-- ./box-body -->

@@ -29,20 +29,20 @@
 					</div>
 				<!-- /.box-header -->
 					<div class="box-body">
-					 <div class="box-body table-responsive no-padding">
-						 <table id="tabla" class="table table-hover">
-							<thead>
-								<tr>
-									<th>ID</th>
-									<th>Nombre</th>
-									<th>Perfil</th>
-									<th>Correo</th>
-									<th>Estado</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						  </table>
+						<div class="box-body table-responsive no-padding">
+							<table id="tabla" class="table table-hover">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Nombre</th>
+										<th>Perfil</th>
+										<th>Correo</th>
+										<th>Estado</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
 						</div>
 					</div>
 					<!-- ./box-body -->
