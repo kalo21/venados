@@ -1,6 +1,5 @@
 <?php $this->load->view('Global/header'); ?>
 <?php $this->load->view('Global/menu'); ?>
-
 <div class="content-wrapper">
     <section class="content">
         <div class="container-fluid">
@@ -27,7 +26,6 @@
 							 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 					</div>
-				<!-- /.box-header -->
 					<div class="box-body">
 						<div class="box-body table-responsive no-padding">
 							<table id="tabla" class="table table-hover">
@@ -45,15 +43,9 @@
 							</table>
 						</div>
 					</div>
-					<!-- ./box-body -->
-					
-				<!-- /.box-footer -->
-			  </div>
-			  <!-- /.box -->
+			  	</div>
 			</div>
-			<!-- /.col -->
 		</div>
-              <!-- /.row -->
     </section>
 </div>
 

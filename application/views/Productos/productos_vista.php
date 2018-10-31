@@ -26,7 +26,6 @@
 							 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 					</div>
-				<!-- /.box-header -->
 					<div class="box-body">
 					 	<div class="box-body table-responsive no-padding">
 							<table id="tabla" class="table table-hover">
@@ -47,19 +46,14 @@
 							</table>
 						</div>
 					</div>
-					<!-- ./box-body -->
 					<div class="box-footer">
 						<div class="row-fluid pull-right">
 							<button type="button" id="btnAgregar" class="btn btn-rojo">Agregar</button>
 						</div>
 					</div>
-				<!-- /.box-footer -->
 			  	</div>
-			  <!-- /.box -->
 			</div>
-			<!-- /.col -->
 		</div>
-              <!-- /.row -->
     </section>
 </div>
 
