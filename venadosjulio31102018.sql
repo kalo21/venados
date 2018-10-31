@@ -14,6 +14,19 @@ MySQL - 5.6.39 : Database - venados
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 USE `venados`;
 
+/*Table structure for table `DescripcionEvento` */
+
+DROP TABLE IF EXISTS `DescripcionEvento`;
+
+CREATE TABLE `DescripcionEvento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'El identificador',
+  `id_evento` int(11) NOT NULL COMMENT 'El identificador de el evento',
+  `id_empresa` int(11) NOT NULL COMMENT 'El identificador de la empresa que estará abierta en el evento',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `DescripcionEvento` */
+
 /*Table structure for table `DetallePedidos` */
 
 DROP TABLE IF EXISTS `DetallePedidos`;
@@ -47,6 +60,23 @@ CREATE TABLE `Empresas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `Empresas` */
+
+/*Table structure for table `Eventos` */
+
+DROP TABLE IF EXISTS `Eventos`;
+
+CREATE TABLE `Eventos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  `descripcion` varchar(150) NOT NULL,
+  `fecha_inicial` datetime NOT NULL,
+  `fecha_fin` datetime NOT NULL,
+  `imagen` varchar(80) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `Eventos` */
 
 /*Table structure for table `Modulos` */
 
@@ -155,36 +185,6 @@ CREATE TABLE `Usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `Usuarios` */
-
-/*Table structure for table `evento_empresa` */
-
-DROP TABLE IF EXISTS `evento_empresa`;
-
-CREATE TABLE `evento_empresa` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'El identificador',
-  `id_evento` int(11) NOT NULL COMMENT 'El identificador de el evento',
-  `id_empresa` int(11) NOT NULL COMMENT 'El identificador de la empresa que estará abierta en el evento',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `evento_empresa` */
-
-/*Table structure for table `eventos` */
-
-DROP TABLE IF EXISTS `eventos`;
-
-CREATE TABLE `eventos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
-  `descripcion` varchar(150) NOT NULL,
-  `fecha_inicial` datetime NOT NULL,
-  `fecha_fin` datetime NOT NULL,
-  `imagen` varchar(80) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `eventos` */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
