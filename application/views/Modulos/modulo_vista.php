@@ -1,92 +1,84 @@
 <?php $this->load->view('Global/header'); ?>
 <?php $this->load->view('Global/menu'); ?>
-<?php $this->load->view('Modulos/modulo_modals'); ?>
 <div class="content-wrapper">
-	<section class="content">
-  		<div class="container-fluid">
-  			<div class="row ">
-  				<h3 class="text-center">Modulos</h3>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <h3 class="text-center">Empresas</h3>
+            </div>
+        </div>
+        <div class="row">
+  			<div class="col-xs-3">
+				<select name="" id="opciones" class="form-control">
+					<option value="-1">Todos</option>
+					<option value="1">Activos</option>
+					<option value="0">Inactivos</option>
+				</select>
   			</div>
-  			<div class="row">
-  				<div class="col-xs-3">
-					<select name="" id="opciones" class="form-control">
-						<option value="-1">Todos</option>
-						<option value="1">Activos</option>
-						<option value="0">Inactivos</option>
-					</select>
-  				</div>
-  			</div>
-  			<br>
-  			<section class="content-fluid">
-				<div class="row-fluid">
-					<div class="col-xs-12">
-					 	<div class="box box-danger">
-							<div class="box-header">
-						  		<h3 class="box-title">Modulos</h3>
-							</div>
-						<!-- /.box-header -->
-						<div class="box-body table-responsive">
-						  	<table id="tabla" class="table table-hover">
-						  		<thead>
-									<tr>
-										<th>ID</th>
-										<th>Nombre</th>
-										<th>Descripción</th>
-										<th>Ruta</th>
-										<th style='text-align:center'>Icono</th>
-										<th style='text-align:center'>Estado</th>
-										<th style='text-align:center'>Modificar</th>
-										<th style='text-align:center'>Dar de baja</th>
-									</tr>
-								</thead>
-								<tbody>
-								</tbody>
-						  	</table>
-						</div>
-						<!-- /.box-body -->
-						<div class="box-footer">
-							<div class="row-fluid pull-right">
-								<button type="button" id="btnAgregar" class="btn btn-rojo">Agregar</button>
-							</div>
+  		</div>
+  		<br>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-danger">
+					<div class="box-header with-border">
+						<h3 class="box-title">Listado de empresas</h3>
+						<div class="box-tools pull-right">
+							 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 					</div>
-					  
+				<!-- /.box-header -->
+					<div class="box-body">
+					 <div class="box-body table-responsive no-padding">
+						 <table id="tabla" class="table table-hover">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Nombre</th>
+									<th>Descripción</th>
+									<th>Ruta</th>
+									<th style='text-align:center'>Icono</th>
+									<th style='text-align:center'>Estatus</th>
+									<th style='text-align:center'>Modificar</th>
+									<th style='text-align:center'>Activar/Desactivar</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						  </table>
+						</div>
 					</div>
-				</div>
-			</section>
+					<!-- ./box-body -->
+					<div class="box-footer">
+						<div class="row-fluid pull-right">
+							<button type="button" id="btnAgregar" class="btn btn-rojo">Agregar</button>
+						</div>
+					</div>
+				<!-- /.box-footer -->
+			  </div>
+			  <!-- /.box -->
+			</div>
+			<!-- /.col -->
 		</div>
-	</section>
+              <!-- /.row -->
+    </section>
 </div>
 <?php $this->load->view('Global/footer'); ?>
-
-<!--------------------------------------------------------------------------------------------------------------------------->
-
 <script>
 	$(document).ready(function(){
 		var tabla = insertarPaginado('tabla');
 		obtenerDatos($('#opciones').val());
-
-
 		$('#opciones').change(function(){
 			obtenerDatos($('#opciones').val());
 		});
-
-
 		$(document).on("click", "#cambiarEstado", function () {
 			alert(this.id);
     	});
-
-
 		$(document).on("click", "#modificar", function () {
 			alert(this.id);
     	});
-
-
 		$('#btnAgregar').click(function() {
 			$('#mdlAgregar').modal();
 		});
-
-
 		function obtenerDatos(estatus) {
 			$.ajax({
 				url: base_url+'index.php/Modulos/obtenerModulos/'+estatus,
@@ -111,8 +103,6 @@
                 }
 			});
 		}
-
-		
 		function dibujarTabla(info) {
 			tabla.clear().draw();
 			$.each(info, function(index, item) {

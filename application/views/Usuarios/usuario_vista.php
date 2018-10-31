@@ -2,51 +2,59 @@
 <?php $this->load->view('Global/menu'); ?>
 
 <div class="content-wrapper">
-	<section class="content">
-  		<div class="container-fluid">
-  			<div class="row">
-  				<h3 class="text-center">Usuarios</h3>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <h3 class="text-center">Usuarios</h3>
+            </div>
+        </div>
+        <div class="row">
+  			<div class="col-xs-3">
+				<select name="" id="opciones" class="form-control">
+					<option value="-1">Todos</option>
+					<option value="1">Activos</option>
+					<option value="0">Inactivos</option>
+				</select>
   			</div>
-  			<div class="row">
-  				<div class="col-xs-3">
-					<select name="" id="opciones" class="form-control">
-						<option value="-1">Todos</option>
-						<option value="1">Activos</option>
-						<option value="0">Inactivos</option>
-					</select>
-  				</div>
-  			</div>
-  			<br>
-  			<div class="row">
-				<div class="col-xs-12">
-				  <div class="box box-danger">
-					<div class="box-header">
-					  <h3 class="box-title">Listado de usuarios</h3>
+  		</div>
+  		<br>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-danger">
+					<div class="box-header with-border">
+						<h3 class="box-title">Listado de usuarios</h3>
+						<div class="box-tools pull-right">
+							 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+						</div>
 					</div>
-					<!-- /.box-header -->
-					<div class="box-body table-responsive no-padding">
-					  <table id="tabla" class="table table-hover">
-					  	<thead>
-							<tr>
-							  <th>ID</th>
-							  <th>Nombre</th>
-							  <th>Perfil</th>
-							  <th>Correo</th>
-							  <th>Estado</th>
-							</tr>
-					  	</thead>
-					  	<tbody>
-					  	
-					  	</tbody>
-					  </table>
+				<!-- /.box-header -->
+					<div class="box-body">
+					 <div class="box-body table-responsive no-padding">
+						 <table id="tabla" class="table table-hover">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Nombre</th>
+									<th>Perfil</th>
+									<th>Correo</th>
+									<th>Estado</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						  </table>
+						</div>
 					</div>
-					<!-- /.box-body -->
-				  </div>
-				  <!-- /.box -->
-				</div>
+					<!-- ./box-body -->
+					
+				<!-- /.box-footer -->
 			  </div>
+			  <!-- /.box -->
+			</div>
+			<!-- /.col -->
 		</div>
-	</section>
+              <!-- /.row -->
+    </section>
 </div>
 
 
