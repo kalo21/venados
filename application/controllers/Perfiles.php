@@ -42,4 +42,8 @@ class Perfiles extends CI_Controller {
         }
     }
 	
+	public function prueba() {
+		$data = $this->Perfiles_modelo->obtenerDatos();
+		$this->load->view('Perfiles/perfiles_modal2');
+	}
 }

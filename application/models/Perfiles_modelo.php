@@ -60,4 +60,9 @@ class Perfiles_modelo extends CI_Model{
         $this->db->insert('Perfiles', $datos);
     }
 	
+	public function obtenerDatos() {
+		$this->db->where('id', 1);
+		return $query = $this->db->get('perfiles')->row();
+	}
+	
 }
