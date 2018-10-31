@@ -32,7 +32,7 @@ class Perfiles extends CI_Controller {
     }
     
     public function agregarPerfil() {
-        $this->form_validation->set_rules('inpNombre', 'Nombre', 'numeric');
+        $this->form_validation->set_rules('inpNombre', 'Nombre', 'required');
         $this->form_validation->set_rules('inpDescripcion', 'Descripción', 'required');
         if ($this->form_validation->run() === TRUE) {
             $this->Perfiles_modelo->agregarPerfil($this->input->post());
