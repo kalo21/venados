@@ -35,7 +35,8 @@
 										<th>Nombre</th>
 										<th>Perfil</th>
 										<th>Correo</th>
-										<th>Estado</th>
+										<th style="text-align:center">Estado</th>
+										<th style="text-align:center">Modificar</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -43,6 +44,11 @@
 							</table>
 						</div>
 					</div>
+					<div class="box-footer">
+                        <div class="row-fluid pull-right">
+                            <button type="button" id="btnAgregar" class="btn btn-rojo">Agregar</button>
+                        </div>
+                    </div>
 			  	</div>
 			</div>
 		</div>
@@ -102,10 +108,70 @@
 					item['nombre2'],
 					item['correo'],
 					output,
-					"<i id='modificar' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
+					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
 				]).draw(false).node();
 				$('td:eq(4)', fila).attr('class', 'text-center');
+				$('td:eq(5)', fila).attr('class', 'text-center');
 			});
 		}
+
+		$('#btnAgregar').click(function() {
+			BootstrapDialog.show({
+				
+                title: 'Agregar Perfil', // Aquí se pone el título
+				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
+				message: function(dialog) { 
+					var $message = $('<div></div>');
+					var pageToLoad = dialog.getData('pageToLoad');
+					$message.load(pageToLoad); //Cargamos la vista
+					return $message;
+				},
+				data: {
+					'pageToLoad': base_url+'index.php/Perfiles/formulario/'
+				},
+				buttons: [{ //agrega los botones del modal
+					label: 'Cancelar',
+					cssClass: 'btn-default',
+					action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+						dialogItself.close();
+					},
+
+				},
+                {	 //agrega los botones del modal
+				  	label: 'Guardar',
+				  	cssClass: 'btn-rojo',
+                  	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+                    //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
+						$.ajax({
+							url: base_url+'index.php/Perfiles/agregarPerfil/',
+						  	type: 'POST',
+						  	data: $('#frmAgregarPerfil').serialize(),
+						  	beforeSend: function(){
+							$('#load').show();
+							},
+							success: function (data) {
+								data = JSON.parse(data);
+								if(!data['exito']) {
+									$('#error').html(data['msg']);
+									$('#error').show();
+								}
+								else if(data['exito']) {
+									obtenerDatos($('#opciones').val());
+									$('#frmAgregarPerfil')[0].reset();
+									dialogItself.close();
+								}
+						  	},
+						  	error: function(jqXHR, textStatus, errorThrown) {
+								console.log('error::'+errorThrown);
+							},
+							complete: function(){
+								$('#load').hide();
+						  	}
+					  	});
+					},
+			  	}]
+            });
+		});
+
 	});
 </script>

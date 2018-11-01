@@ -92,7 +92,7 @@
             var estatus = $(this).attr('data-estatus');  
             BootstrapDialog.confirm({
 				title: 'Advertencia',
-				message: 'Se cambiará el estatus del perfil seleccionada ¿Desea continuar?',
+				message: 'Se cambiará el estatus del perfil seleccionado ¿Desea continuar?',
 				//type: BootstrapDialog.TYPE_DANGER, 
 				btnCancelLabel: 'Cancelar', 
 				btnOKLabel: 'Continuar', 
