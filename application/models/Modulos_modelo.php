@@ -71,11 +71,13 @@ class Modulos_modelo extends CI_Model{
 		}
 		if($data['inpNombre'] != $data['oldNombre']) {
 			$this->db->where('nombre', $data['inpNombre']);
-			$query = $this->db->get('modulos')->row();
-			if($query->nombre === $data['inpNombre']) {
-				return array('exito' => false, 'msg' => 'El nombre insertado ya se encuentra utilizado');
+			$query = $this->db->get('modulos');
+			if($query->num_rows() > 0) {
+				$query = $query->row();
+				if($query->nombre === $data['inpNombre']) {
+					return array('exito' => false, 'msg' => 'El nombre insertado ya se encuentra utilizado');
+				}	
 			}
-			else {
 				$datos = array(
 					'nombre' => $data['inpNombre'],
 					'descripcion' => $data['inpDescripcion'],
@@ -89,7 +91,6 @@ class Modulos_modelo extends CI_Model{
 				else {
 					return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
 				}
-			}
 		}
 	}
 	

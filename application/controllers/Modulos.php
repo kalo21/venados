@@ -51,6 +51,8 @@ class Modulos extends CI_Controller {
 	public function modificarmodulos() {
 		
 		$this->form_validation->set_rules('inpNombre', 'Nombre', 'required');
+		$this->form_validation->set_rules('inpDescripcion', 'Descripción', 'required');
+		$this->form_validation->set_rules('inpIcono', 'Icono', 'required');
         if ($this->form_validation->run() === TRUE) {
 			echo json_encode($this->Modulos_modelo->modificarmodulo($this->input->post()));
         }

@@ -139,7 +139,7 @@
                   	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
                     //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
 						$.ajax({
-							url: base_url+'index.php/Modulos/modificarModulos/',
+							url: base_url+'index.php/Modulos/modificarmodulos/',
 						  	type: 'POST',
 						  	data: $('#frmAgregarModulo').serialize()+'&id='+id+'&oldNombre='+$('#inpNombre').attr('data-id')+'&oldDescripcion='+$('#inpDescripcion').attr('data-descripcion')+'&oldIcono='+$('#inpIcono').attr('data-Icono'),
 						  	beforeSend: function(){
@@ -210,7 +210,7 @@
 								}
 								else if(data['exito']) {
 									obtenerDatos($('#opciones').val());
-									$('#frmAgregarPerfil')[0].reset();
+									$('#frmAgregarModulo')[0].reset();
 									dialogItself.close();
 								}
 						  	},
