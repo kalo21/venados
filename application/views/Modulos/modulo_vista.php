@@ -65,10 +65,108 @@
 			obtenerDatos($('#opciones').val());
 		});
 		$(document).on("click", "#cambiarEstado", function () {
-			alert(this.id);
+            var id = $(this).attr('data-id');
+            var estatus = $(this).attr('data-estatus');  
+            BootstrapDialog.confirm({
+				title: 'Advertencia',
+				message: 'Se cambiará el estatus del perfil seleccionada ¿Desea continuar?',
+				//type: BootstrapDialog.TYPE_DANGER, 
+				btnCancelLabel: 'Cancelar', 
+				btnOKLabel: 'Continuar', 
+				btnOKClass: 'btn-rojo', 
+				callback: function(result) {
+                if(result){
+                     $.ajax({
+						url: base_url+'index.php/Modulos/cambiarEstado/',
+                        type:'POST',
+                        data: {
+                            id:id,
+                            estatus:estatus
+                        },
+                        beforeSend: function(){
+                            $('#load').show();
+                        },
+                        success: function(info) {
+                            info =  JSON.parse(info);
+                            if(info['exito']){
+                             	obtenerDatos($('#opciones').val());
+                            }
+                            else {
+                                BootstrapDialog.show({
+                                    title: 'No se actualizó',
+                                    message: info['msg']
+                                });
+                                obtenerDatos($('#opciones').val());
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log('error::'+errorThrown);
+                        },
+                        complete: function(){
+                            $('#load').hide();
+                        }
+                     });
+				  }
+               }
+           });
     	});
 		$(document).on("click", "#modificar", function () {
-			alert(this.id);
+			var id = $(this).attr('data-id');
+			BootstrapDialog.show({
+				
+                title: 'Modificar Modulo', // Aquí se pone el título
+				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
+				message: function(dialog) { 
+					var $message = $('<div></div>');
+					var pageToLoad = dialog.getData('pageToLoad');
+					$message.load(pageToLoad); //Cargamos la vista
+					return $message;
+				},
+				data: {
+					'pageToLoad': base_url+'index.php/Modulos/formulario/'+id
+				},
+				buttons: [{ //agrega los botones del modal
+					label: 'Cancelar',
+					cssClass: 'btn-default',
+					action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+						dialogItself.close();
+					},
+
+				},
+                {	 //agrega los botones del modal
+				  	label: 'Guardar',
+				  	cssClass: 'btn-rojo',
+                  	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+                    //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
+						$.ajax({
+							url: base_url+'index.php/Modulos/modificarModulos/',
+						  	type: 'POST',
+						  	data: $('#frmAgregarModulo').serialize()+'&id='+id+'&oldNombre='+$('#inpNombre').attr('data-id')+'&oldDescripcion='+$('#inpDescripcion').attr('data-descripcion')+'&oldIcono='+$('#inpIcono').attr('data-Icono'),
+						  	beforeSend: function(){
+							$('#load').show();
+							},
+							success: function (data) {
+								data = JSON.parse(data);
+								if(!data['exito']) {
+									$('#error').html(data['msg']);
+									$('#error').show();
+								}
+								else if(data['exito']) {
+									obtenerDatos($('#opciones').val());
+									$('#frmAgregarModulo')[0].reset();
+									dialogItself.close();
+								}
+						  	},
+						  	error: function(jqXHR, textStatus, errorThrown) {
+								console.log('error::'+errorThrown);
+							},
+							complete: function(){
+								$('#load').hide();
+						  	}
+					  	});
+					},
+			  	}]
+            });
     	});
 		$('#btnAgregar').click(function() {
 			BootstrapDialog.show({
@@ -158,11 +256,11 @@
 				var output2 = null;
 				if(item['estatus'] == '0') {
 					output = "<small class='label label-danger'>Inactivo</small>";
-					output2 = "<i style='color:#f6032f' id='cambiarEstado' class='fa fa-plus-circle fa-sm fa-2x fa-lg'></i>";
+					output2 = "<i style='color:#f6032f'  data-id='"+item['id']+"' data-estatus='"+item['estatus']+"' id='cambiarEstado' class='fa fa-plus-circle fa-sm fa-2x fa-lg'></i>";
 				}
 				else if(item['estatus'] == '1') {
 					output = "<small class='label label-success'>Activo</small>";
-					output2 = "<i style='color:#f6032f' id='cambiarEstado' class='fa fa-minus-circle fa-sm fa-2x fa-lg'></i>";
+					output2 = "<i style='color:#f6032f'  data-id='"+item['id']+"' data-estatus='"+item['estatus']+"' id='cambiarEstado' class='fa fa-minus-circle fa-sm fa-2x fa-lg'></i>";
 				}
 				var fila = tabla.row.add([
 					item['id'],
@@ -171,7 +269,7 @@
 					item['ruta'],
 					"<i class = '"+item['icono']+" fa-lg'></i>",
 					output,
-					"<i id='modificar' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
+					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
 					output2
 				]).draw(false).node();
 				$('td:eq(4)', fila).attr('class', 'text-center');

@@ -5,13 +5,13 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">Nombre</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" id="inpNombre" name="inpNombre">
+            <input type="text" class="form-control" id="inpNombre" value ="<?php echo(isset($datos->nombre)) ? $datos->nombre : '' ;?>" name="inpNombre" data-id ="<?php echo(isset($datos->nombre)) ? $datos->nombre : '' ;?>">
         </div>        
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label">Descripcion</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" id="inpDescripcion" name="inpDescripcion">
+            <input type="text" class="form-control" id="inpDescripcion" data-descripcion ="<?php echo(isset($datos->descripcion)) ? $datos->descripcion : '' ;?>" name="inpDescripcion" value ="<?php echo(isset($datos->descripcion)) ? $datos->descripcion : '' ;?>">
         </div> 
     </div>
     <div class="form-group">
@@ -23,9 +23,9 @@
         </style>
         <label class="control-label col-sm-3" for="inpIcono">Icono</label>
         <div class="col-sm-9">
-            <select name="inpIcono" data-info="<?php echo(isset($info[0]->icono)) ? $info[0]->icono : '' ?>"class="form-control" id="inpIcono">
+            <select name="inpIcono" data-Icono ="<?php echo(isset($datos->icono)) ? $datos->icono : '' ;?>" data-info="<?php echo(isset($info[0]->icono)) ? $info[0]->icono : '' ?>"class="form-control" id="inpIcono">
                 <optgroup label="Seleccione una opción">
-                    <option value="">Seleccione una opción</option>
+                    <option value ="<?php echo(isset($datos->icono)) ? $datos->icono : '' ;?>"><?php echo(isset($datos->icono)) ? $datos->icono : 'Seleccione una opción' ;?></option>
                     <option value='fa fa-500px'>&#xf26e; fa-500px</option>
                     <option value='fa fa-adjust'>&#xf042; fa-adjust</option>
                     <option value='fa fa-adn'>&#xf170; fa-adn</option>
