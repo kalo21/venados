@@ -79,22 +79,23 @@ class Perfiles_modelo extends CI_Model{
 		if($data['inpNombre'] != $data['oldNombre']) {
 			$this->db->where('nombre', $data['inpNombre']);
 			$query = $this->db->get('perfiles');
-			if($query->num_rows() > 0 ) {
-				return array('exito' => false, 'msg' => 'El nombre insertado ya se encuentra utilizado');
+			if($query->num_rows() > 0) {
+				$query = $query->row();
+				if($query->nombre === $data['inpNombre']) {
+					return array('exito' => false, 'msg' => 'El nombre insertado ya se encuentra utilizado');
+				}	
+			}
+			$datos = array(
+				'nombre' => $data['inpNombre'],
+				'descripcion' => $data['inpDescripcion']
+			);
+			$this->db->where('id', $data['id']);
+			$this->db->update('perfiles', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
 			}
 			else {
-				$datos = array(
-					'nombre' => $data['inpNombre'],
-					'descripcion' => $data['inpDescripcion']
-				);
-				$this->db->where('id', $data['id']);
-				$this->db->update('perfiles', $datos);
-				if($this->db->affected_rows() > 0) {
-					return array('exito' => true, 'msg' => '');
-				}
-				else {
-					return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
-				}
+				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
 			}
 		}
 		else if($data['inpDescripcion'] != $data['oldDescripcion']) {
