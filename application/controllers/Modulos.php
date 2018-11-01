@@ -19,7 +19,6 @@ class Modulos extends CI_Controller {
 	public function agregarModulo() {
         $this->form_validation->set_rules('inpNombre', 'Nombre', 'required');
 		$this->form_validation->set_rules('inpDescripcion', 'Descripción', 'required');
-		$this->form_validation->set_rules('inpRuta', 'Ruta', 'required');
 		$this->form_validation->set_rules('inpIcono', 'Icono', 'required');
 
         if ($this->form_validation->run() === TRUE) {

@@ -25,7 +25,7 @@ class Modulos_modelo extends CI_Model{
 			$datos = array(
 				"nombre" => $data['inpNombre'],
 				"descripcion" => $data['inpDescripcion'],
-				"ruta" => $data['inpRuta'],
+				"ruta" => "index.php/".$data['inpNombre'],
 				"icono" => $data['inpIcono'],
 				"estatus" => 1
 			);

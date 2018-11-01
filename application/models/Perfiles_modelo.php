@@ -2,6 +2,16 @@
 
 class Perfiles_modelo extends CI_Model{
 	
+	public function obtenerPerfiles() {
+		$query = $this->db->get('perfiles');
+		if($query->num_rows() > 0) {
+			return $query->result();
+		}
+		else {
+			return false;
+		}
+	}
+
 	public function obtenerPerfil($estatus) {
 		if($estatus == 1 || $estatus == 0) {
 			$this->db->where('estatus', $estatus);
