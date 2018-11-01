@@ -22,4 +22,78 @@ class Usuarios_modelo extends CI_Model {
 			return false;
 		}
 	}
+
+	public function agregarUsuario($data) {
+		$this->db->where('nombre', $data['inpNombre']);
+		$aux = $this->db->get('Usuarios');
+		if($aux->num_rows() > 0) {
+			return array('exito' => false, 'msg' => '<li>El nombre ya se encuentra registrado</li>');
+		}
+		else {
+			$datos = array(
+				"nombre" => $data['inpNombre'],
+				"contraseña" => $data['inpContrasena'],
+				"correo" => $data['inpCorreo'],
+				"idperfil" => $data['inpPerfil'],
+				"estatus" => 1
+			);
+			$this->db->insert('Usuarios', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => '<li>No se guardo el Usuario en la base de datos, intente de nuevo</li>');
+			}
+		}
+	}
+	
+	public function modificarUsuario($data) {
+		if($data['inpNombre'] == $data['oldNombre'] && $data['inpDescripcion'] == $data['oldDescripcion']) {
+			return array('exito' => false, 'msg' =>'No se actualizaron los datos porque no hubo cambios');
+		}
+		if($data['inpNombre'] != $data['oldNombre']) {
+			$this->db->where('nombre', $data['inpNombre']);
+			$query = $this->db->get('Usuarios');
+			if($query->num_rows() > 0) {
+				$query = $query->row();
+				if($query->nombre === $data['inpNombre']) {
+					return array('exito' => false, 'msg' => 'El nombre insertado ya se encuentra utilizado');
+				}	
+			}
+			$datos = array(
+				'nombre' => $data['inpNombre'],
+				'descripcion' => $data['inpDescripcion']
+			);
+			$this->db->where('id', $data['id']);
+			$this->db->update('Usuarios', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
+			}
+		}
+		else if($data['inpDescripcion'] != $data['oldDescripcion']) {
+			$datos = array(
+				'descripcion' => $data['inpDescripcion']
+			);
+			$this->db->where('id', $data['id']);
+			$this->db->update('Usuarios', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+		}
+	}
+	
+	public function obtenerDatos($id) {
+		$this->db->where('id', $id);
+		$query = $this->db->get('Usuarios')->row();
+		return $query;
+	}
+
+	public function obtenerPerfiles() {
+		$query = $this->db->get('perfiles');
+		return $query->result();
+	}
+
 }
