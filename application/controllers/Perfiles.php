@@ -30,20 +30,20 @@ class Perfiles extends CI_Controller {
         $this->form_validation->set_rules('inpNombre', 'Nombre', 'required');
         $this->form_validation->set_rules('inpDescripcion', 'Descripción', 'required');
         if ($this->form_validation->run() === TRUE) {
-            $this->Perfiles_modelo->agregarPerfil($this->input->post());
+			echo json_encode($this->Perfiles_modelo->agregarPerfil($this->input->post()));
         }
         else {
-            echo validation_errors('<li>', '</li>');
+            echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
         }
     }
 	
 	public function formulario($id = '') {
 		if(empty($id)) {
-			$this->load->view('Perfiles/perfiles_modal2');
+			$this->load->view('Perfiles/perfiles_modal');
 		}
 		else {
 			$data['datos'] = $this->Perfiles_modelo->obtenerDatos($id);
-			$this->load->view('Perfiles/perfiles_modal2',$data);
+			$this->load->view('Perfiles/perfiles_modal',$data);
 		}
 	}
 }
