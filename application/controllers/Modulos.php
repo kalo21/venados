@@ -16,6 +16,15 @@ class Modulos extends CI_Controller {
 		echo json_encode($this->Modulos_modelo->obtenerModulos($estatus));
 	}
 
+	public function cambiarEstado() {
+        if($this->input->is_ajax_request()) {
+           echo json_encode($this->Modulos_modelo->cambiarEstado($this->input->post('id'), $this->input->post('estatus')));
+        }
+        else{
+            show_404();
+        }
+	}
+
 	public function agregarModulo() {
         $this->form_validation->set_rules('inpNombre', 'Nombre', 'required');
 		$this->form_validation->set_rules('inpDescripcion', 'Descripción', 'required');
@@ -37,6 +46,19 @@ class Modulos extends CI_Controller {
 			$data['datos'] = $this->Modulos_modelo->obtenerDatos($id);
 			$this->load->view('Modulos/modulo_modal',$data);
 		}
+	}
+
+	public function modificarmodulos() {
+		
+		$this->form_validation->set_rules('inpNombre', 'Nombre', 'required');
+		$this->form_validation->set_rules('inpDescripcion', 'Descripción', 'required');
+		$this->form_validation->set_rules('inpIcono', 'Icono', 'required');
+        if ($this->form_validation->run() === TRUE) {
+			echo json_encode($this->Modulos_modelo->modificarmodulo($this->input->post()));
+        }
+        else {
+            echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+        }
 	}
 	
 }

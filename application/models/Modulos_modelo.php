@@ -38,7 +38,61 @@ class Modulos_modelo extends CI_Model{
 			}
 		}
         
-    }
+	}
+
+	public function cambiarEstado($id, $estatus) {
+		if($estatus == 1) {
+			$estatus = 0;
+		}
+		else {
+			$estatus = 1;
+		}
+        //Consultar
+        $this->db->where('id', $id);
+        $registro = $this->db->get('modulos')->row();
+        if($registro->estatus == $estatus){
+            return array('exito' => false,'msg' => 'El dato no se actualizó porque el cambio ya se habia realizado');
+        }
+        //Actualizar
+		$estado = array('estatus' => $estatus);
+		$this->db->where('id', $id);
+		$this->db->update('modulos', $estado);
+        if($this->db->affected_rows() > 0){
+            return array('exito' => true,'msg' => '');
+        }
+        else{
+             return array('exito' => false,'msg' => 'No se modificó el estatus del perfil seleccionado');
+        }
+	}
+	
+	public function modificarmodulo($data) {
+		if($data['inpNombre'] == $data['oldNombre'] && $data['inpDescripcion'] == $data['oldDescripcion'] ) {
+			return array('exito' => false, 'msg' =>'No se actualizaron los datos porque no hubo cambios');
+		}
+		if($data['inpNombre'] != $data['oldNombre']) {
+			$this->db->where('nombre', $data['inpNombre']);
+			$query = $this->db->get('modulos');
+			if($query->num_rows() > 0) {
+				$query = $query->row();
+				if($query->nombre === $data['inpNombre']) {
+					return array('exito' => false, 'msg' => 'El nombre insertado ya se encuentra utilizado');
+				}	
+			}
+				$datos = array(
+					'nombre' => $data['inpNombre'],
+					'descripcion' => $data['inpDescripcion'],
+					'icono' => $data['inpIcono']
+				);
+				$this->db->where('id', $data['id']);
+				$this->db->update('modulos', $datos);
+				if($this->db->affected_rows() > 0) {
+					return array('exito' => true, 'msg' => '');
+				}
+				else {
+					return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
+				}
+		}
+	}
 	
 	public function obtenerDatos($id) {
 		$this->db->where('id', $id);
