@@ -71,7 +71,61 @@
 			alert(this.id);
     	});
 		$('#btnAgregar').click(function() {
-			$('#mdlAgregar').modal();
+			BootstrapDialog.show({
+				
+                title: 'Agregar modulo', // Aquí se pone el título
+				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
+				message: function(dialog) { 
+					var $message = $('<div></div>');
+					var pageToLoad = dialog.getData('pageToLoad');
+					$message.load(pageToLoad); //Cargamos la vista
+					return $message;
+				},
+				data: {
+					'pageToLoad': base_url+'index.php/Modulos/formulario/'
+				},
+				buttons: [{ //agrega los botones del modal
+					label: 'Cancelar',
+					cssClass: 'btn-default',
+					action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+						dialogItself.close();
+					},
+
+				},
+                {	 //agrega los botones del modal
+				  	label: 'Guardar',
+				  	cssClass: 'btn-rojo',
+                  	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+                    //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
+						$.ajax({
+							url: base_url+'index.php/Modulos/agregarModulo/',
+						  	type: 'POST',
+						  	data: $('#frmAgregarModulo').serialize(),
+						  	beforeSend: function(){
+							$('#load').show();
+							},
+							success: function (data) {
+								data = JSON.parse(data);
+								if(!data['exito']) {
+									$('#error').html(data['msg']);
+									$('#error').show();
+								}
+								else if(data['exito']) {
+									obtenerDatos($('#opciones').val());
+									$('#frmAgregarPerfil')[0].reset();
+									dialogItself.close();
+								}
+						  	},
+						  	error: function(jqXHR, textStatus, errorThrown) {
+								console.log('error::'+errorThrown);
+							},
+							complete: function(){
+								$('#load').hide();
+						  	}
+					  	});
+					},
+			  	}]
+            });
 		});
 		function obtenerDatos(estatus) {
 			$.ajax({

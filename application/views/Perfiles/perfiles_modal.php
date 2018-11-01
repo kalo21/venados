@@ -1,7 +1,7 @@
 <div id="error" hidden class="alert alert-warning">
     
 </div>
-   <form class="form-horizontal" id="frmAgregarPerfil">
+<form class="form-horizontal" id="frmAgregarPerfil">
     <div class="form-group">
         <label class="col-sm-3 control-label">Nombre</label>
         <div class="col-sm-9">

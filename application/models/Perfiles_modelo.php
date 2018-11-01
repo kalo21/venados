@@ -1,17 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Perfiles_modelo extends CI_Model{
-
-	public function obtenerPerfiles() {
-		$query = $this->db->get('Perfiles');
-		if($query->num_rows() > 0) {
-			return $query->result();
-		}
-		else {
-			return false;
-		}
-	}
-
 	
 	public function obtenerPerfil($estatus) {
 		if($estatus == 1 || $estatus == 0) {
