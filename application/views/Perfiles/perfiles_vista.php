@@ -223,11 +223,16 @@
 							$('#load').show();
 							},
 							success: function (data) {
-								$('#error').html(data);
-								$('#error').show();
-								obtenerDatos($('#opciones').val());
-								$('#frmAgregarPerfil')[0].reset();
-							//dialogItself.close();
+								data = JSON.parse(data);
+								if(!data['exito']) {
+									$('#error').html(data['msg']);
+									$('#error').show();
+								}
+								else if(data['exito']) {
+									obtenerDatos($('#opciones').val());
+									$('#frmAgregarPerfil')[0].reset();
+									dialogItself.close();
+								}
 						  	},
 						  	error: function(jqXHR, textStatus, errorThrown) {
 								console.log('error::'+errorThrown);

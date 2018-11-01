@@ -52,12 +52,26 @@ class Perfiles_modelo extends CI_Model{
 	}
 	
 	public function agregarPerfil($data) {
-        $datos = array(
-            "nombre" => $data['inpNombre'],
-            "descripcion" => $data['inpDescripcion'],
-            "estatus" => 1
-        );
-        $this->db->insert('Perfiles', $datos);
+		$this->db->where('nombre', $data['inpNombre']);
+		$aux = $this->db->get('Perfiles');
+		if($aux->num_rows() > 0) {
+			return array('exito' => false, 'msg' => '<li>El nombre ya se encuentra registrado</li>');
+		}
+		else {
+			$datos = array(
+				"nombre" => $data['inpNombre'],
+				"descripcion" => $data['inpDescripcion'],
+				"estatus" => 1
+			);
+			$this->db->insert('Perfiles', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => '<li>No se guardo el perfil en la base de datos, intente de nuevo</li>');
+			}
+		}
+        
     }
 	
 	public function obtenerDatos($id) {
