@@ -1,4 +1,12 @@
-<select name="txticono" data-info="<?php echo(isset($info[0]->icono)) ? $info[0]->icono : '' ?>"class="form-control" id="txticono">
+<div class="form-group col-md-6">
+				<style>
+					#txticono{
+						font-family: fontAwesome;
+						font-size: 17px;
+					}
+				</style>
+				<label class="control-label" for="txticono">Icono</label>
+				<select name="txticono" data-info="<?php echo(isset($info[0]->icono)) ? $info[0]->icono : '' ?>"class="form-control" id="txticono">
 					<optgroup label="Seleccione una opción">
 						<option value="">Seleccione una opción</option>
 						<option value='fa fa-500px'>&#xf26e; fa-500px</option>
@@ -681,3 +689,4 @@
 						<option value='fa fa-youtube-square'>&#xf166; fa-youtube-square</option>
 					</optgroup>
 				</select>
+			</div>
