@@ -46,4 +46,15 @@ class Perfiles extends CI_Controller {
 			$this->load->view('Perfiles/perfiles_modal',$data);
 		}
 	}
+
+	public function modificarPerfil() {
+		$this->form_validation->set_rules('inpNombre', 'Nombre', 'required');
+		$this->form_validation->set_rules('inpDescripcion', 'Descripción', 'required');
+        if ($this->form_validation->run() === TRUE) {
+			echo json_encode($this->Perfiles_modelo->modificarPerfil($this->input->post()));
+        }
+        else {
+            echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+        }
+	}
 }

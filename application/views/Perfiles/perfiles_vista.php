@@ -163,18 +163,23 @@
                   	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
                     //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
 						$.ajax({
-							url: base_url+'index.php/Perfiles/agregarPerfil/',
+							url: base_url+'index.php/Perfiles/modificarPerfil/',
 						  	type: 'POST',
-						  	data: $('#frmAgregarPerfil').serialize(),
+						  	data: $('#frmAgregarPerfil').serialize()+'&id='+id+'&oldNombre='+$('#inpNombre').attr('data-id')+'&oldDescripcion='+$('#inpDescripcion').attr('data-descripcion'),
 						  	beforeSend: function(){
 							$('#load').show();
 							},
 							success: function (data) {
-								$('#error').html(data);
-								$('#error').show();
-								obtenerDatos($('#opciones').val());
-								$('#frmAgregarPerfil')[0].reset();
-							//dialogItself.close();
+								data = JSON.parse(data);
+								if(!data['exito']) {
+									$('#error').html(data['msg']);
+									$('#error').show();
+								}
+								else if(data['exito']) {
+									obtenerDatos($('#opciones').val());
+									$('#frmAgregarPerfil')[0].reset();
+									dialogItself.close();
+								}
 						  	},
 						  	error: function(jqXHR, textStatus, errorThrown) {
 								console.log('error::'+errorThrown);
