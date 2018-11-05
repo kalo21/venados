@@ -4,7 +4,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row-fluid">
-                <h3 class="text-center">Modulos</h3>
+                <h3 class="text-center">Módulos</h3>
             </div>
         </div>
         <div class="row">
@@ -21,7 +21,7 @@
 			<div class="col-md-12">
 				<div class="box box-danger">
 					<div class="box-header with-border">
-						<h3 class="box-title">Listado de modulos</h3>
+						<h3 class="box-title">Listado de módulos</h3>
 						<div class="box-tools pull-right">
 							 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
@@ -69,7 +69,7 @@
             var estatus = $(this).attr('data-estatus');  
             BootstrapDialog.confirm({
 				title: 'Advertencia',
-				message: 'Se cambiará el estatus del perfil seleccionada ¿Desea continuar?',
+				message: 'Se cambiará el estatus del módulo seleccionado ¿Desea continuar?',
 				//type: BootstrapDialog.TYPE_DANGER, 
 				btnCancelLabel: 'Cancelar', 
 				btnOKLabel: 'Continuar', 
@@ -114,7 +114,7 @@
 			var id = $(this).attr('data-id');
 			BootstrapDialog.show({
 				
-                title: 'Modificar Modulo', // Aquí se pone el título
+                title: 'Modificar Módulo', // Aquí se pone el título
 				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
 				message: function(dialog) { 
 					var $message = $('<div></div>');
@@ -171,7 +171,7 @@
 		$('#btnAgregar').click(function() {
 			BootstrapDialog.show({
 				
-                title: 'Agregar modulo', // Aquí se pone el título
+                title: 'Agregar módulo', // Aquí se pone el título
 				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
 				message: function(dialog) { 
 					var $message = $('<div></div>');

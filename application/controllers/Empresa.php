@@ -16,5 +16,20 @@ class Empresa extends CI_Controller {
 	public function cambiarEstado() {
 		$this->Empresa_modelo->cambiarEstado($this->input->post('id'), $this->input->post('estatus'));
 	}
+
+	public function formulario($id = '') {
+		if(empty($id)) {
+			$this->load->view('Empresa/empresa_modals');
+		}
+		else {
+			$data['datos'] = $this->Empresa_modelo->obtenerDatos($id);
+			$this->load->view('Empresa/empresa_modals',$data);
+		}
+	}
+
+	public function agregarEmpresa() {
+		return true;
+	}
+
 }
 
