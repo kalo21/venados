@@ -1,202 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>TítuloElectrónico | Iniciar Sesión</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="<?php echo base_url('assets/css/font-awesome.min.css'); ?>">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="<?php echo base_url('assets/css/ionicons.min.css'); ?>">
-  <!-- Theme style -->
-   <link rel="stylesheet" href="<?php echo base_url('assets/css/AdminLTE1.min.css'); ?>">
-  <!-- iCheck -->
-  <!--<link rel="stylesheet" href="../../plugins/iCheck/square/blue.css">-->
-
-
-<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
-<link rel="icon" href="<?php echo base_url(); ?>assets/images/icono.png">
+	<title>Login4</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/util.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/main.css">
+<!--===============================================================================================-->
 </head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('<?php echo base_url();?>assets/images/bg-01.jpg');">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form">
+					<span class="login100-form-logo">
+						<i class="fa fa-users"></i>
+						<!--<img class="" src="images/logo.jpg" alt="aa" style="width: 100%;">-->
+					</span>
 
-<body class="hold-transition login-page">
-<div class="login-box">
-	<div class="col-md-12" hidden id="error">
-      <div class="box box-danger box-solid">
-        <div class="box-header with-border">
-          <h3 class="box-title text-center">Inicio de sesión fallido</h3>
-        </div>
-        <div class="box-body" id="contenido">
-          
-        </div>
-      </div>
-    </div>
-  <div class="login-logo">
-    <img style="width:80%" src="<?php echo base_url();?>/assets/images/sepycsinfondo.png" alt="">
-    <a href="#"><b>TÍTULO</b>ELECTRÓNICO</a>
-  </div>
-  
+					<span class="login100-form-title p-b-34 p-t-27">
+						Inicio de sesión
+					</span>
 
-  <!-- /.login-logo -->
-  <div class="login-box-body">
-    <p class="login-box-msg">Ingresa tus datos para inicar sesión</p>
+					<div id="divUsuario" class="wrap-input100 validate-input" data-validate = "El usuario es requerido">
+						<input class="input100" type="text" name="inpUsuario" id="inpUsuario" placeholder="Usuario">
+						<span class="focus-input100" data-placeholder="&#xf207;"></span>
+					</div>
 
-    <form id="login" method="post">
-      <div class="form-group has-feedback">
-        <input type="email" class="form-control" name="usuario" id="usuario" placeholder="Usuario">
-        <span class="fa fa-envelope form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" name="contraseña" id="contraseña" placeholder="Contraseña">
-        <span class="fa fa-lock form-control-feedback"></span>
-      </div>
-      <div class="row">
-        <div class="col-xs-8">
-          <div class="checkbox icheck">
-            <label>
-              <!--<input type="checkbox"> Recordar contraseña-->
-            </label>
-          </div>
-        </div>
-        <!-- /.col -->
-        <div class="col-xs-4">
-          <button type="button" class="btn btn-primary btn-block btn-flat" id="btnInicio">Entrar</button>
-        </div>
-        <!-- /.col -->
-      </div>
-    </form>
+					<div id="divContrasena" class="wrap-input100 validate-input" data-validate="Contraseña es requerida">
+						<input class="input100" type="password" name="inpContrasena" id="inpContrasena" placeholder="Contraseña">
+						<span class="focus-input100" data-placeholder="&#xf191;"></span>
+					</div>
 
-    <!--<div class="social-auth-links text-center">
-      <p>- OR -</p>
-      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
-        Facebook</a>
-      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
-        Google+</a>
-    </div>-->
-    <!-- /.social-auth-links -->
+					<div class="contact100-form-checkbox">
+						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+						<label class="label-checkbox100" for="ckb1">
+							Recordarme
+						</label>
+					</div>
 
-    <a href="#" id="olvidar">Olvide mi contraseña</a><br>
-    <!--<a href="register.html" class="text-center">Registra una nueva cuenta</a>-->
+					<div class="container-login100-form-btn">
+						<button type="button" id="btnInicio" class="login100-form-btn">
+							Entrar
+						</button>
+					</div>
 
-  </div>
-  <!-- /.login-box-body -->
-</div>
-<!-- /.login-box -->
+					<div class="text-center p-t-90">
+						<a id="olvContra" class="txt1">
+							Olvido Usuario / Contraseña?
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
 
+	<div id="dropDownSelect1"></div>
+	
+<!--===============================================================================================-->
+	<script src="<?php echo base_url();?>assets/js/jquery-1.11.3.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<?php echo base_url();?>assets/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<?php echo base_url();?>assets/js/popper.min.js"></script>
+	<script src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<?php echo base_url();?>assets/js/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<?php echo base_url();?>assets/js/moment.min.js"></script>
+	<script src="<?php echo base_url();?>assets/js/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="<?php echo base_url();?>assets/js/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="<?php echo base_url();?>assets/js/main.js"></script>
 
-<!-- jQuery 3 -->
-<script src="<?php echo base_url('assets/js/jquery.min.js'); ?>"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="<?php echo base_url('assets/js/jquery-ui.min.js'); ?>"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button);
-</script>
-<!-- Bootstrap 3.3.7 -->
-<script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap-dialog.min.js'); ?>"></script>
-<!-- Sparkline -->
-<script src="<?php echo base_url('assets/js/jquery.sparkline.min.js'); ?>"></script>
-<!-- jQuery Knob Chart -->
-<script src="<?php echo base_url('assets/js/jquery.knob.min.js'); ?>"></script>
-<!-- Slimscroll -->
-<script src="<?php echo base_url('assets/js/jquery.slimscroll.min.js'); ?>"></script>
-<!-- FastClick -->
-<script src="<?php echo base_url('assets/js/fastclick.js'); ?>"></script>
-<!-- AdminLTE App -->
-<script src="<?php echo base_url('assets/js/adminlte.min.js'); ?>"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<!--<script src="<?php echo base_url('assets/js/dashboard.js'); ?>"></script>-->
-<!-- AdminLTE for demo purposes -->
-<script src="<?php echo base_url('assets/js/demo.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/popper.min.js'); ?>"></script>
-
-<script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap-dialog.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.dataTables.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('assets/js/dataTables.bootstrap.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap-checkbox.min.js'); ?>"></script>
-
-<script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap-filestyle.min.js'); ?>"></script>
-<script>
-  $(document).ready(function(){
-    var base_url = '<?php echo base_url(); ?>';
-  	$("#error").hide();
-    $('#olvidar').click(function(){
-      BootstrapDialog.confirm({
-              title: '¿Olvidaste tu contraseña?',
-              message: 'Si olvidaste tu contraseña o no tienes acceso a tu cuenta, avisar al correo del soporte',
-              type: BootstrapDialog.TYPE_INFO, 
-              btnCancelLabel: 'Cancelar', 
-              callback: function(result) {
-                
-              }
-          });
-    }); 
-    $('#btnInicio').click(function(){
-      if($('#usuario').val() == ""){
-        $(location).attr('href','#usuario');
-        $("#error").show();
-        var x = "<li>Ingresar un usuario</li>";
-        $("#contenido").html(x);
-
-
-      }
-      else if($('#contraseña').val() == ""){
-        $(location).attr('href','#contraseña');
-        $("#error").show();
-        var x = "<li>Ingresar una contraseña</li>";
-        $("#contenido").html(x);
-      }
-      else{
-          var formData = new FormData($("#login")[0]);
-          $.ajax({
-              url:base_url+"index.php/Inicio/ingresar/",
-              type:"POST",
-              data:formData,
-              cache:false,
-              contentType:false,
-              processData:false,
-                success:function(respuesta){
-                  if (respuesta) {
-                  	$("#error").hide();
-                    //console.log(respuesta);
-                  	 
-                    window.location.href = base_url+'index.php/Inicio/index';
-                      
-                
-                  }
-                  else{
-                     var x = "<li>El usuario ó contraseña invalido.</li>";
-                     $("#error").show();
-			      	 $("#contenido").html(x);
-                  }
-                  
-              }
-          });
-      }
-    });
-  });
-  $('#usuario').keyup(function (e) {
-      if (e.keyCode === 13) {
-        if($('#contraseña').val() == ""){
-          $(location).attr('href','#contraseña');
-        }
-        else{
-          $( "#btnInicio" ).trigger( "click" );
-        } 
-      }
-    });
-    $('#contraseña').keyup(function (e) {
-      if (e.keyCode === 13) {
-        if($('#usuario').val() == ""){
-          $(location).attr('href','#usuario');
-        }
-        else{
-          $( "#btnInicio" ).trigger( "click" );
-        } 
-      }
-    });
-</script>
 </body>
 </html>
+<script>
+	$(document).ready(function(){
+		var base_url = "<?php echo base_url();?>";
+		$('#olvContra').click(function(){
+			alert('click');
+		});
+		$('#inpUsuario').keyup(function(e) {
+			if(e.keyCode === 13) {
+				console.log('enter');
+				if($('#inpContrasena').val() == "") {
+					console.log('vacio');
+					$('#inpContrasena').focus();
+				}
+				else {
+					$('#btnInicio').trigger('click');
+				}
+			}
+		});
+		$('#inpContrasena').keyup(function(e) {
+			if(e.keyCode === 13) {
+				if($('#inpUsuario').val() == "") {
+					$('#inpUsuario').focus();
+				}
+				else {
+					$('#btnInicio').trigger('click');
+				}
+			}
+		});
+		$('#btnInicio').click(function(){
+			if($('#inpContrasena').val() == "") {
+				$(location).attr('href', '#inpContrasena');
+				$('#divContrasena').addClass('alert-validate');
+			}
+			if($('#inpContrasena').val() != "") {
+				$('#divContrasena').removeClass('alert-validate');
+			}
+			if($('#inpUsuario').val() == "") {
+				$(location).attr('href', '#inpUsuario');
+				$('#divUsuario').addClass('alert-validate');
+			}
+			if($('#inpUsuario').val() != "") {
+				$('#divUsuario').removeClass('alert-validate');
+			}
+			if($('#inpUsuario').val() != "" && $('#inpContrasena').val() != "") {
+				alert('correcto');
+
+			}
+		});
+	});
+</script>

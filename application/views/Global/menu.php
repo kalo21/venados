@@ -26,7 +26,7 @@
         <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/Inicio/salir"><i class="fa fa-shopping-cart"></i> <span>Pedidos</span></a></li>
         <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/Usuarios"><i class="fa fa-users"></i> <span>Usuarios</span></a></li>
         <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/perfiles"><i class="fa fa-user-circle"></i> <span>Perfiles</span></a></li>
-        <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/modulos"><i class="fa fa-th-large "></i> <span>Modulos</span></a></li>
+        <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/modulos"><i class="fa fa-th-large "></i> <span>Módulos</span></a></li>
         <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/Inicio/salir"><i class="fa fa-power-off"></i> <span>Salir</span></a></li>
        <!-- <li class="treeview">
           <a href="#">

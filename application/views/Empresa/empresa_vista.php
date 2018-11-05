@@ -137,7 +137,7 @@
 						$.ajax({
 							url: base_url+'index.php/Empresa/agregarEmpresa/',
 						  	type: 'POST',
-						  	data: $('#frmUsuarios').serialize(),
+						  	data: $('#frmEmpresa').serialize(),
 						  	beforeSend: function(){
 							$('#load').show();
 							},
@@ -149,7 +149,7 @@
 								}
 								else if(data['exito']) {
 									obtenerDatos($('#opciones').val());
-									$('#frmUsuarios')[0].reset();
+									$('#frmEmpresa')[0].reset();
 									dialogItself.close();
 								}
 						  	},
@@ -164,6 +164,66 @@
 			  	}]
             });        
 		});
+
+		$(document).on("click", "#modificar", function () {
+			var id = $(this).attr('data-id');
+			BootstrapDialog.show({
+				
+                title: 'Modificar Empresa', // Aquí se pone el título
+				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
+				message: function(dialog) { 
+					var $message = $('<div></div>');
+					var pageToLoad = dialog.getData('pageToLoad');
+					$message.load(pageToLoad); //Cargamos la vista
+					return $message;
+				},
+				data: {
+					'pageToLoad': base_url+'index.php/Empresa/formulario/'+id
+				},
+				buttons: [{ //agrega los botones del modal
+					label: 'Cancelar',
+					cssClass: 'btn-default',
+					action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+						dialogItself.close();
+					},
+
+				},
+                {	 //agrega los botones del modal
+				  	label: 'Guardar',
+				  	cssClass: 'btn-rojo',
+                  	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+                    //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
+						$.ajax({
+							url: base_url+'index.php/Empresa/modificarEmpresa/',
+						  	type: 'POST',
+						  	data: $('#frmEmpresa').serialize(),
+						  	beforeSend: function(){
+							$('#load').show();
+							},
+							success: function (data) {
+								data = JSON.parse(data);
+								if(!data['exito']) {
+									$('#error').html(data['msg']);
+									$('#error').show();
+								}
+								else if(data['exito']) {
+									obtenerDatos($('#opciones').val());
+									$('#frmEmpresa')[0].reset();
+									dialogItself.close();
+								}
+						  	},
+						  	error: function(jqXHR, textStatus, errorThrown) {
+								console.log('error::'+errorThrown);
+							},
+							complete: function(){
+								$('#load').hide();
+						  	}
+					  	});
+					},
+			  	}]
+            });
+    	});
+
 		function obtenerDatos(estatus) {
 			$.ajax({
 				url: base_url+'index.php/Empresa/obtenerEmpresa/'+estatus,
@@ -207,7 +267,7 @@
 					item['local'],
 					"<img height='30' width='30' src='"+base_url+'assets/images/'+item['logotipo']+"'></img>",
 					output,
-					"<i id='modificar' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
+					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
 					output2
 				]).draw(false).node();
 				$('td:eq(3)', fila).attr('class', 'text-center');
