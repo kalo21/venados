@@ -15,9 +15,11 @@ class Api extends CI_Controller {
 		$this->objOfJwt = new implementJwt();
 	    parent::__construct();
 	}
-
+	public function index(){
+		echo "sirbp";
+	}
 	public function getStores(){
-		$this->load->model('api_model');
+		$this->load->model('Api_model');
 		$stores = $this->api_model->getStores();
 		echo json_encode($stores);
 		//$json= json_encode($stores);
