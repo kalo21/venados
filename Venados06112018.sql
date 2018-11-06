@@ -24,7 +24,8 @@ USE `venados`;
 
 insert  into `empresas`(`id`,`nombre`,`razonsocial`,`rfc`,`domicilio`,`telefono`,`local`,`logotipo`,`estatus`,`descripcion`,`id_usuario`) values 
 (1,'Pacifico','Grupo Modelo','',NULL,NULL,'A-1','desarollador.png',1,'soy una cerveceria',0),
-(2,'Salchichas','salchichas','',NULL,NULL,'A-2','desarollador.png',1,'soy el de las salchichas',0);
+(2,'Salchichas','salchichas','',NULL,NULL,'A-2','desarollador.png',1,'soy el de las salchichas',0),
+(3,'Donas','donas','f6sd18f6f681rw','playa las cruces','6691220538','A-6',NULL,1,NULL,3);
 
 /*Data for the table `eventos` */
 
@@ -56,13 +57,15 @@ insert  into `perfiles`(`id`,`nombre`,`descripcion`,`estatus`) values
 
 insert  into `productos`(`id`,`nombre`,`descripcion`,`precio`,`imagen`,`idempresa`,`estatus`) values 
 (1,'media pacifico','pacifico media 355ml',30.00,'desarollador.png',1,1),
-(2,'doble pacifico','pacifico doble 710ml',60.00,'desarollador.png',1,1);
+(2,'doble pacifico','pacifico doble 710ml',60.00,'desarollador.png',1,1),
+(3,'6 donas','dona glasiada',65.00,'desarollador.png',3,1);
 
 /*Data for the table `usuarios` */
 
 insert  into `usuarios`(`id`,`nombre`,`contraseña`,`correo`,`idperfil`,`registro`,`estatus`) values 
 (1,'veloxme','1234','2017030727',1,'2018-10-22 08:00:00',1),
-(2,'kalo','1234','2016030',1,'2018-10-22 08:00:00',1);
+(2,'kalo','1234','2016030',1,'2018-10-22 08:00:00',1),
+(3,'admin','12345678','venados.soporte@gmail.com',2,'2018-11-06 13:12:20',1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
