@@ -56,7 +56,7 @@ class Empresa_modelo extends CI_Model{
 		else {
 			$datosUsuario = array(
 				"nombre" => $data['inpNombre'],
-				"contraseña" => $data['inpContrasena'],
+				"contraseña" => password_hash($data['inpContrasena'], PASSWORD_DEFAULT),
 				"correo" => $data['inpCorreo'],
 				"idperfil" => 2,
 				"estatus" => 1

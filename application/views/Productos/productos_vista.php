@@ -113,6 +113,7 @@
 		$(document).on("click", "#modificar", function () {
 			$('#mdlModificar').modal();
     	});
+
 		$('#btnAgregar').click(function() {
 			BootstrapDialog.show({
 				
@@ -155,7 +156,7 @@
 								}
 								else if(data['exito']) {
 									obtenerDatos($('#opciones').val());
-									$('#frmAgregarProductp')[0].reset();
+									$('#frmAgregarProducto')[0].reset();
 									dialogItself.close();
 								}
 						  	},
@@ -170,6 +171,66 @@
 			  	}]
             });$('#mdlAgregar').modal();
 		});
+
+		$(document).on("click", "#modificar", function () {
+			var id = $(this).attr('data-id');
+			BootstrapDialog.show({
+				
+                title: 'Modificar Producto', // Aquí se pone el título
+				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
+				message: function(dialog) { 
+					var $message = $('<div></div>');
+					var pageToLoad = dialog.getData('pageToLoad');
+					$message.load(pageToLoad); //Cargamos la vista
+					return $message;
+				},
+				data: {
+					'pageToLoad': base_url+'index.php/Productos/formulario/'+id
+				},
+				buttons: [{ //agrega los botones del modal
+					label: 'Cancelar',
+					cssClass: 'btn-default',
+					action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+						dialogItself.close();
+					},
+
+				},
+                {	 //agrega los botones del modal
+				  	label: 'Guardar',
+				  	cssClass: 'btn-rojo',
+                  	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+                    //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
+						$.ajax({
+							url: base_url+'index.php/Productos/modificarProducto/',
+						  	type: 'POST',
+						  	data: $('#frmAgregarProducto').serialize()+'&id='+id+'&oldNombre='+$('#inpNombre').attr('data-nombre')+'&oldDescripcion='+$('#inpDescripcion').attr('data-descripcion')+'&oldPrecio='+$('#inpPrecio').attr('data-precio'),
+						  	beforeSend: function(){
+							$('#load').show();
+							},
+							success: function (data) {
+								data = JSON.parse(data);
+								if(!data['exito']) {
+									$('#error').html(data['msg']);
+									$('#error').show();
+								}
+								else if(data['exito']) {
+									obtenerDatos($('#opciones').val());
+									$('#frmAgregarProducto')[0].reset();
+									dialogItself.close();
+								}
+						  	},
+						  	error: function(jqXHR, textStatus, errorThrown) {
+								console.log('error::'+errorThrown);
+							},
+							complete: function(){
+								$('#load').hide();
+						  	}
+					  	});
+					},
+			  	}]
+            });
+    	});
+
 		function obtenerDatos(estatus) {
 			$.ajax({
 				url: base_url+'index.php/Productos/obtenerProductos/'+estatus,
@@ -215,7 +276,7 @@
 					item['precio'],
 					"<img height='30' width='30' src='"+base_url+'assets/images/'+item['imagen']+"'></img>",
 					output,
-					"<i id='modificar' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
+					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
 					output2
 				]).draw(false).node();
 				$('td:eq(3)', fila).attr('class', 'text-center');

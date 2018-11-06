@@ -3,7 +3,7 @@
 class Inicio_modelo extends CI_Model{
 
     public function ingresar($usuario) {
-        $this->db->select('usuarios.nombre, usuarios.idperfil, perfiles.nombre as nombrePerfil, usuarios.contraseña');
+        $this->db->select('usuarios.id, usuarios.nombre, usuarios.idperfil, perfiles.nombre as nombrePerfil, usuarios.contraseña');
         $this->db->join('perfiles', 'perfiles.id = usuarios.idperfil');
         $this->db->where('usuarios.nombre', $usuario['inpUsuario']);
         $this->db->where('usuarios.contraseña', $usuario['inpContrasena']);
@@ -20,11 +20,12 @@ class Inicio_modelo extends CI_Model{
                 'loginStatus' => true
             );
             if($query->idperfil == 2) {
-                $this->db->where('id', $query->idperfil);
+                $this->db->where('id_usuario', $query->id);
                 $datos = $this->db->get('empresas')->row();
                 $empresa_data = array(
                     'nombreEmpresa' => $datos->nombre,
-                    'imagen' => $datos->logotipo
+                    'imagen' => $datos->logotipo,
+                    'idEmpresa' =>$datos->id
                 );
                 $session_data = array_merge($session_data, $empresa_data);
             }

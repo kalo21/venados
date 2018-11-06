@@ -32,7 +32,7 @@ class Usuarios_modelo extends CI_Model {
 		else {
 			$datos = array(
 				"nombre" => $data['inpNombre'],
-				"contraseña" => $data['inpContrasena'],
+				"contraseña" => password_hash($data['inpContrasena'],PASSWORD_DEFAULT),
 				"correo" => $data['inpCorreo'],
 				"idperfil" => $data['inpPerfil'],
 				"estatus" => 1

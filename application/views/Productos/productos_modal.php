@@ -1,20 +1,23 @@
+<div id="error" hidden class="alert alert-warning">
+    
+</div>
 <form class="form-horizontal" id="frmAgregarProducto">
     <div class="form-group">
         <label class="col-sm-3 control-label">Nombre</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" id="inpNombre" name="inpNombre">
+            <input type="text" data-nombre = "<?php echo(isset($datos->nombre)) ? $datos->nombre : '';?>" value ="<?php echo(isset($datos->nombre)) ? $datos->nombre : '' ;?>" class="form-control" id="inpNombre" name="inpNombre">
         </div>        
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label">Descripcion</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" id="inpDescripcion" name="inpDescripcion">
+            <input type="text" data-descripcion = "<?php echo(isset($datos->descripcion)) ? $datos->descripcion : '';?>" value ="<?php echo(isset($datos->descripcion)) ? $datos->descripcion : '' ;?>" class="form-control" id="inpDescripcion" name="inpDescripcion">
         </div> 
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label">Precio</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" id="inpPrecio" name="inpPrecio">
+            <input type="text" data-precio = "<?php echo(isset($datos->precio)) ? $datos->precio : '';?>" value ="<?php echo(isset($datos->precio)) ? $datos->precio : '' ;?>" class="form-control" id="inpPrecio" name="inpPrecio">
         </div> 
     </div>
     <div class="custom-file">
