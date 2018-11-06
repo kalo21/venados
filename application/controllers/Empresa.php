@@ -8,7 +8,12 @@ class Empresa extends CI_Controller {
 		$this->load->model('Empresa_modelo');
     }
     public function index(){
-        $this->load->view('Empresa/empresa_vista');
+		if($this->session->loginStatus) {
+			$this->load->view('Empresa/empresa_vista');
+		}
+		else {
+			redirect('Inicio');
+		}
     }
 	public function obtenerEmpresa($estatus) {
 		echo json_encode($this->Empresa_modelo->obtenerEmpresa($estatus));

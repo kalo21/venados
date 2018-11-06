@@ -32,7 +32,7 @@
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('<?php echo base_url();?>assets/images/bg-01.jpg');">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" id="frmLogin">
 					<span class="login100-form-logo">
 						<i class="fa fa-users"></i>
 						<!--<img class="" src="images/logo.jpg" alt="aa" style="width: 100%;">-->
@@ -105,9 +105,7 @@
 		});
 		$('#inpUsuario').keyup(function(e) {
 			if(e.keyCode === 13) {
-				console.log('enter');
 				if($('#inpContrasena').val() == "") {
-					console.log('vacio');
 					$('#inpContrasena').focus();
 				}
 				else {
@@ -141,8 +139,22 @@
 				$('#divUsuario').removeClass('alert-validate');
 			}
 			if($('#inpUsuario').val() != "" && $('#inpContrasena').val() != "") {
-				alert('correcto');
-
+				$.ajax({
+					url: base_url+'index.php/Inicio/ingresar',
+					method:'post',
+					data: $('#frmLogin').serialize(),
+					beforeSend: function() {
+						$('#load').show();
+					},	
+					success: function(data) {
+						if(data) {
+							location.href = base_url+'index.php/Empresa';
+						}
+					},
+					complete: function() {
+						$('#load').hide();
+					}
+				});
 			}
 		});
 	});
