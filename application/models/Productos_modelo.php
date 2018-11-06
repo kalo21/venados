@@ -29,4 +29,36 @@ class Productos_modelo extends CI_Model {
 		$this->db->where('id', $id);
 		$this->db->update('productos', $estado);
 	}
+	public function agregarProducto($data) {
+		$this->db->where('nombre', $data['inpNombre']);
+
+		$aux = $this->db->get('productos');
+		if($aux->num_rows() > 0) {
+			return array('exito' => false, 'msg' => '<li>El nombre ya se encuentra registrado</li>');
+		}
+		else {
+			$datos = array(
+				"nombre" => $data['inpNombre'],
+				"descripcion" => $data['inpDescripcion'],
+				"precio" => $data['inpPrecio'],
+				//"imagen" => $data['inpImagen'],
+				"estatus" => 1,
+				"idempresa" => 2
+			);
+			$this->db->insert('productos', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => '<li>No se guardo el producto en la base de datos, intente de nuevo</li>');
+			}
+		}
+        
+	}
+	public function obtenerDatos($id) {
+		$this->db->where('id', $id);
+		$query = $this->db->get('productos')->row();
+		//echo $this->db->last_query();
+		return $query;
+	}
 }
