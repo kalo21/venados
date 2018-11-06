@@ -34,7 +34,7 @@ class Productos_modelo extends CI_Model {
 	}
 	public function agregarProducto($data) {
 		$this->db->where('nombre', $data['inpNombre']);
-
+		$this->db->where('idempresa', $this->session->idEmpresa);
 		$aux = $this->db->get('productos');
 		if($aux->num_rows() > 0) {
 			return array('exito' => false, 'msg' => '<li>El nombre ya se encuentra registrado</li>');
@@ -65,6 +65,7 @@ class Productos_modelo extends CI_Model {
 		}
 		if($data['inpNombre'] != $data['oldNombre']) {
 			$this->db->where('nombre', $data['inpNombre']);
+			$this->db->where('idempresa', $this->session->idEmpresa);
 			$query = $this->db->get('productos');
 			if($query->num_rows() > 0) {
 				$query = $query->row();

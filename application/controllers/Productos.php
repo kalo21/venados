@@ -17,9 +17,20 @@ class Productos extends CI_Controller {
 		$this->Productos_modelo->cambiarEstado($this->input->post('id'), $this->input->post('estatus'));
     }
     public function agregarProducto() {
+        $config = [
+            "upload_path" => "./assets/fotoUsuarios",
+            'allowed_types' => "png|jpg"
+        ];
+
+        $this->load->library("upload",$config);
         $this->form_validation->set_rules('inpNombre', 'nombre', 'required');
 		$this->form_validation->set_rules('inpDescripcion', 'descripción', 'required');
-		$this->form_validation->set_rules('inpPrecio', 'precio', 'required');
+		$this->form_validation->set_rules('inpPrecio', 'precio', 'numeric');
+        
+        if($this->upload->do_upload('foto')) {
+            $data = array("upload_data" => $this->upload->data());
+            $nombreArchivop = $data['upload_data']['file_name'];
+        }
 
         if ($this->form_validation->run() === TRUE) {
 			echo json_encode($this->Productos_modelo->agregarProducto($this->input->post()));
@@ -32,8 +43,7 @@ class Productos extends CI_Controller {
     public function modificarProducto() {
         $this->form_validation->set_rules('inpNombre', 'nombre', 'required');
 		$this->form_validation->set_rules('inpDescripcion', 'descripción', 'required');
-		$this->form_validation->set_rules('inpPrecio', 'precio', 'required');
-
+		$this->form_validation->set_rules('inpPrecio', 'precio', 'numeric');
         if ($this->form_validation->run() === TRUE) {
 			echo json_encode($this->Productos_modelo->modificarProducto($this->input->post()));
         }

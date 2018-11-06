@@ -9,7 +9,6 @@ class Empresa extends CI_Controller {
     }
     public function index(){
 		if($this->session->loginStatus) {
-            var_dump($this->session->userdata);
 			$this->load->view('Empresa/empresa_vista');
 		}
 		else {
