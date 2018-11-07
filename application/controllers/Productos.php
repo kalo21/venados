@@ -17,8 +17,9 @@ class Productos extends CI_Controller {
 		$this->Productos_modelo->cambiarEstado($this->input->post('id'), $this->input->post('estatus'));
     }
     public function agregarProducto() {
+
         $config = [
-            "upload_path" => "./assets/fotoUsuarios",
+            "upload_path" => "./assets/images/",
             'allowed_types' => "png|jpg"
         ];
 
@@ -30,13 +31,15 @@ class Productos extends CI_Controller {
         if($this->upload->do_upload('foto')) {
             $data = array("upload_data" => $this->upload->data());
             $nombreArchivop = $data['upload_data']['file_name'];
-        }
-
-        if ($this->form_validation->run() === TRUE) {
-			echo json_encode($this->Productos_modelo->agregarProducto($this->input->post()));
+            if ($this->form_validation->run() === TRUE) {
+                echo json_encode($this->Productos_modelo->agregarProducto($this->input->post(), $nombreArchivop));
+            }
+            else {
+                echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+            }
         }
         else {
-            echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+            echo json_encode(array('exito' => false, 'msg' => $this->upload->display_errors()));
         }
     }
 
