@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
- 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>venados</title>
+  <title><?php echo(isset($informacion['titulo'])) ? $informacion['titulo'] : 'VenadoSnacks' ;?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -335,8 +334,8 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<?php echo base_url();?>/assets/images/desarollador.png" class="user-image" alt="jjk">
-              <span class="hidden-xs">jose</span>
+              <img src="<?php echo base_url('assets/images/'); echo (isset($informacion['imagen'])) ? $informacion['imagen'] : 'hacker.png' ;?>" class="user-image" alt="<?php echo(isset($informacion['imagen'])) ? $informacion['imagen'] : 'No seleccionada' ;?>">
+              <span class="hidden-xs"><?php echo(isset($informacion['nombre'])) ? $informacion['nombre'] : 'Infiltrado :o' ;?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -357,14 +356,14 @@
                     return $nombredia." ".$numeroDia." de ".$nombreMes." del ".$anio;
                 }
                 ?>
-                <img src="<?php echo base_url();?>/assets/images/desarrollador.png" class="img-circle" alt="jose">
+                <img src="<?php echo base_url('assets/images/'); echo (isset($informacion['imagen'])) ? $informacion['imagen'] : 'hacker.png' ;?>" class="user-image" alt="<?php echo(isset($informacion['imagen'])) ? $informacion['imagen'] : 'No seleccionada' ;?>" class="img-circle" >
                 <p>
-                  jose
+                  <?php echo(isset($informacion['nombre'])) ? $informacion['nombre'] : 'Infiltrado :o' ;?>
                   <small><?php echo fechaEspañol(date('Y-m-d H:i:s', time())); ?><br><span id="hora"></span></small>
                 </p>
               </li>
               <!-- Menu Body -->
-              <li class="user-body" style="border: 1px solid #264d78;">
+              <li class="user-body" style="border: 1px solid #f6032f;">
                 <div class="row">
                   <div class="col-xs-12 text-center" >
                     <a href="<?php echo base_url();?>">Inicio</a>
@@ -381,7 +380,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-right">
-                  <a href="<?php echo base_url(); ?>index.php/Inicio/salir" class="btn btn-default" style="background-color: #264d78; color: #fff">Salir</a>
+                  <a href="<?php echo base_url(); ?>index.php/Inicio/salir" class="btn btn-rojo" >Salir</a>
                 </div>
               </li>
             </ul>

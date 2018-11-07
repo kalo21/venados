@@ -4,10 +4,10 @@
  */
 .skin-red-light .main-header /*.navbar probando*/ {
   background: #f6032f;
-  background: -webkit-linear-gradient(bottom, #f6032f, #7b1821);
-  background: -o-linear-gradient(bottom, #f6032f, #7b1821);
-  background: -moz-linear-gradient(bottom, #f6032f, #7b1821);
-  background: linear-gradient(bottom, #f6032f, #7b1821);
+  background: -webkit-linear-gradient(left, #f6032f, #7b1821);
+  background: -o-linear-gradient(left, #f6032f, #7b1821);
+  background: -moz-linear-gradient(left, #f6032f, #7b1821); 
+  background: linear-gradient(left, #f6032f, #7b1821);
 }
 .skin-red-light .main-header .navbar .nav > li > a {
   color: #ffffff;

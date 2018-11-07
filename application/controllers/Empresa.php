@@ -6,14 +6,14 @@ class Empresa extends CI_Controller {
     public function __construct(){
         parent::__construct(); 
 		$this->load->model('Empresa_modelo');
+		$this->load->helper(array('funciones_generales_helper','url'));
     }
     public function index(){
-		if($this->session->loginStatus) {
-			$this->load->view('Empresa/empresa_vista');
-		}
-		else {
-			redirect('Inicio');
-		}
+    	if(validacion()){
+            $data['modulos'] = modulos();
+            $data['informacion'] = informacionInicial("Venados | Empresa");
+    		$this->load->view('Empresa/empresa_vista',$data);
+        }
     }
 	public function obtenerEmpresa($estatus) {
 		echo json_encode($this->Empresa_modelo->obtenerEmpresa($estatus));
