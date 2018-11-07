@@ -6,10 +6,16 @@ class Usuarios extends CI_Controller {
     public function __construct(){
         parent::__construct();
     	$this->load->model('Usuarios_modelo');
+    	$this->load->helper(array('funciones_generales_helper','url'));
 	}
 	
 	public function index() {
-		$this->load->view('Usuarios/usuario_vista');
+		if(validacion()){
+            $data['modulos'] = modulos();
+            $data['informacion'] = informacionInicial("Venados | Usuarios");
+            $this->load->view('Usuarios/usuario_vista',$data);
+        }
+		
 	}
 	public function obtenerUsuarios($estatus) {
 		echo json_encode($this->Usuarios_modelo->obtenerUsuarios($estatus));

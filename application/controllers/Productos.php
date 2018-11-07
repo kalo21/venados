@@ -6,9 +6,14 @@ class Productos extends CI_Controller {
     public function __construct(){
         parent::__construct(); 
 		$this->load->model('Productos_modelo');
+        $this->load->helper(array('funciones_generales_helper','url'));
     }
     public function index(){
-        $this->load->view('Productos/productos_vista');
+        if(validacion()){
+            $data['modulos'] = modulos();
+            $data['informacion'] = informacionInicial("Venados | Modulos");
+            $this->load->view('Productos/productos_vista',$data);
+        }
     }
 	public function obtenerProductos($estatus) {
 		echo json_encode($this->Productos_modelo->obtenerProductos($estatus));
