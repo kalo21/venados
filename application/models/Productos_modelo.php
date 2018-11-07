@@ -47,7 +47,7 @@ class Productos_modelo extends CI_Model {
 				//"imagen" => $data['inpImagen'],
 				"estatus" => 1,
 				"idempresa" => $this->session->idEmpresa,
-				"imagen" => $nombreArchivo
+				"imagen" => 'assets/Empresas/'.$this->session->idEmpresa.'/Productos/'.$nombreArchivo
 			);
 			$this->db->insert('productos', $datos);
 			if($this->db->affected_rows() > 0) {
@@ -78,7 +78,7 @@ class Productos_modelo extends CI_Model {
 					'nombre' => $data['inpNombre'],
 					'descripcion' => $data['inpDescripcion'],
 					'precio' => $data['inpPrecio'],
-					'imagen' => $nombreArchivo
+					'imagen' => 'assets/Empresas/'.$this->session->idEmpresa.'/Productos/'.$nombreArchivo
 				);
 			}
 			else {
@@ -102,7 +102,7 @@ class Productos_modelo extends CI_Model {
 				$datos = array(
 					'descripcion' => $data['inpDescripcion'],
 					'precio' => $data['inpPrecio'],
-					'imagen' => $nombreArchivo
+					'imagen' => 'assets/Empresas/'.$this->session->idEmpresa.'/Productos/'.$nombreArchivo
 				);
 			}
 			else {
