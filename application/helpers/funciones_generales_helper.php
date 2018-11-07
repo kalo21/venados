@@ -9,7 +9,7 @@ if(!function_exists('informacionInicial')){
                 $data['nombre'] = "Administrador - ".$ci->session->userdata('nombre');
                 break;
             case '2':
-                $data['imagen'] = "empresa-blanca.png";
+                $data['imagen'] = $ci->session->userdata('imagen');
                 $data['nombre'] = "Empresa - ".$ci->session->userdata('nombreEmpresa');
                 break;
             case '3':

@@ -141,12 +141,18 @@
 				  	cssClass: 'btn-rojo',
                   	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
                     //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
+						var form = $('#frmAgregarProducto')[0];
+						var formData = new FormData(form);
+						console.log(formData);
 						$.ajax({
 							url: base_url+'index.php/Productos/agregarProducto/',
 						  	type: 'POST',
-						  	data: $('#frmAgregarProducto').serialize(),
+						  	data: formData,
+							processData:false,
+							contentType:false,
+							cache:false,
 						  	beforeSend: function(){
-							$('#load').show();
+								$('#load').show();
 							},
 							success: function (data) {
 								data = JSON.parse(data);
@@ -274,7 +280,7 @@
 					item['nombre'],
 					item['descripcion'],
 					item['precio'],
-					"<img height='30' width='30' src='"+base_url+'assets/images/'+item['imagen']+"'></img>",
+					"<img height='30' width='30' src='"+base_url+'assets/Empresas/'+<?php echo $this->session->idEmpresa;?>+'/Productos/'+item['imagen']+"'></img>",
 					output,
 					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
 					output2
