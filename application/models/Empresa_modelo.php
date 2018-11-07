@@ -66,11 +66,11 @@ class Empresa_modelo extends CI_Model{
 		$this->db->where('nombre', $data['inpNombre']);
 		$query = $this->db->get('usuarios')->row();
 		$datosEmpresa = array(
-			'nombre' => $data['inpNombreEmpresa'],
+			'nombre' => $data['inpNombre'],
 			'razonsocial' => $data['inpRazonSocial'],
 			'rfc' => $data['inpRFC'],
-			'domicilio' => $data['inpDomicilioEmpresa'],
-			'telefono' => $data['inpTelefonoEmpresa'],
+			'domicilio' => $data['inpDomicilio'],
+			'telefono' => $data['inpTelefono'],
 			'local' => $data['inpLocal'],
 			'estatus' => 1,
 			'id_usuario' => $query->id

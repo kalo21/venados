@@ -24,21 +24,21 @@ class Empresa extends CI_Controller {
 
 	public function formulario($id = '') {
 		if(empty($id)) {
-			$this->load->view('Empresa/empresa_modals');
+			$this->load->view('Empresa/empresa_modal');
 		}
 		else {
 			$data['datos'] = $this->Empresa_modelo->obtenerDatos($id);
 			$data['usuario'] = $this->Empresa_modelo->obtenerUsuario($data['datos']->id_usuario);
-			$this->load->view('Empresa/empresa_modals',$data);
+			$this->load->view('Empresa/empresa_modal',$data);
 		}
 	}
 
 	public function agregarEmpresa() {
-		$this->form_validation->set_rules('inpNombreEmpresa', 'Nombre de empresa', 'required');
+		$this->form_validation->set_rules('inpNombre', 'Nombre de empresa', 'required');
 		$this->form_validation->set_rules('inpRazonSocial', 'Razón social', 'required');
 		$this->form_validation->set_rules('inpRFC', 'RFC', 'required');
-		$this->form_validation->set_rules('inpDomicilioEmpresa', 'Domicilio de empresa', 'required');
-		$this->form_validation->set_rules('inpTelefonoEmpresa', 'Teléfono de empresa', 'required');
+		$this->form_validation->set_rules('inpDomicilio', 'Domicilio de empresa', 'required');
+		$this->form_validation->set_rules('inpTelefono', 'Teléfono de empresa', 'required');
 		$this->form_validation->set_rules('inpLocal', 'Local', 'required');
 		$this->form_validation->set_rules('inpNombre', 'Nombre', 'required');
 		$this->form_validation->set_rules('inpContrasena', 'Contraseña', 'trim|required|min_length[8]');
@@ -53,11 +53,11 @@ class Empresa extends CI_Controller {
 	}
 
 	public function modificarEmpresa() {
-		$this->form_validation->set_rules('inpNombreEmpresa', 'Nombre de empresa', 'required');
+		$this->form_validation->set_rules('inpNombre', 'Nombre de empresa', 'required');
 		$this->form_validation->set_rules('inpRazonSocial', 'Razón social', 'required');
 		$this->form_validation->set_rules('inpRFC', 'RFC', 'required');
-		$this->form_validation->set_rules('inpDomicilioEmpresa', 'Domicilio de empresa', 'required');
-		$this->form_validation->set_rules('inpTelefonoEmpresa', 'Teléfono de empresa', 'required');
+		$this->form_validation->set_rules('inpDomicilio', 'Domicilio de empresa', 'required');
+		$this->form_validation->set_rules('inpTelefono', 'Teléfono de empresa', 'required');
 		$this->form_validation->set_rules('inpLocal', 'Local', 'required');
 		$this->form_validation->set_rules('inpNombre', 'Nombre', 'required');
 		$this->form_validation->set_rules('inpContrasena', 'Contraseña', 'trim|required|min_length[8]');

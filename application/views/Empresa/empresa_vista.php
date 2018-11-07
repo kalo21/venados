@@ -110,7 +110,7 @@
         $('#btnAgregar').click(function() {
 			BootstrapDialog.show({
 				
-                title: 'Agregar Usuario', // Aquí se pone el título
+                title: 'Agregar Empresa', // Aquí se pone el título
 				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
 				message: function(dialog) { 
 					var $message = $('<div></div>');
@@ -137,7 +137,7 @@
 						$.ajax({
 							url: base_url+'index.php/Empresa/agregarEmpresa/',
 						  	type: 'POST',
-						  	data: $('#frmEmpresa').serialize(),
+						  	data: $('#frmEmpresa').FormData(),
 						  	beforeSend: function(){
 							$('#load').show();
 							},
@@ -196,7 +196,7 @@
 						$.ajax({
 							url: base_url+'index.php/Empresa/modificarEmpresa/',
 						  	type: 'POST',
-						  	data: $('#frmEmpresa').serialize(),
+						  	data: $('#frmEmpresa').FormData(),
 						  	beforeSend: function(){
 							$('#load').show();
 							},
