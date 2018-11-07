@@ -280,7 +280,7 @@
 					item['nombre'],
 					item['descripcion'],
 					item['precio'],
-					"<img height='30' width='30' src='"+base_url+'assets/images/'+item['imagen']+"'></img>",
+					"<img height='30' width='30' src='"+base_url+'assets/Empresas/'+<?php echo $this->session->idEmpresa;?>+'/Productos/'+item['imagen']+"'></img>",
 					output,
 					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
 					output2

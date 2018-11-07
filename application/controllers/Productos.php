@@ -24,7 +24,7 @@ class Productos extends CI_Controller {
     public function agregarProducto() {
 
         $config = [
-            "upload_path" => "./assets/images/",
+            "upload_path" => "./assets/Empresas/".$this->session->idEmpresa.'/Productos',
             'allowed_types' => "png|jpg"
         ];
 

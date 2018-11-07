@@ -22,7 +22,7 @@
     </div>
     <div class="custom-file">
     <div class="form-group text-center" id="divImagen">
-        <label for="foto" id="labelImg">  <img style="height: 150px;" src="<?php echo base_url('assets/images/productos.png')?>" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>
+        <label for="foto" id="labelImg">  <img style="height: 150px;" src="<?php echo (isset($datos->imagen)) ? base_url('assets/Empresas/'.$this->session->idEmpresa.'/Productos/'.$datos->imagen) : base_url('assets/images/productos.png')?>" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>
         <input class="form-control" type="file" name="foto" id="foto" style="display: none" accept="image/*">
     </div> 
     </div>
