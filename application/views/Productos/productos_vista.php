@@ -61,14 +61,18 @@
 <?php $this->load->view('Global/footer'); ?>
 <script>
 	$(document).ready(function(){
-		
+		var cambio = 0;
 		var tabla = insertarPaginado('tabla');
 		obtenerDatos($('#opciones').val());
 		
 		$('#opciones').change(function(){
 			obtenerDatos($('#opciones').val());
 		});
-		
+
+		$(document).on("change", "#foto", function () {
+			cambio++;
+		});
+
 		$(document).on("click", "#cambiarEstado", function () {
             var id = $(this).attr('data-id');
             var estatus = $(this).attr('data-estatus');  
@@ -143,7 +147,6 @@
                     //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
 						var form = $('#frmAgregarProducto')[0];
 						var formData = new FormData(form);
-						console.log(formData);
 						$.ajax({
 							url: base_url+'index.php/Productos/agregarProducto/',
 						  	type: 'POST',
@@ -171,6 +174,7 @@
 							},
 							complete: function(){
 								$('#load').hide();
+								cambio = 0;
 						  	}
 					  	});
 					},
@@ -206,10 +210,20 @@
 				  	cssClass: 'btn-rojo',
                   	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
                     //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
+						var form = $('#frmAgregarProducto')[0];
+						var formData = new FormData(form);
+						formData.append('cambio', cambio);
+						formData.append('id',id);
+						formData.append('oldNombre',$('#inpNombre').attr('data-nombre'));
+						formData.append('oldDescripcion',$('#inpDescripcion').attr('data-descripcion'));
+						formData.append('oldPrecio',$('#inpPrecio').attr('data-precio'));
+
 						$.ajax({
 							url: base_url+'index.php/Productos/modificarProducto/',
 						  	type: 'POST',
-						  	data: $('#frmAgregarProducto').serialize()+'&id='+id+'&oldNombre='+$('#inpNombre').attr('data-nombre')+'&oldDescripcion='+$('#inpDescripcion').attr('data-descripcion')+'&oldPrecio='+$('#inpPrecio').attr('data-precio'),
+						  	data: formData,
+			    			processData: false,
+							contentType: false,
 						  	beforeSend: function(){
 							$('#load').show();
 							},
@@ -230,6 +244,7 @@
 							},
 							complete: function(){
 								$('#load').hide();
+								cambio = 0;
 						  	}
 					  	});
 					},

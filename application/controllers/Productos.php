@@ -27,7 +27,6 @@ class Productos extends CI_Controller {
             "upload_path" => "./assets/Empresas/".$this->session->idEmpresa.'/Productos',
             'allowed_types' => "png|jpg"
         ];
-
         $this->load->library("upload",$config);
         $this->form_validation->set_rules('inpNombre', 'nombre', 'required');
 		$this->form_validation->set_rules('inpDescripcion', 'descripción', 'required');
@@ -49,14 +48,33 @@ class Productos extends CI_Controller {
     }
 
     public function modificarProducto() {
+        $config = [
+            "upload_path" => "./assets/Empresas/".$this->session->idEmpresa.'/Productos',
+            'allowed_types' => "png|jpg"
+        ];
+        $this->load->library("upload",$config);
         $this->form_validation->set_rules('inpNombre', 'nombre', 'required');
 		$this->form_validation->set_rules('inpDescripcion', 'descripción', 'required');
-		$this->form_validation->set_rules('inpPrecio', 'precio', 'numeric');
-        if ($this->form_validation->run() === TRUE) {
-			echo json_encode($this->Productos_modelo->modificarProducto($this->input->post()));
+        $this->form_validation->set_rules('inpPrecio', 'precio', 'numeric');
+        if($this->upload->do_upload('foto')) {
+            $data = array("upload_data" => $this->upload->data());
+            $nombreArchivop = $data['upload_data']['file_name'];
+            if ($this->form_validation->run() === TRUE) {
+                echo json_encode($this->Productos_modelo->modificarProducto($this->input->post(), $nombreArchivop));
+            }
+            else {
+                echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+            }
         }
         else {
-            echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+            if($this->input->post('cambio') == 0) {
+                if ($this->form_validation->run() === TRUE) {
+                    echo json_encode($this->Productos_modelo->modificarProducto($this->input->post()));
+                }
+                else {
+                    echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+                }   
+            }
         }
     }
 
