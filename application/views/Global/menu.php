@@ -23,6 +23,7 @@
         <li style="border-top: 1px solid #ffffff;"><a href="<?= base_url();?>index.php/Inicio/index"><i class="fa fa-home"></i> <span>Inicio</span></a></li>
         <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/Empresa"><i class="fa fa-building"></i> <span>Empresa</span></a></li>
         <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/productos"><i class="fa fa-product-hunt"></i> <span>Productos</span></a></li>
+        <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/eventos"><i class="fa fa-user-circle"></i> <span>Eventos</span></a></li>
         <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/Inicio/salir"><i class="fa fa-shopping-cart"></i> <span>Pedidos</span></a></li>
         <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/Usuarios"><i class="fa fa-users"></i> <span>Usuarios</span></a></li>
         <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/perfiles"><i class="fa fa-user-circle"></i> <span>Perfiles</span></a></li>

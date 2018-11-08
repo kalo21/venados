@@ -286,5 +286,5 @@
 				$('td:eq(7)', fila).attr('class', 'text-center');
 			});
 		}
-	});
+	}); 
 </script>
