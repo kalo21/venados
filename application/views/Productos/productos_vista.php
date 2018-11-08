@@ -35,7 +35,7 @@
 										<th>Nombre</th>
 										<th>Descripción</th>
 										<th>Precio</th>
-										<th>Logotipo</th>
+										<th>Imagen</th>
 										<th style='text-align:center'>Estado</th>
 										<th style='text-align:center'>Modificar</th>
 										<th style='text-align:center'>Activar/Desactivar</th>

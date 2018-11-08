@@ -30,7 +30,7 @@ class Productos extends CI_Controller {
         $this->load->library("upload",$config);
         $this->form_validation->set_rules('inpNombre', 'nombre', 'required');
 		$this->form_validation->set_rules('inpDescripcion', 'descripción', 'required');
-		$this->form_validation->set_rules('inpPrecio', 'precio', 'numeric');
+		$this->form_validation->set_rules('inpPrecio', 'precio', 'trim|required|numeric');
         
         if($this->upload->do_upload('foto')) {
             $data = array("upload_data" => $this->upload->data());
@@ -55,7 +55,7 @@ class Productos extends CI_Controller {
         $this->load->library("upload",$config);
         $this->form_validation->set_rules('inpNombre', 'nombre', 'required');
 		$this->form_validation->set_rules('inpDescripcion', 'descripción', 'required');
-        $this->form_validation->set_rules('inpPrecio', 'precio', 'numeric');
+        $this->form_validation->set_rules('inpPrecio', 'precio', 'trim|required|numeric');
         if($this->upload->do_upload('foto')) {
             $data = array("upload_data" => $this->upload->data());
             $nombreArchivop = $data['upload_data']['file_name'];
