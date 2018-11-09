@@ -38,6 +38,9 @@
 										<th>Inicio</th>
 										<th>Final</th>
 										<th>imagen</th>
+										<th style='text-align:center'>Estado</th>
+										<th style='text-align:center'>Modificar</th>
+										<th style='text-align:center'>Activar/Desactivar</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -105,7 +108,16 @@ $(document).ready(function(){
 							$('#load').show();
 						},
 						success: function (data) {
-							console.log(data);
+							data = JSON.parse(data);
+							if(!data['exito']) {
+								$('#error').html(data['msg']);
+								$('#error').show();
+							}
+							else if(data['exito']) {
+								obtenerDatos($('#opciones').val());
+								$('#formulario')[0].reset();
+								dialogItself.close();
+							}
 					  	},
 					  	error: function(jqXHR, textStatus, errorThrown) {
 							console.log('error::'+errorThrown);
@@ -149,12 +161,12 @@ $(document).ready(function(){
 		$.each(info, function(index, item){
 			var output = null;
 			var output2 = null;
-			if(item['estatus'] == '0') {
+			if(item['status'] == '0') {
 				output = "<small class='label label-danger'>Inactivo</small>";
             output2 = "<i style='color:#f6032f' data-id='"+item['id']+"' data-estatus='"+item['estatus']+"' id='cambiarEstado' class='fa fa-plus-circle fa-sm fa-2x fa-lg'></i>";
 
 			}
-			else if(item['estatus'] == '1') {
+			else if(item['status'] == '1') {
 				output = "<small class='label label-success'>Activo</small>";
 				output2 = "<i style='color:#f6032f' data-id='"+item['id']+"' data-estatus='"+item['estatus']+"' id='cambiarEstado' class='fa fa-minus-circle fa-sm fa-2x fa-lg'></i>";
 			}
@@ -164,7 +176,10 @@ $(document).ready(function(){
 				item['descripcion'],
 				item['fecha_inicial'],
 				item['fecha_fin'],
-				item['imagen']
+				"<img height='30' width='30' src='"+base_url+"assets/images/eventos/"+item['imagen']+"'></img>",
+				output,
+				"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
+				output2
 			]).draw(false).node();
 			$('td:eq(3)', fila).attr('class', 'text-center');
 			$('td:eq(4)', fila).attr('class', 'text-center');

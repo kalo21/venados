@@ -17,8 +17,18 @@ class Eventos_model extends CI_Model{
 		}
 	}
 
-	public function agregarEvento($datos){
-		$this->db->insert('eventos', $datos);
+	public function agregarEvento($datos, $file_nombre){
+
+		$data = array(
+			'nombre' => $datos['inpNombre'],
+			'descripcion' => $datos['inpDescripcion'],
+			'fecha_inicial' => $datos['inpInicioD'],
+			'fecha_fin' => $datos['inpFinD'],
+			'imagen' => $file_nombre,
+			'status' => 1
+		);
+
+		$this->db->insert('eventos', $data);
 		if($this->db->affected_rows() > 0) {
 			return array('exito' => true, 'msg' => 'todo bien baby');
 		}
