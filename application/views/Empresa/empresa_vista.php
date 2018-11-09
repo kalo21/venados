@@ -59,11 +59,16 @@
 <?php $this->load->view('Global/footer')?>
 <script>
 	$(document).ready(function(){
+        var cambio = 0;
 		var tabla = insertarPaginado('tabla');
 		obtenerDatos($('#opciones').val());
         
 		$('#opciones').change(function(){
 			obtenerDatos($('#opciones').val());
+		});
+        
+        $(document).on("change", "#foto", function () {
+			cambio++;
 		});
         
 		$(document).on("click", "#cambiarEstado", function () {
@@ -134,12 +139,18 @@
 				  	cssClass: 'btn-rojo',
                   	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
                     //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
-						$.ajax({
+						var form = $('#frmEmpresa')[0];
+                        var formData = new FormData(form);
+                        console.log(formData);
+                        $.ajax({
 							url: base_url+'index.php/Empresa/agregarEmpresa/',
 						  	type: 'POST',
-						  	data: $('#frmEmpresa').FormData(),
+						  	data: formData,
+                            processData:false,
+                            contentType:false,
+                            cache:false,
 						  	beforeSend: function(){
-							$('#load').show();
+				                $('#load').show();
 							},
 							success: function (data) {
 								data = JSON.parse(data);
@@ -158,6 +169,7 @@
 							},
 							complete: function(){
 								$('#load').hide();
+                                cambio = 0;
 						  	}
 					  	});
 					},
@@ -193,10 +205,24 @@
 				  	cssClass: 'btn-rojo',
                   	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
                     //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
+                        var form = $('#frmEmpresa')[0];
+						var formData = new FormData(form);
+						formData.append('cambio', cambio);
+						formData.append('id',id);
+                        formData.append('oldNombre',$('#inpNombre').attr('data-nombre'));
+                        formData.append('oldDescripcion',$('#inpDescripcion').attr('data-descripcion'));
+                        formData.append('oldRazonSocial',$('#inpRazonSocial').attr('data-razonsocial'));
+                        formData.append('oldRFC',$('#inpRFC').attr('data-rfc'));
+                        formData.append('oldDomicilio',$('#inpDomicilio').attr('data-domicilio'));
+                        formData.append('oldTelefono',$('#inpTelefono').attr('data-telefono'));
+                        formData.append('oldLocal',$('#inpLocal').attr('data-local'));
+                        
 						$.ajax({
 							url: base_url+'index.php/Empresa/modificarEmpresa/',
 						  	type: 'POST',
-						  	data: $('#frmEmpresa').FormData(),
+						  	data:formData,
+                            processData: false,
+							contentType: false,
 						  	beforeSend: function(){
 							$('#load').show();
 							},
@@ -217,6 +243,7 @@
 							},
 							complete: function(){
 								$('#load').hide();
+                                cambio = 0;
 						  	}
 					  	});
 					},
@@ -265,7 +292,7 @@
 					item['id'],
 					item['nombre'],
 					item['local'],
-					"<img height='30' width='30' src='"+base_url+'assets/images/'+item['logotipo']+"'></img>",
+					"<img height='40' width='40' src='"+base_url+item['logotipo']+"'></img>",
 					output,
 					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
 					output2
