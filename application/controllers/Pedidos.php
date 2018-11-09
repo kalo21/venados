@@ -17,4 +17,8 @@ class Pedidos extends CI_Controller {
         }
     }
 
+    public function obtenerPedidos($id) {
+        echo json_encode($this->Pedidos_modelo->obtenerPedidos($id));
+    }
+
 }

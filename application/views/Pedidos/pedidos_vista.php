@@ -4,40 +4,25 @@
 <div class="content-wrapper">
     <section class="content">
         <div class="container-fluid">
-                <div class="row">
+            <div class="row">
                 <div class="col-md-6">
                     <div class="box box-solid">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Lista de pedidos</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <div class="box-group" id="accordion">
-                        <div class="box box-danger">
-                            <div class="box-header with-border">
-                                <p class="col-xs-3">Pedido #527</p>
-                                <p class="col-xs-4">kevin </p>
-                                <p class="col-xs-4">Entregado</p>
-                                <a class="align-middle"><span class="fa fa-plus fa-lg" style="color:#f6032f"></span></a>
-                            </div>
+                        <div class="box-header with-border" style="background-color: #f6032f">
+                            <h3 class="box-title" style="color:white">Lista de pedidos</h3>
                         </div>
-                        <div class="box box-danger">
-                            <div class="box-header with-border">
-                                Pedido #2
+                        <div class="box box-body" id="divPedido">
+                            <!--
+                            <div class="row">
+                                <p class="col-xs-2 col-xs-offset-1"> 590</p>
+                                <p class="col-xs-3">pepe</p>
+                                <p class="col-xs-3">Soliciado</p>
+                                <a href="" class="col-xs-1 col-xs-offset-1 text-middle" ><span class="fa fa-plus" style="font-size: 20px; color: #f6032f"></span></a>
                             </div>
-                        </div>
-                        <div class="box box-danger">
-                            <div class="box-header with-border">
-                                Pedido #3
-                            </div>
-                        </div>
+                            -->
                         </div>
                     </div>
-                    <!-- /.box-body -->
-                    </div>
-                    <!-- /.box -->
                 </div>
-                <!-- /.col -->
+
                 <div class="col-md-6" id="divPedido">
                     <div class="box box-solid">
                         <div class="box-header with-border" style="background-color: #f6032f">
@@ -76,7 +61,7 @@
                                     <button class="btn btn-rojo btn-sm">Finalizado</button>
                                 </div>
                                 <b class="col-xs-2 col-xs-offset-2">Total:</b>
-                                <b class="col-xs-3">$ 900.00</b>
+                                <b class="col-xs-3">$ 750.00</b>
                             </div>
                         </div>
                     </div>
@@ -87,5 +72,49 @@
 
 <?php $this->load->view('Global/footer'); ?>
 <script>
+    $(document).ready(function(){
 
+        obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
+
+        $(document).on('click', '#informacion', function(){
+            console.log($(this).attr('data-id'));
+        });
+
+        function obtenerPedidos(id) {
+            $.ajax({
+                url: base_url+'index.php/Pedidos/obtenerPedidos/'+<?php echo $this->session->idEmpresa;?>,
+                data: id,
+                type: 'POST',
+                beforeSend: function(){
+                    $('#load').show();
+                },
+				success: function(data) {
+                    data = JSON.parse(data);
+                    console.log(data);
+					dibujarPedidos(data);
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log('error::'+errorThrown);
+				},
+                complete:function(){
+                    $('#load').hide();
+                }
+            });
+        }
+
+        function dibujarPedidos(data) {
+            var divPedido = '';
+            data.forEach(function(pedido, index){
+                divPedido += '<div class="row">';
+                divPedido +=    '<p class="col-xs-2 col-xs-offset-1">'+pedido['id']+'</p>';
+                divPedido +=    '<p class="col-xs-3">'+pedido['nombre']+'</p>';
+                divPedido +=    '<p class="col-xs-3">'+pedido['estatus']+'</p>';
+                divPedido +=    '<a  id="informacion" data-id="'+pedido['id']+'"class="col-xs-1 col-xs-offset-1 text-middle" ><span class="fa fa-plus" style="font-size: 20px; color: #f6032f"></span></a>';
+                divPedido += '</div>'
+            });
+            $('#divPedido').html('');
+            $('#divPedido').html(divPedido);
+        }
+
+    });
 </script>
