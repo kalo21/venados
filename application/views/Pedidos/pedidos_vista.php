@@ -16,10 +16,11 @@
                         <div class="box-group" id="accordion">
                         <div class="box box-danger">
                             <div class="box-header with-border">
-                                <p class="col-xs-3">Pedido #527</p>
-                                <p class="col-xs-4">kevin </p>
-                                <p class="col-xs-4">Entregado</p>
-                                <a class="align-middle"><span class="fa fa-plus fa-lg"></span></a>
+                            <h4 class="box-title">
+                                <a data-parent="#accordion" href="#">
+                                Pedido #1
+                                </a>
+                            </h4>
                             </div>
                         </div>
                         <div class="box box-danger">
@@ -48,46 +49,9 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-md-6" id="divPedido">
-                    <div class="box box-solid">
-                        <div class="box-header with-border" style="background-color: #f6032f">
-                            <h3 class="box-title col-xs-4" style="color:white">Pedido #?</h3>
-                            <h3 class="box-title col-xs-8 text-right" style="color:white">Cliente: Lorem ipsum dolor</h3>
-                        </div>
-                        <div class="box box-body">
-                            <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">- 2</p>
-                                <p class="col-xs-6">Café chico</p>
-                                <p class="col-xs-3">$ 150.00</p>
-                            </div>
-                            <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">- 3</p>
-                                <p class="col-xs-6">Café mediano</p>
-                                <p class="col-xs-3">$ 150.00</p>
-                            </div>
-                            <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">- 1</p>
-                                <p class="col-xs-6">Café grande,muy grande, demasiado grande</p>
-                                <p class="col-xs-3">$ 150.00</p>
-                            </div>
-                            <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">- 6</p>
-                                <p class="col-xs-6">Café premium</p>
-                                <p class="col-xs-3">$ 150.00</p>
-                            </div>
-                            <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">- 2</p>
-                                <p class="col-xs-6">Café normal</p>
-                                <p class="col-xs-3">$ 150.00</p>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-5">
-                                    <button class="btn btn-default btn-sm">Cancelar</button>
-                                    <button class="btn btn-rojo btn-sm">Finalizado</button>
-                                </div>
-                                <b class="col-xs-2 col-xs-offset-2">Total:</b>
-                                <b class="col-xs-3">$ 900.00</b>
-                            </div>
-                        </div>
+                    <div>
+                    <h1>Hello, world!</h1>
+                    <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
                     </div>
                 </div>
 		</div>
