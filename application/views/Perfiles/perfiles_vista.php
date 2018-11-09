@@ -269,7 +269,7 @@
 					item['descripcion'],
 					output,
 					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
-					output2
+					output2+"&nbsp;&nbsp;&nbsp;&nbsp;<button type='button' data-id='"+item['id']+"' class='btn btn-rojo btnModulos'>Modulos<i class='entypo-layout'></i> </button>"
 				]).draw(false).node();
 				$('td:eq(3)', fila).attr('class', 'text-center');
 				$('td:eq(4)', fila).attr('class', 'text-center');
@@ -277,4 +277,31 @@
 			});
 		}
 	});
+	$('#tabla').delegate(".btnModulos","click", function(){
+	      var dodo = $(this); //Acceder al contenido de la etiqueta 'a'
+	      var actualid = dodo.data('id');
+	      BootstrapDialog.show({
+	          title: 'Modulos en el perfil', // Aquí se pone el título
+	          size: BootstrapDialog.SIZE_WIDE, //Indica el tamaño
+	          message: function(dialog) { 
+	              var $message = $('<div></div>');
+	              var pageToLoad = dialog.getData('pageToLoad');
+	              $message.load(pageToLoad); //Cargamos la vista
+
+	              return $message;
+	          },
+	          data: {
+	              'pageToLoad': base_url+'index.php/Perfiles/agregarModulos_modal/'+actualid
+	          },
+	          buttons: [{ //agrega los botones del modal
+	              label: 'Cerrar',
+	              cssClass: 'btn-rojo',
+	              action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+	                  dialogItself.close();
+	              },
+
+	          }]
+	        });
+
+	    });
 </script>

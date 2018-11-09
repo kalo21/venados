@@ -1,29 +1,29 @@
 <div id="error" hidden class="alert alert-warning">
     
 </div>
-<form class="form-horizontal" id="frmAgregarProducto">
+<form class="form-horizontal" id="frmAgregarProducto" enctype="multipart/form-data">
     <div class="form-group">
         <label class="col-sm-3 control-label">Nombre</label>
         <div class="col-sm-9">
-            <input type="text" data-nombre = "<?php echo(isset($datos->nombre)) ? $datos->nombre : '';?>" value ="<?php echo(isset($datos->nombre)) ? $datos->nombre : '' ;?>" class="form-control" id="inpNombre" name="inpNombre">
+            <input type="text" data-nombre = "<?php echo(isset($datos->nombre)) ? $datos->nombre : '';?>" value ="<?php echo(isset($datos->nombre)) ? $datos->nombre : '' ;?>" class="form-control LetrasNumeros" id="inpNombre" name="inpNombre">
         </div>        
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label">Descripcion</label>
         <div class="col-sm-9">
-            <input type="text" data-descripcion = "<?php echo(isset($datos->descripcion)) ? $datos->descripcion : '';?>" value ="<?php echo(isset($datos->descripcion)) ? $datos->descripcion : '' ;?>" class="form-control" id="inpDescripcion" name="inpDescripcion">
+            <input type="text" data-descripcion = "<?php echo(isset($datos->descripcion)) ? $datos->descripcion : '';?>" value ="<?php echo(isset($datos->descripcion)) ? $datos->descripcion : '' ;?>" class="form-control LetrasNumeros" id="inpDescripcion" name="inpDescripcion">
         </div> 
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label">Precio</label>
         <div class="col-sm-9">
-            <input type="text" data-precio = "<?php echo(isset($datos->precio)) ? $datos->precio : '';?>" value ="<?php echo(isset($datos->precio)) ? $datos->precio : '' ;?>" class="form-control" id="inpPrecio" name="inpPrecio">
+            <input type="text" data-precio = "<?php echo(isset($datos->precio)) ? $datos->precio : '';?>" value ="<?php echo(isset($datos->precio)) ? $datos->precio : '' ;?>" class="form-control Numeros" id="inpPrecio" name="inpPrecio">
         </div> 
     </div>
     <div class="custom-file">
     <div class="form-group text-center" id="divImagen">
-        <label for="foto">  <img style="height: 150px;" src="<?php echo base_url('assets/img/no-imagen.jpg')?>" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>
-        <input class="form-control" type="file" id="foto" style="display: none" accept="image/*">
+        <label for="foto" id="labelImg">  <img style="height: 150px;" src="<?php echo (isset($datos->imagen)) ? base_url($datos->imagen) : base_url('assets/images/productos.png')?>" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>
+        <input class="form-control" type="file" name="foto" id="foto" style="display: none" accept="image/*">
     </div> 
     </div>
 </form>
@@ -43,9 +43,8 @@ function previewImagen(input){
         reader.onload = function(e){
             //$('#formServicio + img').remove();
             x+='<label for="foto"> <img style="height: 150px;" src="'+e.target.result+'" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>';
-            x+='<input class="form-control" type="file" name= "foto" id="foto" style="display: none" accept="image/*">';
-            $('#divImagen').html("");
-            $('#divImagen').html(x);
+            $('#labelImg').html("");
+            $('#labelImg').html(x);
         }                
     }
 }
