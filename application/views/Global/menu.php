@@ -19,8 +19,6 @@
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">Menú de navegación</li>
-        <li style="border-top: 1px solid #ffffff;"><a href="<?= base_url();?>"><i class="fa fa-home"></i> <span>Inicio</span></a></li>
         <?php
             if(isset($modulos)){
                 foreach ($modulos as $modulo) {
