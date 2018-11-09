@@ -53,4 +53,8 @@ class Eventos extends CI_Controller{
 			echo json_encode(array('exito' => false, 'msg' => $this->upload->display_errors()));
 		}
 	}
+
+	public function cambiarEstado() {
+		$this->Eventos_model->cambiarEstado($this->input->post('id'), $this->input->post('status'));
+    }
 }

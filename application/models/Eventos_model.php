@@ -37,4 +37,16 @@ class Eventos_model extends CI_Model{
 		}
 		//echo $this->db->last_query();
 	}
+
+	public function cambiarEstado($id, $status) {
+		if($status == 1) {
+			$status = 0;
+		}
+		else {
+			$status = 1;
+		}
+		$estado = array('status' => $status);
+		$this->db->where('id', $id);
+		$this->db->update('eventos', $estado);
+	}
 }
