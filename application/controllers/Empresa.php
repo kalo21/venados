@@ -41,10 +41,11 @@ class Empresa extends CI_Controller {
         ];
         $this->load->library("upload",$config);
 		$this->form_validation->set_rules('inpNombreE', 'Nombre de empresa', 'required|is_unique[empresas.nombre]');
+        $this->form_validation->set_rules('inpDescripcion', 'Descripcion', 'required');
 		$this->form_validation->set_rules('inpRazonSocial', 'Razón social', 'required');
 		$this->form_validation->set_rules('inpRFC', 'RFC', 'required');
 		$this->form_validation->set_rules('inpDomicilio', 'Domicilio de empresa', 'required');
-		$this->form_validation->set_rules('inpTelefono', 'Teléfono de empresa', 'required');
+		$this->form_validation->set_rules('inpTelefono', 'Teléfono de empresa', 'numeric');
 		$this->form_validation->set_rules('inpLocal', 'Local', 'required');
 		$this->form_validation->set_rules('inpNombre', 'Nombre', 'required');
 		$this->form_validation->set_rules('inpContrasena', 'Contraseña', 'trim|required|min_length[8]');
@@ -87,10 +88,11 @@ class Empresa extends CI_Controller {
         ];
         $this->load->library("upload",$config);
 		$this->form_validation->set_rules('inpNombreE', 'Nombre de empresa', 'required');
+        $this->form_validation->set_rules('inpDescripcion', 'Descripcion', 'required');
 		$this->form_validation->set_rules('inpRazonSocial', 'Razón social', 'required');
 		$this->form_validation->set_rules('inpRFC', 'RFC', 'required');
 		$this->form_validation->set_rules('inpDomicilio', 'Domicilio de empresa', 'required');
-		$this->form_validation->set_rules('inpTelefono', 'Teléfono de empresa', 'required');
+		$this->form_validation->set_rules('inpTelefono', 'Teléfono de empresa', 'numeric');
 		$this->form_validation->set_rules('inpLocal', 'Local', 'required');
         if($this->upload->do_upload('foto')) {
             $data = array("upload_data" => $this->upload->data());
