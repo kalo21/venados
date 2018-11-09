@@ -4,7 +4,6 @@
 <div class="content-wrapper">
     <section class="content">
         <div class="container-fluid">
-                <h2 class="page-header">Pedidos</h2>
                 <div class="row">
                 <div class="col-md-6">
                     <div class="box box-solid">
@@ -19,25 +18,17 @@
                                 <p class="col-xs-3">Pedido #527</p>
                                 <p class="col-xs-4">kevin </p>
                                 <p class="col-xs-4">Entregado</p>
-                                <a class="align-middle"><span class="fa fa-plus fa-lg"></span></a>
+                                <a class="align-middle"><span class="fa fa-plus fa-lg" style="color:#f6032f"></span></a>
                             </div>
                         </div>
                         <div class="box box-danger">
                             <div class="box-header with-border">
-                            <h4 class="box-title">
-                                <a data-parent="#accordion" href="#">
                                 Pedido #2
-                                </a>
-                            </h4>
                             </div>
                         </div>
                         <div class="box box-danger">
                             <div class="box-header with-border">
-                            <h4 class="box-title">
-                                <a data-parent="#accordion" href="#">
                                 Pedido #3
-                                </a>
-                            </h4>
                             </div>
                         </div>
                         </div>
@@ -55,27 +46,27 @@
                         </div>
                         <div class="box box-body">
                             <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">- 2</p>
+                                <p class="col-xs-2 col-xs-offset-1">· 2</p>
                                 <p class="col-xs-6">Café chico</p>
                                 <p class="col-xs-3">$ 150.00</p>
                             </div>
                             <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">- 3</p>
+                                <p class="col-xs-2 col-xs-offset-1">· 3</p>
                                 <p class="col-xs-6">Café mediano</p>
                                 <p class="col-xs-3">$ 150.00</p>
                             </div>
                             <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">- 1</p>
+                                <p class="col-xs-2 col-xs-offset-1">· 1</p>
                                 <p class="col-xs-6">Café grande,muy grande, demasiado grande</p>
                                 <p class="col-xs-3">$ 150.00</p>
                             </div>
                             <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">- 6</p>
+                                <p class="col-xs-2 col-xs-offset-1">· 6</p>
                                 <p class="col-xs-6">Café premium</p>
                                 <p class="col-xs-3">$ 150.00</p>
                             </div>
                             <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">- 2</p>
+                                <p class="col-xs-2 col-xs-offset-1">· 2</p>
                                 <p class="col-xs-6">Café normal</p>
                                 <p class="col-xs-3">$ 150.00</p>
                             </div>
