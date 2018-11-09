@@ -20,16 +20,6 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Menú de navegación</li>
-<<<<<<< HEAD
-        <li style="border-top: 1px solid #ffffff;"><a href="<?= base_url();?>index.php/Inicio/index"><i class="fa fa-home"></i> <span>Inicio</span></a></li>
-        <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/Empresa"><i class="fa fa-building"></i> <span>Empresa</span></a></li>
-        <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/productos"><i class="fa fa-product-hunt"></i> <span>Productos</span></a></li>
-        <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/eventos"><i class="fa fa-user-circle"></i> <span>Eventos</span></a></li>
-        <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/Inicio/salir"><i class="fa fa-shopping-cart"></i> <span>Pedidos</span></a></li>
-        <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/Usuarios"><i class="fa fa-users"></i> <span>Usuarios</span></a></li>
-        <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/perfiles"><i class="fa fa-user-circle"></i> <span>Perfiles</span></a></li>
-        <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/modulos"><i class="fa fa-th-large "></i> <span>Módulos</span></a></li>
-=======
         <li style="border-top: 1px solid #ffffff;"><a href="<?= base_url();?>"><i class="fa fa-home"></i> <span>Inicio</span></a></li>
         <?php
             if(isset($modulos)){
@@ -43,7 +33,6 @@
                 }
             }
         ?>
->>>>>>> 098908cee0d868e459c2e87f5876b965b0d8720b
         <li style="border-top: 1px solid #ffffff;" ><a href="<?= base_url();?>index.php/Inicio/salir"><i class="fa fa-power-off"></i> <span>Salir</span></a></li>
        
       </ul>

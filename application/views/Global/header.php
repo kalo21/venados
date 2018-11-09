@@ -29,15 +29,10 @@
   
    <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap.min.css'); ?>">
    <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-datetimepicker.min.css'); ?>">
-  
-
+   
   
    <link rel="icon" href="<?php echo base_url(); ?>assets/images/logo-v.jpg">
    <style>
-       
-       .bg-aqua, .callout.callout-info, .alert-info, .label-info, .modal-info .modal-body {
-            background-color: #f6032f !important;
-        }
        
        .btn-rojo {
           color: #fff;
