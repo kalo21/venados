@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login4</title>
+	<title>Login | VenadoSnacks</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/bootstrap.min.css">
 <!--===============================================================================================-->
@@ -26,6 +24,24 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/util.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/main.css">
 <!--===============================================================================================-->
+	<link rel="icon" href="<?php echo base_url(); ?>assets/images/logo-v.jpg">
+<style>
+	#load { height: 100%; width: 100%; }
+	#load {
+	  position    : fixed;
+	  z-index     : 99999; /* or higher if necessary */
+	  top         : 0;
+	  left        : 0;
+	  overflow    : hidden;
+	  /*text-indent : 100%;*/
+	  text-align: center;
+	  font-family: Poppins-Regular;
+	  color: white;
+	  font-size   : 40px;
+	  opacity     : 0.8;
+	  background  : #000  url(<?php echo base_url('assets/images/carga.gif');?>) center no-repeat;
+	}
+</style>
 </head>
 <body>
 	
@@ -41,7 +57,9 @@
 					<span class="login100-form-title p-b-34 p-t-27">
 						Inicio de sesión
 					</span>
-
+					<div class="col-12">
+						
+					</div>
 					<div id="divUsuario" class="wrap-input100 validate-input" data-validate = "El usuario es requerido">
 						<input class="input100" type="text" name="inpUsuario" id="inpUsuario" placeholder="Usuario">
 						<span class="focus-input100" data-placeholder="&#xf207;"></span>
@@ -52,10 +70,10 @@
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
 
-					<div class="contact100-form-checkbox">
-						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-						<label class="label-checkbox100" for="ckb1">
-							Recordarme
+					<div id="error" hidden class="contact100-form-checkbox" >
+						<!--<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">-->
+						<label  id="msg-error" class="label-error text-center border">
+							Usuario/Contraseña incorrecta
 						</label>
 					</div>
 
@@ -65,7 +83,7 @@
 						</button>
 					</div>
 
-					<div class="text-center p-t-90">
+					<div class="text-center p-t-40" >
 						<a id="olvContra" class="txt1">
 							Olvido Usuario / Contraseña?
 						</a>
@@ -94,10 +112,12 @@
 	<script src="<?php echo base_url();?>assets/js/countdowntime.js"></script>
 <!--===============================================================================================-->
 	<script src="<?php echo base_url();?>assets/js/main.js"></script>
-
+<div hidden id="load" >Iniciando sesión ...</div>
 </body>
 </html>
 <script>
+	$(document).ajaxStart(function() {$('#load').show();});
+	$(document).ajaxStop(function() {$('#load').hide();});
 	$(document).ready(function(){
 		var base_url = "<?php echo base_url();?>";
 		$('#olvContra').click(function(){
@@ -139,20 +159,23 @@
 				$('#divUsuario').removeClass('alert-validate');
 			}
 			if($('#inpUsuario').val() != "" && $('#inpContrasena').val() != "") {
+				$('#error').hide();
 				$.ajax({
 					url: base_url+'index.php/Inicio/ingresar',
 					method:'post',
 					data: $('#frmLogin').serialize(),
-					beforeSend: function() {
-						$('#load').show();
-					},	
 					success: function(data) {
-						if(data) {
-							location.href = base_url+'index.php/Empresa';
+						data =  JSON.parse(data);
+						console.log(data);
+						if(data['code']) {
+							$('#error').show();
+							$('#msg-error').html(data['message']);
+							window.location.href = base_url;
 						}
-					},
-					complete: function() {
-						$('#load').hide();
+						else if(!data['code']){
+							$('#error').show();
+							$('#msg-error').html(data['message']);
+						}
 					}
 				});
 			}

@@ -17,7 +17,7 @@ class Perfiles_modelo extends CI_Model{
 			$this->db->where('estatus', $estatus);
 			
 		} 
-		$query = $this->db->get('Perfiles');
+		$query = $this->db->get('perfiles');
 		if($query->num_rows() > 0) {
 			return $query->result();
 		}
@@ -34,14 +34,14 @@ class Perfiles_modelo extends CI_Model{
 		}
         //Consultar
         $this->db->where('id', $id);
-        $registro = $this->db->get('Perfiles')->row();
+        $registro = $this->db->get('perfiles')->row();
         if($registro->estatus == $estatus){
             return array('exito' => false,'msg' => 'El dato no se actualizó porque el cambio ya se habia realizado');
         }
         //Actualizar
 		$estado = array('estatus' => $estatus);
 		$this->db->where('id', $id);
-		$this->db->update('Perfiles', $estado);
+		$this->db->update('perfiles', $estado);
         if($this->db->affected_rows() > 0){
             return array('exito' => true,'msg' => '');
         }
@@ -52,7 +52,7 @@ class Perfiles_modelo extends CI_Model{
 	
 	public function agregarPerfil($data) {
 		$this->db->where('nombre', $data['inpNombre']);
-		$aux = $this->db->get('Perfiles');
+		$aux = $this->db->get('perfiles');
 		if($aux->num_rows() > 0) {
 			return array('exito' => false, 'msg' => '<li>El nombre ya se encuentra registrado</li>');
 		}
@@ -62,7 +62,7 @@ class Perfiles_modelo extends CI_Model{
 				"descripcion" => $data['inpDescripcion'],
 				"estatus" => 1
 			);
-			$this->db->insert('Perfiles', $datos);
+			$this->db->insert('perfiles', $datos);
 			if($this->db->affected_rows() > 0) {
 				return array('exito' => true, 'msg' => '');
 			}
@@ -114,6 +114,27 @@ class Perfiles_modelo extends CI_Model{
 		$this->db->where('id', $id);
 		$query = $this->db->get('perfiles')->row();
 		return $query;
+	}
+	public function agregarModulo($data){
+	  	$this->db->insert('perfilesmodulos', $data);
+      	if ($this->db->affected_rows() > 0) {
+        	return true;
+      	}
+      	else{
+        	return false;
+      	}
+	}
+	
+	public function eliminarModulo($id_perfil,$id_modulo){
+	  	$this->db->where('idperfil',$id_perfil);
+	  	$this->db->where('idmodulo',$id_modulo);
+	  	$this->db->delete('perfilesmodulos');
+      	if ($this->db->affected_rows() > 0) {
+        	return true;
+      	}
+      	else{
+        	return false;
+      	}
 	}
 	
 }

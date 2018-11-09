@@ -32,9 +32,9 @@ class Productos_modelo extends CI_Model {
 		$this->db->where('id', $id);
 		$this->db->update('productos', $estado);
 	}
-	public function agregarProducto($data) {
+	public function agregarProducto($data, $nombreArchivo) {
 		$this->db->where('nombre', $data['inpNombre']);
-
+		$this->db->where('idempresa', $this->session->idEmpresa);
 		$aux = $this->db->get('productos');
 		if($aux->num_rows() > 0) {
 			return array('exito' => false, 'msg' => '<li>El nombre ya se encuentra registrado</li>');
@@ -46,7 +46,8 @@ class Productos_modelo extends CI_Model {
 				"precio" => $data['inpPrecio'],
 				//"imagen" => $data['inpImagen'],
 				"estatus" => 1,
-				"idempresa" => $this->session->idEmpresa
+				"idempresa" => $this->session->idEmpresa,
+				"imagen" => 'assets/Empresas/'.$this->session->idEmpresa.'/Productos/'.$nombreArchivo
 			);
 			$this->db->insert('productos', $datos);
 			if($this->db->affected_rows() > 0) {
@@ -58,13 +59,13 @@ class Productos_modelo extends CI_Model {
 		}
 	}
 
-	public function modificarProducto($data) {
-
-		if($data['inpNombre'] == $data['oldNombre'] && $data['inpDescripcion'] == $data['oldDescripcion'] && $data['inpPrecio'] == $data['oldPrecio']) {
+	public function modificarProducto($data, $nombreArchivo = '') {
+		if($data['cambio'] == 0 && $data['inpNombre'] == $data['oldNombre'] && $data['inpDescripcion'] == $data['oldDescripcion'] && $data['inpPrecio'] == $data['oldPrecio']) {
 			return array('exito' => false, 'msg' =>'No se actualizaron los datos porque no hubo cambios');
 		}
 		if($data['inpNombre'] != $data['oldNombre']) {
 			$this->db->where('nombre', $data['inpNombre']);
+			$this->db->where('idempresa', $this->session->idEmpresa);
 			$query = $this->db->get('productos');
 			if($query->num_rows() > 0) {
 				$query = $query->row();
@@ -72,11 +73,21 @@ class Productos_modelo extends CI_Model {
 					return array('exito' => false, 'msg' => 'El nombre insertado ya se encuentra utilizado');
 				}	
 			}
-			$datos = array(
-				'nombre' => $data['inpNombre'],
-				'descripcion' => $data['inpDescripcion'],
-				'precio' => $data['inpPrecio']
-			);
+			if($data['cambio'] != 0) {
+				$datos = array(
+					'nombre' => $data['inpNombre'],
+					'descripcion' => $data['inpDescripcion'],
+					'precio' => $data['inpPrecio'],
+					'imagen' => 'assets/Empresas/'.$this->session->idEmpresa.'/Productos/'.$nombreArchivo
+				);
+			}
+			else {
+				$datos = array(
+					'nombre' => $data['inpNombre'],
+					'descripcion' => $data['inpDescripcion'],
+					'precio' => $data['inpPrecio']
+				);
+			}
 			$this->db->where('id', $data['id']);
 			$this->db->update('productos', $datos);
 			if($this->db->affected_rows() > 0) {
@@ -86,11 +97,20 @@ class Productos_modelo extends CI_Model {
 				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
 			}
 		}
-		else if($data['inpDescripcion'] != $data['oldDescripcion'] || $data['inpPrecio'] != $data['oldPrecio']) {
-			$datos = array(
-				'descripcion' => $data['inpDescripcion'],
-				'precio' => $data['inpPrecio']
-			);
+		else if($data['cambio'] != 0 || $data['inpDescripcion'] != $data['oldDescripcion'] || $data['inpPrecio'] != $data['oldPrecio']) {
+			if($data['cambio'] != 0) {
+				$datos = array(
+					'descripcion' => $data['inpDescripcion'],
+					'precio' => $data['inpPrecio'],
+					'imagen' => 'assets/Empresas/'.$this->session->idEmpresa.'/Productos/'.$nombreArchivo
+				);
+			}
+			else {
+				$datos = array(
+					'descripcion' => $data['inpDescripcion'],
+					'precio' => $data['inpPrecio']
+				);
+			}
 			$this->db->where('id', $data['id']);
 			$this->db->update('productos', $datos);
 			if($this->db->affected_rows() > 0) {

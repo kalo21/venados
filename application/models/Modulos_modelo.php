@@ -100,5 +100,31 @@ class Modulos_modelo extends CI_Model{
 		//echo $this->db->last_query();
 		return $query;
 	}
+	public function modulosXPerfil($idPerfil){
+        $query = $this->db->query("SELECT * , (SELECT 'si' FROM perfilesmodulos WHERE perfilesmodulos.`idmodulo` = modulos.id AND perfilesmodulos.`idperfil` = $idPerfil) tiene FROM modulos;");
+        return $query->result();
+    }
+
+    public function validarPerfil($idPerfil,$ruta){
+    	$this->db->join('modulos', 'modulos.id = perfilesmodulos.idmodulo');
+        $this->db->where('perfilesmodulos.idperfil', $idPerfil);
+        $this->db->where('modulos.ruta', $ruta);
+		$query = $this->db->get('perfilesmodulos');
+		if ($query->num_rows() > 0) {
+		  	return true;
+		}
+		else{
+		  	return false;
+		 }
+    }
+    public function obtenerModulosXPerfil($id){
+        $this->db->select('*');
+        $this->db->join('modulos', 'modulos.id = perfilesmodulos.idmodulo');
+        $this->db->where('perfilesmodulos.idperfil',$id);
+        $this->db->where('modulos.estatus',1);
+        $this->db->order_by("modulos.nombre asc");
+        return $this->db->get('perfilesmodulos')->result();
+        
+    }
 	
 }
