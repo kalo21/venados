@@ -27,7 +27,6 @@ class Empresa_modelo extends CI_Model{
 	public function obtenerDatos($id) {
 		$this->db->where('id', $id);
 		$query = $this->db->get('empresas')->row();
-        $query->descripcion =  str_replace('-',',', $query->descripcion);
 		return $query;
 	}
 
@@ -43,8 +42,8 @@ class Empresa_modelo extends CI_Model{
 		$this->db->update('empresas', $estado);
 	}
 	
-	public function agregarEmpresa($data, $nombreArchivo) {
-		$this->db->where('nombre', $data['inpNombreE']);
+	public function agregarEmpresa($data) {
+		$this->db->where('nombre', $data['inpNombreEmpresa']);
 		$query = $this->db->get('empresas');
 		if($query->num_rows() > 0) {
 			return array('exito' => false, 'msg' => '<li>El nombre de la empresa ya se encuentra registrado</li>');
@@ -67,102 +66,27 @@ class Empresa_modelo extends CI_Model{
 		$this->db->where('nombre', $data['inpNombre']);
 		$query = $this->db->get('usuarios')->row();
 		$datosEmpresa = array(
-			'nombre' => $data['inpNombreE'],
+			'nombre' => $data['inpNombreEmpresa'],
 			'razonsocial' => $data['inpRazonSocial'],
-            'descripcion' => str_replace(',','-',$data['inpDescripcion']),
 			'rfc' => $data['inpRFC'],
-			'domicilio' => $data['inpDomicilio'],
-			'telefono' => $data['inpTelefono'],
+			'domicilio' => $data['inpDomicilioEmpresa'],
+			'telefono' => $data['inpTelefonoEmpresa'],
 			'local' => $data['inpLocal'],
 			'estatus' => 1,
 			'id_usuario' => $query->id
 		);
 		$this->db->insert('empresas', $datosEmpresa);
-        $idRegistrado = $this->db->insert_id();
 			if($this->db->affected_rows() > 0) {
-                $imagenEmpresa = array("logotipo" => 'assets/Empresas/'.$idRegistrado.'/'.$nombreArchivo);
-                $this->db->where('id', $idRegistrado);
-                $this->db->update('empresas', $imagenEmpresa);
-				return array('exito' => true, 'msg' => $idRegistrado);
+				return array('exito' => true, 'msg' => '');
 			}
 			else {
 				return array('exito' => false, 'msg' => '<li>No se guardo la empresa en la base de datos, intente de nuevo</li>');
 			}
 	}
 
-	public function modificarEmpresa($data, $nombreArchivo = '') {
-		if($data['cambio'] == 0 && $data['inpNombreE'] == $data['oldNombre'] && $data['inpDescripcion'] == $data['oldDescripcion'] && $data['inpRazonSocial'] == $data['oldRazonSocial'] && $data['inpRFC'] == $data['oldRFC'] && $data['inpDomicilio'] == $data['oldDomicilio'] && $data['inpTelefono'] == $data['oldTelefono'] && $data['inpLocal'] == $data['oldLocal']) {
-			return array('exito' => false, 'msg' =>'No se actualizaron los datos porque no hubo cambios');
-		}
-		if($data['inpNombreE'] != $data['oldNombre']) {
-			$this->db->where('nombre', $data['inpNombreE']);
-			$query = $this->db->get('empresas');
-			if($query->num_rows() > 0) {
-				$query = $query->row();
-				if($query->nombre === $data['inpNombreE']) {
-					return array('exito' => false, 'msg' => 'El nombre insertado ya se encuentra utilizado');
-				}	
-			}
-			if($data['cambio'] != 0) {
-				$datos = array(
-					'nombre' => $data['inpNombreE'],
-					'descripcion' => str_replace(',','-',$data['inpDescripcion']),
-					'razonsocial' => $data['inpRazonSocial'],
-                    'rfc' => $data['inpRFC'],
-                    'domicilio' => $data['inpDomicilio'],
-                    'telefono' => $data['inpTelefono'],
-                    'local' => $data['inpLocal'],
-					'imagen' => 'assets/Empresas/'.$data['id'].'/'.$nombreArchivo
-				);
-			}
-			else {
-				$datos = array(
-					'nombre' => $data['inpNombreE'],
-					'descripcion' => str_replace(',','-',$data['inpDescripcion']),
-					'razonsocial' => $data['inpRazonSocial'],
-                    'rfc' => $data['inpRFC'],
-                    'domicilio' => $data['inpDomicilio'],
-                    'telefono' => $data['inpTelefono'],
-                    'local' => $data['inpLocal']
-				);
-			}
-			$this->db->where('id', $data['id']);
-			$this->db->update('empresas', $datos);
-			if($this->db->affected_rows() > 0) {
-				return array('exito' => true, 'msg' => '');
-			}
-			else {
-				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
-			}
-		}
-		else if($data['cambio'] != 0 || $data['inpDescripcion'] != $data['oldDescripcion'] || $data['inpRazonSocial'] != $data['oldRazonSocial'] || $data['inpRFC'] != $data['oldRFC'] || $data['inpDomicilio'] != $data['oldDomicilio'] || $data['inpTelefono'] != $data['oldTelefono'] || $data['inpLocal'] != $data['oldLocal']) {
-			if($data['cambio'] != 0) {
-				$datos = array(
-					'descripcion' => str_replace(',','-',$data['inpDescripcion']),
-					'razonsocial' => $data['inpRazonSocial'],
-                    'rfc' => $data['inpRFC'],
-                    'domicilio' => $data['inpDomicilio'],
-                    'telefono' => $data['inpTelefono'],
-                    'local' => $data['inpLocal'],
-					'imagen' => 'assets/Empresas/'.$data['id'].'/'.$nombreArchivo
-				);
-			}
-			else {
-				$datos = array(
-					'descripcion' => str_replace(',','-',$data['inpDescripcion']),
-					'razonsocial' => $data['inpRazonSocial'],
-                    'rfc' => $data['inpRFC'],
-                    'domicilio' => $data['inpDomicilio'],
-                    'telefono' => $data['inpTelefono'],
-                    'local' => $data['inpLocal']
-				);
-			}
-			$this->db->where('id', $data['id']);
-			$this->db->update('empresas', $datos);
-			if($this->db->affected_rows() > 0) {
-				return array('exito' => true, 'msg' => '');
-			}
-		}
+	public function modificarEmpresa() {
+		//TBA
+		return;
 	}
 
 }

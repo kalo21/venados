@@ -44,6 +44,7 @@ class Productos_modelo extends CI_Model {
 				"nombre" => $data['inpNombre'],
 				"descripcion" => $data['inpDescripcion'],
 				"precio" => $data['inpPrecio'],
+				//"imagen" => $data['inpImagen'],
 				"estatus" => 1,
 				"idempresa" => $this->session->idEmpresa,
 				"imagen" => 'assets/Empresas/'.$this->session->idEmpresa.'/Productos/'.$nombreArchivo
