@@ -115,6 +115,4 @@ class Empresa extends CI_Controller {
             }
         }
 	}
-
 }
-
