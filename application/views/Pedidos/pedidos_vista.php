@@ -52,7 +52,7 @@
 							},
 							success: function() {
                                 obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
-                                $('#infoPedido').fadeOut();
+                                $('#infoPedido').fadeOut('slow');
 							},
 							error: function(jqXHR, textStatus, errorThrown) {
 								console.log('error::'+errorThrown);
@@ -86,7 +86,7 @@
 							},
 							success: function() {
                                 obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
-                                $('#infoPedido').fadeOut();
+                                $('#infoPedido').fadeOut('slow');
 							},
 							error: function(jqXHR, textStatus, errorThrown) {
 								console.log('error::'+errorThrown);
@@ -113,7 +113,7 @@
                     data = JSON.parse(data);
                     if(data) {
                         infopedido(data);
-                        $('#infoPedido').fadeIn();
+                        $('#infoPedido').fadeIn('slow');
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -128,8 +128,7 @@
 
         function obtenerPedidos(id) {
             $.ajax({
-                url: base_url+'index.php/Pedidos/obtenerPedidos/'+<?php echo $this->session->idEmpresa;?>,
-                data: id,
+                url: base_url+'index.php/Pedidos/obtenerPedidos/',
                 type: 'POST',
                 beforeSend: function(){
                     $('#load').show();

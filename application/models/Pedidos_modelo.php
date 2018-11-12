@@ -8,6 +8,7 @@ class Pedidos_modelo extends CI_Model{
         $this->db->join('usuarios', 'usuarios.id = pedidos.idusuario');
         $this->db->where('pedidos.idempresa', $id);
         $this->db->where('pedidos.estatus !=', 'Entregado');
+        $this->db->where('pedidos.estatus !=', 'Cancelado');
         $query = $this->db->get();
         return $query->result();
     }
