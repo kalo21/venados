@@ -19,7 +19,7 @@
 				</select>
   			</div>
             <div class="col-xs-2">
-                <input type="date" class="form-control">
+                <input type="date" id="fecha" class="form-control">
   			</div>
   		</div>
   		<br>
@@ -50,11 +50,6 @@
 							</table>
 						</div>
 					</div>
-					<div class="box-footer">
-						<div class="row-fluid pull-right">
-							<button type="button" id="btnAgregar" class="btn btn-rojo">Agregar</button>
-						</div>
-					</div>
 			  	</div>
 			</div>
 		</div>
@@ -70,7 +65,27 @@
         obtenerDatos($('#opciones').val());
 
         $(document).on('click', '#informacion', function() {
-            alert('click');
+            var id = $(this).attr('data-id');
+            BootstrapDialog.show({
+                title: 'Pedido #'+id, // Aquí se pone el título
+				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
+				message: function(dialog) { 
+					var $message = $('<div></div>');
+					var pageToLoad = dialog.getData('pageToLoad');
+					$message.load(pageToLoad); //Cargamos la vista
+					return $message;
+				},
+				data: {
+					'pageToLoad': base_url+'index.php/Historial/informacion/'+id
+				},
+				buttons: [{ //agrega los botones del modal
+					label: 'Cerrar',
+					cssClass: 'btn-default',
+					action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+						dialogItself.close();
+					},
+				}],
+            });
         });
 
         $('#opciones').change(function() {
@@ -112,11 +127,11 @@
 					item['nombre'],
 					item['total'],
                     item['fecha'],
-					'<a  id="informacion" data-id="'+item['id']+'"class="col-xs-1 col-xs-offset-1 text-middle"><span class="fa fa-plus" style="font-size: 20px; color: #f6032f;"></span></a>',
+					'<i  id="informacion" data-id="'+item['id']+'"class="fa fa-plus" style="font-size: 20px; color: #f6032f;"></i>',
 					item['estatus']
 				]).draw(false).node();
-				$('td:eq(3)', fila).attr('class', 'text-center');
 				$('td:eq(4)', fila).attr('class', 'text-center');
+				$('td:eq(5)', fila).attr('class', 'text-center');
 			});
 		}
     });

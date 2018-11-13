@@ -120,7 +120,6 @@
 
 		$('#btnAgregar').click(function() {
 			BootstrapDialog.show({
-				
                 title: 'Agregar Producto', // Aquí se pone el título
 				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
 				message: function(dialog) { 
@@ -138,7 +137,6 @@
 					action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
 						dialogItself.close();
 					},
-
 				},
                 {	 //agrega los botones del modal
 				  	label: 'Guardar',

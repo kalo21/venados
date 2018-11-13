@@ -20,4 +20,9 @@ class Historial extends CI_Controller {
     public function obtenerPedidos() {
         echo json_encode($this->Historial_modelo->obtenerPedidos($this->input->post('estatus')));
     }
+
+    public function informacion($id) {
+        $data['datos'] = $this->Historial_modelo->informacionPedido($id);
+        $this->load->view('Historial/historial_modal', $data);
+    }
 }

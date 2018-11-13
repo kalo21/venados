@@ -123,7 +123,6 @@
                     $('#load').hide();
                 }
             });
-            
         });
 
         function obtenerPedidos(id) {
