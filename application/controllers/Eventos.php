@@ -6,10 +6,15 @@ class Eventos extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Eventos_model');
+		$this->load->helper(array('funciones_generales_helper','url'));
 	}
 
 	public function index(){
-		$this->load->view('Eventos/Eventos_vista');
+		if(validacion()){
+            $data['modulos'] = modulos();
+            $data['informacion'] = informacionInicial("Venados | Empresa");
+    		$this->load->view('Eventos/Eventos_vista',$data);
+        }
 	}
 
 	public function obtenerEventos($estatus) {
