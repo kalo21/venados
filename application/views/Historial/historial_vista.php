@@ -9,18 +9,34 @@
             </div>
         </div>
         <div class="row">
-  			<div class="col-xs-2">
-				<select name="" id="opciones" class="form-control">
-                    <option value="0">Todos</option>
-					<option value="1">Solicitado</option>
-					<option value="2">Cancelado</option>
-					<option value="3">Entregado</option>
-					<option value="4">Realizado</option>
-				</select>
+  			<div class="form-group col-md-2">
+			  <div class="input-group">
+					<select name="" id="opciones" class="form-control">
+						<option value="0">Todos</option>
+						<option value="1">Solicitado</option>
+						<option value="2">Cancelado</option>
+						<option value="3">Entregado</option>
+						<option value="4">Realizado</option>
+					</select>
+					<div class="input-group-addon" id="buscarEstado"><span class="fa fa-search"></span></div>
+			  </div>
   			</div>
-            <div class="col-xs-2">
-                <input type="date" id="fecha" class="form-control">
-  			</div>
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<div class="input-group-addon"><span class="fa fa-calendar"></span></div>
+					<input type="text" class="form-control" id="inpFecha">
+					<div class="input-group-addon" id="buscarFecha"><span class="fa fa-search"></span></div>
+				</div>
+			</div>
+			<div class="form-group col-md-3">
+				<div class="input-group">
+					<input type="text" class="form-control" id="inpUsuario">
+					<div class="input-group-addon" id="buscarUsuario"><span class="fa fa-search"></span></div>
+				</div>
+			</div>
+			<div class="col-md-1">
+				<button id="btnBuscar" type="button" class="btn btn-rojo">Buscar</button>
+			</div>
   		</div>
   		<br>
 		<div class="row">
@@ -61,6 +77,108 @@
 <script>
     $(document).ready(function() {
 
+		$('#inpFecha').daterangepicker({
+			autoUpdateInput: false,
+			locale: {
+				cancelLabel: 'Clear'
+			}
+		});
+
+		$('#inpFecha').on('apply.daterangepicker', function(ev, picker) {
+			$(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+		});
+
+		$('#inpFecha').on('cancel.daterangepicker', function(ev, picker) {
+			$(this).val('');
+		});
+
+
+		$('#inpFecha').on('apply.daterangepicker', function(ev, picker) {
+				fechaInicio = picker.startDate.format('YYYY-MM-DD');
+				fechaFinal= picker.endDate.format('YYYY-MM-DD');
+			});
+
+		$('#buscarFecha').click(function(){
+			
+			$.ajax({
+				url: base_url+'index.php/Historial/buscarFecha/',
+				data: {fechaInicio:fechaInicio, fechaFinal:fechaFinal},
+				type: 'POST',
+				beforeSend: function(){
+                    $('#load').show();
+                },
+				success: function(data) {
+					data = JSON.parse(data);
+					if(!data){
+						tabla.clear().draw();
+					}
+					else {
+						dibujarTabla(data);
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log('error::'+errorThrown);
+				},
+                complete:function(){
+                    $('#load').hide();
+                }
+			});
+		});
+
+		$('#buscarUsuario').click(function() {
+			var usuario = $('#inpUsuario').val();
+			$.ajax({
+				url: base_url+'index.php/Historial/buscarUsuario/'+usuario,
+				beforeSend: function(){
+                    $('#load').show();
+                },
+				success: function(data) {
+					data = JSON.parse(data);
+					if(!data){
+						tabla.clear().draw();
+					}
+					else {
+						dibujarTabla(data);
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log('error::'+errorThrown);
+				},
+                complete:function(){
+                    $('#load').hide();
+                }
+			});
+		});
+
+		$('#btnBuscar').click(function() {
+			var fecha = $('#inpFecha').val();
+			var usuario = $('#inpUsuario').val();
+			var estado = $('#opciones').val();
+			$.ajax({
+				url: base_url+'index.php/Historial/buscaEspecifica/',
+				data: {fechaInicio:fechaInicio, fechaFinal:fechaFinal, usuario:usuario, estado:estado},
+				type: 'POST',
+				beforeSend: function(){
+                    $('#load').show();
+                },
+				success: function(data) {
+					data = JSON.parse(data);
+					if(!data){
+						tabla.clear().draw();
+					}
+					else {
+						dibujarTabla(data);
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log('error::'+errorThrown);
+				},
+                complete:function(){
+                    $('#load').hide();
+                }
+			});
+		});
+
         var tabla = insertarPaginado('tabla');
         obtenerDatos($('#opciones').val());
 
@@ -87,10 +205,10 @@
 				}],
             });
         });
-
-        $('#opciones').change(function() {
-            obtenerDatos($('#opciones').val());
-        });
+		
+		$('#buscarEstado').click(function() {
+			obtenerDatos($('#opciones').val());
+		});
 
         function obtenerDatos(estatus) {
 			$.ajax({
@@ -102,7 +220,6 @@
                 },
 				success: function(data) {
 					data = JSON.parse(data);
-                    console.log(data);
 					if(!data){
 						tabla.clear().draw();
 					}

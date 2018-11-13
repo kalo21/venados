@@ -43,4 +43,64 @@ class Historial_modelo extends CI_Model{
         return $query->result();
     }
 
+    public function buscarFecha($fechaInicio, $fechaFinal) {
+        $this->db->select('pedidos.id, usuarios.nombre, pedidos.total, pedidos.estatus, pedidos.fecha');
+        $this->db->from('pedidos');
+        $this->db->join('usuarios', 'usuarios.id = pedidos.idusuario');
+        $this->db->where('pedidos.idempresa', $this->session->idEmpresa);
+        $this->db->where('pedidos.fecha >=', $fechaInicio);
+        $this->db->where('pedidos.fecha <=', $fechaFinal);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function buscarUsuario($usuario) {
+        $this->db->select('pedidos.id, usuarios.nombre, pedidos.total, pedidos.estatus, pedidos.fecha');
+        $this->db->from('pedidos');
+        $this->db->join('usuarios', 'usuarios.id = pedidos.idusuario');
+        $this->db->where('pedidos.idempresa', $this->session->idEmpresa);
+        $this->db->where('usuarios.nombre', $usuario);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function buscaEspecifica($data) {
+        $this->db->select('pedidos.id, usuarios.nombre, pedidos.total, pedidos.estatus, pedidos.fecha');
+        $this->db->from('pedidos');
+        $this->db->join('usuarios', 'usuarios.id = pedidos.idusuario');
+        $this->db->where('pedidos.idempresa', $this->session->idEmpresa);
+        if($data['usuario'] != "") {
+            $this->db->where('usuarios.nombre', $data['usuario']);
+        }
+        if($data['fechaInicio'] != "") {
+            $this->db->where('pedidos.fecha >=', $data['fechaInicio']);
+            $this->db->where('pedidos.fecha <=', $data['fechaFinal']);
+        }
+        switch($data['estado']) {
+            case 1: {
+                $this->db->where('pedidos.estatus', 'Solicitado');
+                break;
+            }
+            case 2: {
+                $this->db->where('pedidos.estatus', 'Cancelado');
+                break;
+            }
+            case 3: {
+                $this->db->where('pedidos.estatus', 'Entregado');
+                break;
+            }
+            case 4: {
+                $this->db->where('pedidos.estatus', 'Realizado');
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+
+
 }

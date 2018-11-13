@@ -161,7 +161,6 @@
 
         function infopedido(data) {
             var divInfo = '';
-            var total = 0;
             divInfo += '<div class="box box-solid">'
             divInfo += '    <div class="box-header with-border" style="background-color: #f6032f">'
             divInfo += '        <h3 class="box-title col-xs-4" style="color:white">Pedido '+data[0]['id']+'</h3>'
@@ -174,15 +173,14 @@
                 divInfo += '    <p class="col-xs-6">'+pedido['productoNombre']+'</p>'
                 divInfo += '    <p class="col-xs-3">'+pedido['precio']+'</p>'
                 divInfo += '</div>'
-                total += parseFloat(pedido['precio']);
             });
             divInfo += '        <div class="row">'
-            divInfo += '            <div class="col-sm-5">'
+            divInfo += '            <div class="col-xs-5">'
             divInfo += '                <button type="button" id="cancelar" data-id='+data[0]['id']+' class="btn btn-default btn-sm">Cancelar</button>'
             divInfo += '                <button type="button" id="finalizado" data-id='+data[0]['id']+' class="btn btn-rojo btn-sm">Finalizado</button>'
             divInfo += '            </div>'
             divInfo += '            <b class="col-xs-2 col-xs-offset-2">Total:</b>'
-            divInfo += '            <b class="col-xs-3">$ '+total.toFixed(2)+'</b>'
+            divInfo += '            <b class="col-xs-3">$ '+data[0]['total']+'</b>'
             divInfo += '        </div>'
             divInfo += '    </div>'
             divInfo += '</div>'
