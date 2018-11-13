@@ -1,7 +1,8 @@
 <div id="error" hidden class="alert alert-warning">
 
 </div>
-
+<?php print_r($datos); ?>
+<?php echo base_url('assets/images/eventos/'.$datos->imagen); ?>
 <form class="form-horizontal" id="formulario" enctype="multipart/form-data">
 	<div class="form-group">
         <label class="col-sm-3 control-label">Nombre</label>
@@ -29,7 +30,7 @@
     </div>
 	<div class="custom-file">
 	    <div class="form-group text-center" id="divImagen">
-	        <label for="foto" id="labelImg">  <img style="height: 150px;" src="<?php echo (isset($datos->imagen)) ? base_url($datos->imagen) : base_url('assets/images/productos.png')?>" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>
+	        <label for="foto" id="labelImg">  <img style="height: 150px;" src="<?php echo (isset($datos->imagen)) ? base_url('assets/images/eventos/'.$datos->imagen) : base_url('assets/images/productos.png')?>" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>
 	        <input class="form-control" type="file" name="inpFoto" id="foto" style="display: none" accept="image/*">
 	    </div> 
     </div>

@@ -110,6 +110,10 @@ $(document).ready(function(){
       	});
 	});
 
+	$(document).on("click", "#modificar", function () {
+		$('#mdlModificar').modal();
+	});
+
 	$('#btnAgregar').click(function(){
 		console.log('Boton funciona');
 		BootstrapDialog.show({
@@ -170,6 +174,78 @@ $(document).ready(function(){
 				},
 		  	}]
 		});
+	});
+
+	$(document).on("click", "#modificar", function () {
+		var id = $(this).attr('data-id');
+		console.log(id);
+		BootstrapDialog.show({
+			
+            title: 'Modificar evento', // Aquí se pone el título
+			size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
+			message: function(dialog) { 
+				var $message = $('<div></div>');
+				var pageToLoad = dialog.getData('pageToLoad');
+				$message.load(pageToLoad); //Cargamos la vista
+				return $message;
+			},
+			data: {
+				'pageToLoad': base_url+'index.php/Eventos/formulario/'+id
+			},
+			buttons: [{ //agrega los botones del modal
+				label: 'Cancelar',
+				cssClass: 'btn-default',
+				action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+					dialogItself.close();
+				},
+
+			},
+            {	 //agrega los botones del modal
+			  	label: 'Guardar',
+			  	cssClass: 'btn-rojo',
+              	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+                //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
+					var form = $('#formulario')[0];
+					var formData = new FormData(form);
+					// Agregamos los atributos 'data' del form
+					// formData.append('cambio', cambio);
+					formData.append('id',id);
+					// formData.append('oldNombre',$('#inpNombre').attr('data-nombre'));
+					// formData.append('oldDescripcion',$('#inpDescripcion').attr('data-descripcion'));
+					// formData.append('oldPrecio',$('#inpPrecio').attr('data-precio'));
+
+					$.ajax({
+						url: base_url+'index.php/Eventos/editarEventos/',
+					  	type: 'POST',
+					  	data: formData,
+		    			processData: false,
+						contentType: false,
+					  	beforeSend: function(){
+						$('#load').show();
+						},
+						success: function (data) {
+							data = JSON.parse(data);
+							if(!data['exito']) {
+								$('#error').html(data['msg']);
+								$('#error').show();
+							}
+							else if(data['exito']) {
+								obtenerDatos($('#opciones').val());
+								$('#formulario')[0].reset();
+								dialogItself.close();
+							}
+					  	},
+					  	error: function(jqXHR, textStatus, errorThrown) {
+							console.log('error::'+errorThrown);
+						},
+						complete: function(){
+							$('#load').hide();
+							cambio = 0;
+					  	}
+				  	});
+				},
+		  	}]
+        });
 	});
 
 	function obtenerDatos(estatus){
