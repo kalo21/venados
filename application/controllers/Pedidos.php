@@ -21,4 +21,16 @@ class Pedidos extends CI_Controller {
         echo json_encode($this->Pedidos_modelo->obtenerPedidos($id));
     }
 
+    public function informacionPedido() {
+        echo json_encode($this->Pedidos_modelo->informacionPedidos($this->input->post('id')));
+    }
+
+    public function cancelarPedido() {
+        $this->Pedidos_modelo->cancelarPedido($this->input->post('id'));
+    }
+
+    public function finalizarPedido() {
+        $this->Pedidos_modelo->finalizarPedido($this->input->post('id'));
+    }
+
 }

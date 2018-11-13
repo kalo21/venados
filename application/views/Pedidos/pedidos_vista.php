@@ -3,6 +3,7 @@
 
 <div class="content-wrapper">
     <section class="content">
+        <br>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
@@ -11,59 +12,14 @@
                             <h3 class="box-title" style="color:white">Lista de pedidos</h3>
                         </div>
                         <div class="box box-body" id="divPedido">
-                            <!--
-                            <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1"> 590</p>
-                                <p class="col-xs-3">pepe</p>
-                                <p class="col-xs-3">Soliciado</p>
-                                <a href="" class="col-xs-1 col-xs-offset-1 text-middle" ><span class="fa fa-plus" style="font-size: 20px; color: #f6032f"></span></a>
-                            </div>
-                            -->
+                            <!--  Listado de pedidos  -->
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-6" id="divPedido">
+                <div class="col-md-6" id="infoPedido" hidden>
                     <div class="box box-solid">
-                        <div class="box-header with-border" style="background-color: #f6032f">
-                            <h3 class="box-title col-xs-4" style="color:white">Pedido #?</h3>
-                            <h3 class="box-title col-xs-8 text-right" style="color:white">Cliente: Lorem ipsum dolor</h3>
-                        </div>
-                        <div class="box box-body">
-                            <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">· 2</p>
-                                <p class="col-xs-6">Café chico</p>
-                                <p class="col-xs-3">$ 150.00</p>
-                            </div>
-                            <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">· 3</p>
-                                <p class="col-xs-6">Café mediano</p>
-                                <p class="col-xs-3">$ 150.00</p>
-                            </div>
-                            <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">· 1</p>
-                                <p class="col-xs-6">Café grande,muy grande, demasiado grande</p>
-                                <p class="col-xs-3">$ 150.00</p>
-                            </div>
-                            <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">· 6</p>
-                                <p class="col-xs-6">Café premium</p>
-                                <p class="col-xs-3">$ 150.00</p>
-                            </div>
-                            <div class="row">
-                                <p class="col-xs-2 col-xs-offset-1">· 2</p>
-                                <p class="col-xs-6">Café normal</p>
-                                <p class="col-xs-3">$ 150.00</p>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-5">
-                                    <button class="btn btn-default btn-sm">Cancelar</button>
-                                    <button class="btn btn-rojo btn-sm">Finalizado</button>
-                                </div>
-                                <b class="col-xs-2 col-xs-offset-2">Total:</b>
-                                <b class="col-xs-3">$ 750.00</b>
-                            </div>
-                        </div>
+                    <!--  Información del pedido  -->
                     </div>
                 </div>
 		</div>
@@ -76,8 +32,98 @@
 
         obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
 
+        $(document).on('click', '#cancelar', function() {
+            id = $(this).attr('data-id');
+            BootstrapDialog.confirm({
+				title: 'Cancelar pedido',
+				message: 'Se cambiará el estado del pedido seleccionado a cancelado ¿Desea continuar?',
+				type: BootstrapDialog.TYPE_DANGER, 
+				btnCancelLabel: 'Cancelar', 
+				btnOKLabel: 'Continuar', 
+				btnOKClass: 'btn-rojo', 
+				callback: function(result) {
+                	if(result){
+						$.ajax({
+							url: base_url+'index.php/Pedidos/cancelarPedido/',
+							type:'POST',
+							data: {id:id},
+							beforeSend: function(){
+								$('#load').show();
+							},
+							success: function() {
+                                obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
+                                $('#infoPedido').fadeOut();
+							},
+							error: function(jqXHR, textStatus, errorThrown) {
+								console.log('error::'+errorThrown);
+							},
+							complete: function(){
+							$('#load').hide();
+                       		}
+                    	});
+                	}
+            	}
+          	});
+        });
+
+        $(document).on('click', '#finalizado', function() {
+            id = $(this).attr('data-id');
+            BootstrapDialog.confirm({
+				title: 'Finalizar pedido',
+				message: 'Se cambiará el estado del pedido seleccionado a finalizado ¿Desea continuar?',
+				type: BootstrapDialog.TYPE_DANGER, 
+				btnCancelLabel: 'Cancelar', 
+				btnOKLabel: 'Continuar', 
+				btnOKClass: 'btn-rojo', 
+				callback: function(result) {
+                	if(result){
+						$.ajax({
+							url: base_url+'index.php/Pedidos/finalizarPedido/',
+							type:'POST',
+							data: {id:id},
+							beforeSend: function(){
+								$('#load').show();
+							},
+							success: function() {
+                                obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
+                                $('#infoPedido').fadeOut();
+							},
+							error: function(jqXHR, textStatus, errorThrown) {
+								console.log('error::'+errorThrown);
+							},
+							complete: function(){
+							$('#load').hide();
+                       		}
+                    	});
+                	}
+            	}
+          	});
+        });
+
         $(document).on('click', '#informacion', function(){
-            console.log($(this).attr('data-id'));
+            var id = $(this).attr('data-id');
+            $.ajax({
+                url: base_url+'index.php/Pedidos/informacionPedido/',
+                data: {id:id},
+                type: 'POST',
+                beforeSend: function() {
+                    $('#load').show();
+                },
+                success: function(data) {
+                    data = JSON.parse(data);
+                    if(data) {
+                        infopedido(data);
+                        $('#infoPedido').fadeIn();
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+					console.log('error::'+errorThrown);
+				},
+                complete:function(){
+                    $('#load').hide();
+                }
+            });
+            
         });
 
         function obtenerPedidos(id) {
@@ -90,7 +136,6 @@
                 },
 				success: function(data) {
                     data = JSON.parse(data);
-                    console.log(data);
 					dibujarPedidos(data);
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
@@ -114,6 +159,37 @@
             });
             $('#divPedido').html('');
             $('#divPedido').html(divPedido);
+        }
+
+        function infopedido(data) {
+            var divInfo = '';
+            var total = 0;
+            divInfo += '<div class="box box-solid">'
+            divInfo += '    <div class="box-header with-border" style="background-color: #f6032f">'
+            divInfo += '        <h3 class="box-title col-xs-4" style="color:white">Pedido '+data[0]['id']+'</h3>'
+            divInfo += '        <h3 class="box-title col-xs-8 text-right" style="color:white">Cliente: '+data[0]['nombre']+'</h3>'
+            divInfo += '    </div>'
+            divInfo += '    <div class="box box-body">'
+            data.forEach(function(pedido, index){
+                divInfo += '<div class="row">'
+                divInfo += '    <p class="col-xs-2 col-xs-offset-1">· '+pedido['cantidad']+'</p>'
+                divInfo += '    <p class="col-xs-6">'+pedido['productoNombre']+'</p>'
+                divInfo += '    <p class="col-xs-3">'+pedido['precio']+'</p>'
+                divInfo += '</div>'
+                total += parseFloat(pedido['precio']);
+            });
+            divInfo += '        <div class="row">'
+            divInfo += '            <div class="col-sm-5">'
+            divInfo += '                <button type="button" id="cancelar" data-id='+data[0]['id']+' class="btn btn-default btn-sm">Cancelar</button>'
+            divInfo += '                <button type="button" id="finalizado" data-id='+data[0]['id']+' class="btn btn-rojo btn-sm">Finalizado</button>'
+            divInfo += '            </div>'
+            divInfo += '            <b class="col-xs-2 col-xs-offset-2">Total:</b>'
+            divInfo += '            <b class="col-xs-3">$ '+total.toFixed(2)+'</b>'
+            divInfo += '        </div>'
+            divInfo += '    </div>'
+            divInfo += '</div>'
+            $('#infoPedido').html('');
+            $('#infoPedido').html(divInfo);
         }
 
     });
