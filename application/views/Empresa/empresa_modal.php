@@ -5,10 +5,22 @@
 </div>
 
 <form class="form-horizontal" id="frmEmpresa">
-   <div class="form-group text-center" id="divImagen">
-        <label for="foto" id="labelImg">  <img style="height: 250px; width:250px;" src="<?= (isset($datos->logotipo)) ? base_url($datos->logotipo) : base_url('assets/images/empresa.png')?>" class="img-circles img-responsive text-center" alt="imagen_producto"> </label>
-        <input class="form-control" name="foto" type="file" id="foto" style="display: none" accept="image/*">
+    <div>
+        <h4 class=" col-md-5 col-md-offset-1 text-center"><b>logo<b></h4>
+        <h4 class=" col-md-5 text-center"><b>fondo<b></h4>
     </div>
+    <div class=" col-md-5 col-md-offset-1">
+        <div id="divImagen">
+            <label for="foto" id="labelImg">  <img style="height: 200px; width:200px;" src="<?= (isset($datos->logotipo)) ? base_url($datos->logotipo) : base_url('assets/images/empresa.png')?>" class="img-circles img-responsive text-center" alt="imagen_producto"> </label>
+            <input class="form-control" name="foto" type="file" id="foto" style="display: none" accept="image/*">
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div id="divImagenV"> 
+            <label for="fotoV" id="labelImgV">  <img style="height: 200px; width:200px;" src="<?= (isset($datos->logotipo)) ? base_url($datos->logotipo) : base_url('assets/images/empresa.png')?>" class="img-circles img-responsive text-center" alt="imagen_producto"> </label>
+            <input class="form-control" name="fotoV" type="file" id="fotoV" style="display: none" accept="image/*">
+        </div>
+    </div> 
     <div class="form-group">
         <label class="col-sm-3 control-label">Empresa</label>
         <div class="col-sm-9">
@@ -96,9 +108,30 @@ function previewImagen(input){
         reader.readAsDataURL(input.files[0]);
         reader.onload = function(e){
             //$('#formServicio + img').remove();
-            x+='<label for="foto"> <img style="height: 250px;" src="'+e.target.result+'" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>';
+            x+='<label for="foto"> <img style="height: 200px;" src="'+e.target.result+'" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>';
             $('#labelImg').html("");
             $('#labelImg').html(x);
+        }                
+    }
+    
+    $('#inpDescripcion').tagsinput({
+        splitOn:'-'
+    })
+}
+$("#divImagenV").delegate("#fotoV","change", function(){
+    previewImagenV(this);
+});
+//Esta funcion solo crea un img nuevo para la foto principal, quitando la que estaba y añadiendo una nueva.
+function previewImagenV(input){
+    if(input.files && input.files[0]){
+        var x="";
+        var reader = new FileReader();
+        reader.readAsDataURL(input.files[0]);
+        reader.onload = function(e){
+            //$('#formServicio + img').remove();
+            x+='<label for="foto"> <img style="height: 200px;" src="'+e.target.result+'" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>';
+            $('#labelImgV').html("");
+            $('#labelImgV').html(x);
         }                
     }
     
