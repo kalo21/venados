@@ -8,6 +8,7 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   <link rel="stylesheet" href="<?php echo base_url('assets/css/carga.css'); ?>">
+  <link rel="stylesheet" href="<?php echo base_url('assets/css/daterangepicker.css'); ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-dialog.min.css'); ?>">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?php echo base_url('assets/css/font-awesome.min.css'); ?>">
