@@ -5,7 +5,7 @@ if(!function_exists('informacionInicial')){
         $ci =& get_instance();//asignamos a $ci el super objeto de codeigniter//$ci será como $this
          switch ($ci->session->userdata('idPerfil')) {
             case '1':
-                $data['imagen'] = "desarollador.png";
+                $data['imagen'] = "assets/images/desarollador.png";
                 $data['nombre'] = "Administrador - ".$ci->session->userdata('nombre');
                 break;
             case '2':
@@ -13,19 +13,19 @@ if(!function_exists('informacionInicial')){
                 $data['nombre'] = "Empresa - ".$ci->session->userdata('nombreEmpresa');
                 break;
             case '3':
-                $data['imagen'] = "sistemas.png";
+                $data['imagen'] = "assets/images/sistemas.png";
                 $data['nombre'] = "Sistemas - ".$ci->session->userdata('nombre');
                 break;
             case '4':
-                $data['imagen'] = "cliente.png";
+                $data['imagen'] = "assets/images/cliente.png";
                 $data['nombre'] = "Cliente - ".$ci->session->userdata('nombre');
                 break;
             case '5':
-                $data['imagen'] = "cliente.png";
+                $data['imagen'] = "assets/images/cliente.png";
                 $data['nombre'] = "Empleado - ".$ci->session->userdata('nombre');
                 break;
             default:
-                $data['imagen'] = "hacker.png";
+                $data['imagen'] = "assets/images/hacker.png";
                 $data['nombre'] = "Infiltrado - ".$ci->session->userdata('nombre');
                 break;
         }
