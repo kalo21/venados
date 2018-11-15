@@ -1,15 +1,15 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Empleados_modelo extends CI_Model{
+class Vendedores_modelo extends CI_Model{
 	
 	public function __construct(){
         parent::__construct();
 	}
-	public function obtenerEmpleados($estatus) {
+	public function obtenerVendedores($estatus) {
 		if($estatus == 1 || $estatus == 0) {
 			$this->db->where('estatus', $estatus);
 		} 
-		$query = $this->db->get('empleados');
+		$query = $this->db->get('vendedores');
 		if($query->num_rows() > 0) {
 			return $query->result();
 		}
@@ -26,7 +26,7 @@ class Empleados_modelo extends CI_Model{
 
 	public function obtenerDatos($id) {
 		$this->db->where('id', $id);
-		$query = $this->db->get('empleados')->row();
+		$query = $this->db->get('vendedores')->row();
 		return $query;
 	}
 
@@ -39,14 +39,14 @@ class Empleados_modelo extends CI_Model{
 		}
 		$estado = array('estatus' => $estatus);
 		$this->db->where('id', $id);
-		$this->db->update('empleados', $estado);
+		$this->db->update('vendedores', $estado);
 	}
 	
-	public function agregarEmpleados($data, $nombreArchivo) {
+	public function agregarVendedores($data, $nombreArchivo) {
 		$this->db->where('nombre', $data['inpNombreE']);
-		$query = $this->db->get('empleados');
+		$query = $this->db->get('vendedores');
 		if($query->num_rows() > 0) {
-			return array('exito' => false, 'msg' => '<li>El nombre del empleado ya se encuentra registrado</li>');
+			return array('exito' => false, 'msg' => '<li>El nombre del vendedor ya se encuentra registrado</li>');
 		}
 		$this->db->where('nombre', $data['inpNombre']);
 		$aux = $this->db->get('Usuarios');
@@ -65,7 +65,7 @@ class Empleados_modelo extends CI_Model{
 		}
 		$this->db->where('nombre', $data['inpNombre']);
 		$query = $this->db->get('usuarios')->row();
-		$datosEmpleados = array(
+		$datosVendedores = array(
 			'nombre' => $data['inpNombreE'],
 			'apellidomaterno' => $data['inpMaterno'],
             'apellidopaterno' => $data['inpPaterno'],
@@ -74,29 +74,29 @@ class Empleados_modelo extends CI_Model{
 			'estatus' => 1,
 			'id_usuario' => $query->id
 		);
-		$this->db->insert('empleados', $datosEmpleados);
+		$this->db->insert('vendedores', $datosVendedoress);
         $idRegistrado = $this->db->insert_id();
 			if($this->db->affected_rows() > 0) {
-                $imagenEmpleados = array("imagen" => 'assets/Empleados/'.$idRegistrado.'/'.$nombreArchivo);
+                $imagenVendedores = array("imagen" => 'assets/Vendedores/'.$idRegistrado.'/'.$nombreArchivo);
                 $this->db->where('id', $idRegistrado);
-                $this->db->update('empleados', $imagenEmpleados);
+                $this->db->update('vendedores', $imagenVendedores);
 				return array('exito' => true, 'msg' => $idRegistrado);
 			}
 			else {
-				return array('exito' => false, 'msg' => '<li>No se guardo el empleado en la base de datos, intente de nuevo</li>');
+				return array('exito' => false, 'msg' => '<li>No se guardo el vendedor en la base de datos, intente de nuevo</li>');
 			}
 	}
 
-	public function modificarEmpleados($data, $nombreArchivo = '') {
-        $this->db->select('empleados.imagen');
+	public function modificarVendedores($data, $nombreArchivo = '') {
+        $this->db->select('vendedores.imagen');
         $this->db->where('id', $data['id']);
-        $nombreArchivop = $this->db->get('empleados')->row();
+        $nombreArchivop = $this->db->get('vendedores')->row();
 		if($data['cambio'] == 0 && $data['inpNombreE'] == $data['oldNombre'] && $data['inpMaterno'] == $data['oldMaterno'] && $data['inpPaterno'] == $data['oldPaterno'] && $data['inpDomicilio'] == $data['oldDomicilio'] && $data['inpTelefono'] == $data['oldTelefono']) {
 			return array('exito' => false, 'msg' =>'No se actualizaron los datos porque no hubo cambios');
 		}
 		if($data['inpNombreE'] != $data['oldNombre']) {
 			$this->db->where('nombre', $data['inpNombreE']);
-			$query = $this->db->get('empleados');
+			$query = $this->db->get('vendedores');
 			if($query->num_rows() > 0) {
 				$query = $query->row();
 				if($query->nombre === $data['inpNombreE']) {
@@ -110,7 +110,7 @@ class Empleados_modelo extends CI_Model{
                     'apellidopaterno' => $data['inpPaterno'],
                     'domicilio' => $data['inpDomicilio'],
                     'telefono' => $data['inpTelefono'],
-					'imagen' => 'assets/Empleados/'.$data['id'].'/'.$nombreArchivo
+					'imagen' => 'assets/vendedores/'.$data['id'].'/'.$nombreArchivo
 				);
                 unlink($nombreArchivop->imagen);
 			}
@@ -124,7 +124,7 @@ class Empleados_modelo extends CI_Model{
 				);
 			}
 			$this->db->where('id', $data['id']);
-			$this->db->update('empleados', $datos);
+			$this->db->update('vendedores', $datos);
 			if($this->db->affected_rows() > 0) {
 				return array('exito' => true, 'msg' => '');
 			}
@@ -139,7 +139,7 @@ class Empleados_modelo extends CI_Model{
                     'apellidopaterno' => $data['inpPaterno'],
                     'domicilio' => $data['inpDomicilio'],
                     'telefono' => $data['inpTelefono'],
-					'imagen' => 'assets/Empleados/'.$data['id'].'/'.$nombreArchivo
+					'imagen' => 'assets/Vendedores/'.$data['id'].'/'.$nombreArchivo
 				);
                 unlink($nombreArchivop->imagen);
 			}
@@ -152,7 +152,7 @@ class Empleados_modelo extends CI_Model{
 				);
 			}
 			$this->db->where('id', $data['id']);
-			$this->db->update('empleados', $datos);
+			$this->db->update('vendedores', $datos);
 			if($this->db->affected_rows() > 0) {
 				return array('exito' => true, 'msg' => '');
 			}

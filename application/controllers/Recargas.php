@@ -15,8 +15,8 @@ class Recargas extends CI_Controller {
     		$this->load->view('Recargas/recargas_vista',$data);
         }
     }
-    public function obtenerRecargas($estatus) {
-		echo json_encode($this->Recargas_modelo->obtenerRecargas($estatus));
+    public function obtenerRecargas() {
+		echo json_encode($this->Recargas_modelo->obtenerRecargas());
 	}
     public function agregarRecargas() {
         $this->form_validation->set_rules('inpUsuario', 'Nombre', 'required');

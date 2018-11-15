@@ -20,6 +20,10 @@ if(!function_exists('informacionInicial')){
                 $data['imagen'] = "cliente.png";
                 $data['nombre'] = "Cliente - ".$ci->session->userdata('nombre');
                 break;
+            case '5':
+                $data['imagen'] = "cliente.png";
+                $data['nombre'] = "Empleado - ".$ci->session->userdata('nombre');
+                break;
             default:
                 $data['imagen'] = "hacker.png";
                 $data['nombre'] = "Infiltrado - ".$ci->session->userdata('nombre');

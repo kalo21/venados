@@ -2,9 +2,9 @@
     
 </div>
 
-<form class="form-horizontal" id="frmEmpleados" enctype="multipart/form-data">
+<form class="form-horizontal" id="frmVendedores" enctype="multipart/form-data">
    <div class="form-group text-center" id="divImagen">
-        <label for="foto" id="labelImg">  <img style="height: 250px; width:250px;" src="<?= (isset($datos->imagen)) ? base_url($datos->imagen) : base_url('assets/images/empleados.png')?>" class="img-circles img-responsive text-center" alt="imagen_producto"> </label>
+        <label for="foto" id="labelImg">  <img style="height: 250px; width:250px;" src="<?= (isset($datos->imagen)) ? base_url($datos->imagen) : base_url('assets/images/vendedores.png')?>" class="img-circles img-responsive text-center" alt="imagen_producto"> </label>
         <input class="form-control" name="foto" type="file" id="foto" style="display: none" accept="image/*">
     </div>
     <div class="form-group">

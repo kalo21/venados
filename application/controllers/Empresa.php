@@ -52,27 +52,38 @@ class Empresa extends CI_Controller {
 		$this->form_validation->set_rules('inpVerificar', 'Verificiar contraseña', 'trim|required|matches[inpContrasena]');
 		$this->form_validation->set_rules('inpCorreo', 'Correo', 'trim|required|valid_email|is_unique[usuarios.correo]');
         if($this->upload->do_upload('foto')) {
-            $this->load->library("upload",$config);
             $data = array("upload_data" => $this->upload->data());
             $nombreArchivop = $data['upload_data']['file_name'];
-            if ($this->form_validation->run() === TRUE) {
-                $id = $this->Empresa_modelo->agregarEmpresa($this->input->post(), $nombreArchivop);
-                if($id['exito']) {
-                    mkdir('./assets/Empresas/abc/Productos',0777,true);
-                    rename('./assets/Empresas/abc','./assets/Empresas/'.$id['msg']);
-                    rename('./assets/Empresas/'.$nombreArchivop, './assets/Empresas/'.$id['msg'].'/'.$nombreArchivop);
+            if($this->upload->do_upload('fotoV')){
+                $dataV = array("upload_data" => $this->upload->data());
+                $nombreArchivopV = $dataV['upload_data']['file_name'];    
+                if ($this->form_validation->run() === TRUE) {
+                    $id = $this->Empresa_modelo->agregarEmpresa($this->input->post(), $nombreArchivop,$nombreArchivopV);
+                    if($id['exito']) {
+                        mkdir('./assets/Empresas/abc/Productos',0777,true);
+                        rename('./assets/Empresas/abc','./assets/Empresas/'.$id['msg']);
+                        rename('./assets/Empresas/'.$nombreArchivopV, './assets/Empresas/'.$id['msg'].'/'.$nombreArchivopV);
+                        rename('./assets/Empresas/'.$nombreArchivop, './assets/Empresas/'.$id['msg'].'/'.$nombreArchivop);
+                    }
+                    else {
+                        rmdir('./assets/Empresas/abc');
+                        unlink('./assets/Empresas/'.$nombreArchivopV);
+                        unlink('./assets/Empresas/'.$nombreArchivop);
+                    }
+                    echo json_encode($id);
                 }
                 else {
+                    echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
                     rmdir('./assets/Empresas/abc');
+                    unlink('./assets/Empresas/'.$nombreArchivopV);
                     unlink('./assets/Empresas/'.$nombreArchivop);
                 }
-                echo json_encode($id);
             }
             else {
-                echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+                echo json_encode(array('exito' => false, 'msg' => $this->upload->display_errors()));
                 rmdir('./assets/Empresas/abc');
-                unlink('./assets/Empresas/'.$nombreArchivop);
             }
+           
         }
         else {
             echo json_encode(array('exito' => false, 'msg' => $this->upload->display_errors()));
@@ -95,13 +106,27 @@ class Empresa extends CI_Controller {
 		$this->form_validation->set_rules('inpTelefono', 'Teléfono de empresa', 'numeric');
 		$this->form_validation->set_rules('inpLocal', 'Local', 'required');
         if($this->upload->do_upload('foto')) {
-            $data = array("upload_data" => $this->upload->data());
+            if($this->upload->do_upload('fotoV')){
+                $dataV = array("upload_data" => $this->upload->data());
+                $nombreArchivopV = $data['upload_data']['file_name'];
+                $data = array("upload_data" => $this->upload->data());
             $nombreArchivop = $data['upload_data']['file_name'];
             if ($this->form_validation->run() === TRUE) {
                 echo json_encode($this->Empresa_modelo->modificarEmpresa($this->input->post(), $nombreArchivop));
             }
             else {
                 echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+            }
+            }
+            else {
+                if($this->input->post('cambio') == 0) {
+                    if ($this->form_validation->run() === TRUE) {
+                        echo json_encode($this->Empresa_modelo->modificarEmpresa($this->input->post()));
+                    }
+                    else {
+                        echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+                    }   
+                }
             }
         }
         else {

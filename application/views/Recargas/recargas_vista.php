@@ -4,64 +4,63 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row-fluid">
-                <h3 class="text-center">Recargas</h3>
+                <h3 class="text-center" id="titulo">Recargas</h3>
             </div>
             <br>
-            <div>
-          <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab_1" data-toggle="tab">Recargar</a></li>
-              <li><a href="#tab_2" data-toggle="tab">Historial</a></li>
-            </ul>
-            <div class="tab-content">
-              <div class="tab-pane active" id="tab_1">
-               
-                <form id="frmRecarga">
-                    <div class="row-fluid">
-                        <div class="col-md-6">
-                            <input type="password" id="inpUsuario" name="inpUsuario" class="form-control" placeholder="Usuario">
+            <div class="col-md-offset-4 col-md-4" id="contenedorperro">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" data-toggle="tab" id="tab1">Recargar</a></li>
+                        <li><a href="#tab_2" data-toggle="tab" id="tab2">Historial</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                            <div id="error" hidden class="alert alert-warning">
+        
+                            </div>
+                            <form id="frmRecarga">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="">
+                                            <input type="password" id="inpUsuario" name="inpUsuario" class="form-control input-lg" placeholder="Usuario">
+                                            <br>
+                                            <input type="text" id="inpVerificar" name="inpVerificar" class="form-control input-lg" placeholder="Usuario">
+                                            <br>
+                                            <div class="form-group">
+                                                <div class="input-group input-group-lg">
+                                                    <div class="input-group-addon">$</div>
+                                                    <input type="text" class="form-control" placeholder="Monto" id="inpMonto" name="inpMonto">       
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row text-center">
+                                        <button type="button" id="btnAgregar" name="btnAgregar" class="btn btn-rojo btn-block">Agregar</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="col-md-6">
-                            <input type="text" id="inpVerificar" name="inpVerificar" class="form-control" placeholder="Usuario">
+                    <div class="tab-pane" id="tab_2">
+                        <div class="box-body">
+                            <div class="box-body table-responsive no-padding">
+                                <table id="tabla" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Usuario</th>
+                                            <th>Vendedor</th>
+                                            <th>Monto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    
-                    <br><br><br>
-                    <div class="row-fluid">
-                        <div class="col-md-1 ">
-                            <p class="text-center"><b>$</b></p>
-                        </div>
-                        <div class="col-md-11">
-                            <input type="text" id="inpMonto" name="inpMonto" class="form-control" placeholder="Cantidad">
-                        </div>
-                        <br><br><br>
-                        <div>
-                            <button type="button" id="btnAgregar" name="btnAgregar" class="btn btn-rojo">Agregar</button>
-                        </div>
-                    </div>
-                </form>
-              </div>
-              <div class="tab-pane" id="tab_2">
-                  <div class="box-body">
-					 	<div class="box-body table-responsive no-padding">
-						 	<table id="tabla" class="table table-hover">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>Usuario</th>
-										<th>Vendedor</th>
-										<th>Monto</th>
-									</tr>
-								</thead>
-								<tbody>
-								</tbody>
-						 	</table>
-						</div>
-					</div>
-              </div>
+                </div>
             </div>
-          </div>
-        </div>
         </div>
     </section>
 </div>
@@ -74,11 +73,17 @@
     $(document).ready(function(){
         var tabla = insertarPaginado('tabla');
 		obtenerDatos($('#opciones').val());
-        
 		$('#opciones').change(function(){
 			obtenerDatos($('#opciones').val());
 		});
-        
+        $('#tab2').click(function() {
+            $('#contenedorperro').attr('class','col-md-12');
+            $('#titulo').html('Historial de recargas');
+        });
+        $('#tab1').click(function() {
+            $('#contenedorperro').attr('class','col-md-offset-4 col-md-4');
+            $('#titulo').html('Recargas');
+        }); 
         $('#btnAgregar').click(function() {
             BootstrapDialog.confirm({
                 title: 'Advertencia',
@@ -103,7 +108,6 @@
 									$('#error').show();
 								}
 								else if(data['exito']) {
-									$('#frmRecarga')[0].reset();
                                     BootstrapDialog.confirm({
                                         title: 'Advertencia',
                                         message: 'Se ha enviado la recarga al usuario',
@@ -111,6 +115,7 @@
                                         btnOKLabel: 'OK', 
                                         btnOKClass: 'btn-rojo', 
                                     });
+                                    $('#frmRecarga')[0].reset();
 								}
 						  	},
 						  	error: function(jqXHR, textStatus, errorThrown) {
@@ -124,11 +129,9 @@
                 }
             });
         });
-        
         function obtenerDatos(estatus) {
 			$.ajax({
-				url: base_url+'index.php/Recargas/obtenerRecargas/'+estatus,
-				type:'POST',
+				url: base_url+'index.php/Recargas/obtenerRecargas/',
                 beforeSend: function(){
                     $('#load').show();
                 },
@@ -156,8 +159,8 @@
 				var output2 = null;
 				var fila = tabla.row.add([
 					item['id'],
-					item['id_usuario'],
-					item['id_empleado'],
+					item['nombre'],
+					item['nombreVendedor'],
                     item['monto']
 				]).draw(false).node();
 			});
