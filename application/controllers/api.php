@@ -118,4 +118,49 @@ class Api extends CI_Controller {
 		$json_obj = json_decode($json_str);
 		echo $this->api_model->addPedido($json_obj, true);
 	}
+
+	/**
+     * Create New Notification
+     *
+     * Creates adjacency list based on item (id or slug) and shows leafs related only to current item
+     *
+     * @param int $user_id Current user id
+     * @param string $title Current title
+     *
+     * @return string $response
+     */
+    function send_notif(){
+		$store = $this->input->post('store');
+        $message = $this->input->post("msg");
+		$user = $this->input->post("user");
+        $content = array(
+			"en" => "El pedido de ${store} se ha cancelado por el siguiente motivo: ${message}",
+			"es" => "El pedido de ${store} se ha cancelado por el siguiente motivo: ${message}"
+        );
+
+        $fields = array(
+			'app_id' => "9ba5748e-6561-4bdf-8c4c-77d4766fbde8",
+            'filters' => array(array("field" => "tag", "key" => "email", "relation" => "=", "value" => "$user")),
+			'contents' => $content,
+			'priority' => '10',
+			'android_channel_id' => '2d85d014-c228-47af-bed2-f7b47dc94f56'
+		);
+		$fields = json_encode($fields);
+        print("\nJSON sent:\n");
+        print($fields);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+            'Authorization: Basic NDUxNTQ0OTItYmJmOS00ZDVhLWFjYjUtYzE2Mzg5YzkwODAy'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+       return $response;
+    }
 }
