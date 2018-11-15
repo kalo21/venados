@@ -5,6 +5,7 @@ class Empresa_modelo extends CI_Model{
 	public function __construct(){
         parent::__construct();
 	}
+	
 	public function obtenerEmpresa($estatus) {
 		if($estatus == 1 || $estatus == 0) {
 			$this->db->where('estatus', $estatus);

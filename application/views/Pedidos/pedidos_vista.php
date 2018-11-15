@@ -106,9 +106,6 @@
                 url: base_url+'index.php/Pedidos/informacionPedido/',
                 data: {id:id},
                 type: 'POST',
-                beforeSend: function() {
-                    $('#load').show();
-                },
                 success: function(data) {
                     data = JSON.parse(data);
                     if(data) {
@@ -119,9 +116,6 @@
                 error: function(jqXHR, textStatus, errorThrown) {
 					console.log('error::'+errorThrown);
 				},
-                complete:function(){
-                    $('#load').hide();
-                }
             });
         });
 
