@@ -29,16 +29,16 @@
 <?php $this->load->view('Global/footer'); ?>
 <script src="<?php echo base_url();?>nodejs/node_modules/socket.io-client/dist/socket.io.js"></script>
 <script>
-    var socket = io.connect('http://localhost:3000',{'forceNew': true});
-    socket.emit('add-user', {idEmpresa: <?php echo $this->session->idEmpresa;?>});
+    //var socket = io.connect('http://localhost:3000',{'forceNew': true});
+    //socket.emit('add-user', {idEmpresa: <?php echo $this->session->idEmpresa;?>});
 
     $(document).ready(function(){
         obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
-        
+        /*
         socket.on('pedido',function(data) {
             obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
         });
-
+        */
         $(document).on('click', '#cancelar', function() {
             id = $(this).attr('data-id');
             var user = $(this).attr('data-name');
@@ -60,7 +60,8 @@
                     cssClass: 'btn-rojo',
                     action: function(result){    
                         if(result && $('#motivo').val() != ''){
-                            msg = $('#motivo').val();
+                            var empresa = "<?php echo $this->session->nombreEmpresa;?>"
+                            msg = "Tu pedido de "+empresa+" se  ha cancelado por el siguiente motivo: "+$('#motivo').val();
                             $.ajax({
                                 url: base_url+'index.php/Pedidos/cancelarPedido/',
                                 type:'POST',
@@ -70,7 +71,7 @@
                                 },
                                 success: function() {
                                     obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
-                                    sendNotification(user, msg, "<?php echo $this->session->nombreEmpresa;?>");
+                                    sendNotification(user, msg);
                                     $('#infoPedido').fadeOut('slow');
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
@@ -207,7 +208,11 @@
             $('#infoPedido').html('');
             $('#infoPedido').html(divInfo);
         }
-
+        /**
+            user = nombre de usuario
+            msg = Mensaje
+            empresa = nombre de empresa
+         */
         function sendNotification(user, msg, empresa){
             $.ajax({
                 url: base_url+'index.php/Api/send_notif/',

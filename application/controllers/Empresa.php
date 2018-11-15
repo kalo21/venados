@@ -37,7 +37,7 @@ class Empresa extends CI_Controller {
             mkdir('./assets/Empresas/abc', 0777,true);
         $config = [
             "upload_path" => "./assets/Empresas/",
-            'allowed_types' => "png|jpg"
+            'allowed_types' => "png|jpg|jpeg"
         ];
         $this->load->library("upload",$config);
 		$this->form_validation->set_rules('inpNombreE', 'Nombre de empresa', 'required|is_unique[empresas.nombre]');
@@ -84,7 +84,7 @@ class Empresa extends CI_Controller {
 	public function modificarEmpresa() {
         $config = [
             "upload_path" => "./assets/Empresas/".$this->input->post('id'),
-            'allowed_types' => "png|jpg"
+            'allowed_types' => "png|jpg|jpeg"
         ];
         $this->load->library("upload",$config);
 		$this->form_validation->set_rules('inpNombreE', 'Nombre de empresa', 'required');

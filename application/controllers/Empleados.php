@@ -80,7 +80,7 @@ class Empleados extends CI_Controller {
 	public function modificarEmpleados() {
         $config = [
             "upload_path" => "./assets/Empleados/".$this->input->post('id'),
-            'allowed_types' => "png|jpg"
+            'allowed_types' => "png|jpg|jpeg"
         ];
         $this->load->library("upload",$config);
 		$this->form_validation->set_rules('inpNombreE', 'Nombre de empleado', 'required');

@@ -25,7 +25,7 @@ class Productos extends CI_Controller {
 
         $config = [
             "upload_path" => "./assets/Empresas/".$this->session->idEmpresa.'/Productos',
-            'allowed_types' => "png|jpg"
+            'allowed_types' => "png|jpg|jpeg"
         ];
         $this->load->library("upload",$config);
         $this->form_validation->set_rules('inpNombre', 'nombre', 'required');
@@ -50,7 +50,7 @@ class Productos extends CI_Controller {
     public function modificarProducto() {
         $config = [
             "upload_path" => "./assets/Empresas/".$this->session->idEmpresa.'/Productos',
-            'allowed_types' => "png|jpg"
+            'allowed_types' => "png|jpg|jpeg"
         ];
         $this->load->library("upload",$config);
         $this->form_validation->set_rules('inpNombre', 'nombre', 'required');

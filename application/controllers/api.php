@@ -130,12 +130,11 @@ class Api extends CI_Controller {
      * @return string $response
      */
     function send_notif(){
-		$store = $this->input->post('store');
         $message = $this->input->post("msg");
 		$user = $this->input->post("user");
         $content = array(
-			"en" => "El pedido de ${store} se ha cancelado por el siguiente motivo: ${message}",
-			"es" => "El pedido de ${store} se ha cancelado por el siguiente motivo: ${message}"
+			"en" => "${message}",
+			"es" => "${message}"
         );
 
         $fields = array(

@@ -35,7 +35,7 @@ class Eventos extends CI_Controller{
 
 		$config = [
 			'upload_path' => './assets/images/eventos',
-			'allowed_types' => 'jpg|png'
+			'allowed_types' => 'jpg|png|jpeg'
 		];
 		$this->load->library('upload', $config);
 
@@ -62,7 +62,7 @@ class Eventos extends CI_Controller{
 
 		$config = [
 			'upload_path' => './assets/images/eventos',
-			'allowed_types' => 'jpg|png'
+			'allowed_types' => 'jpg|png|jpeg'
 		];
 		$this->load->library('upload', $config);
 
