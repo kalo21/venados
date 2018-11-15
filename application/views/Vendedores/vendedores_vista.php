@@ -4,7 +4,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row-fluid">
-                <h3 class="text-center">Empleados</h3>
+                <h3 class="text-center">Vendedores</h3>
             </div>
         </div>
         <div class="row">
@@ -21,7 +21,7 @@
 			<div class="col-md-12">
 				<div class="box box-danger">
 					<div class="box-header with-border">
-						<h3 class="box-title">Listado de empleados</h3>
+						<h3 class="box-title">Listado de vendedores</h3>
 						<div class="box-tools pull-right">
 							 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
@@ -80,7 +80,7 @@
             var estatus = $(this).attr('data-estatus');  
             BootstrapDialog.confirm({
               title: 'Advertencia',
-              message: 'Se cambiará el estatus del empleado seleccionada ¿Desea continuar?',
+              message: 'Se cambiará el estatus del vendedor seleccionada ¿Desea continuar?',
               type: BootstrapDialog.TYPE_DANGER, 
               btnCancelLabel: 'Cancelar', 
               btnOKLabel: 'Continuar', 
@@ -88,7 +88,7 @@
               callback: function(result) {
                 if(result){
                      $.ajax({
-                        url: base_url+'index.php/Empleados/cambiarEstado/',
+                        url: base_url+'index.php/Vendedores/cambiarEstado/',
                         type:'POST',
                         data: {
                             id:id,
@@ -119,7 +119,7 @@
         $('#btnAgregar').click(function() {
 			BootstrapDialog.show({
 				
-                title: 'Agregar Empleados', // Aquí se pone el título
+                title: 'Agregar vendedores', // Aquí se pone el título
 				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
 				message: function(dialog) { 
 					var $message = $('<div></div>');
@@ -128,7 +128,7 @@
 					return $message;
 				},
 				data: {
-					'pageToLoad': base_url+'index.php/Empleados/formulario/'
+					'pageToLoad': base_url+'index.php/Vendedores/formulario/'
 				},
 				buttons: [{ //agrega los botones del modal
 					label: 'Cancelar',
@@ -143,11 +143,11 @@
 				  	cssClass: 'btn-rojo',
                   	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
                     //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
-						var form = $('#frmEmpleados')[0];
+						var form = $('#frmVendedores')[0];
                         var formData = new FormData(form);
                         console.log(formData);
                         $.ajax({
-							url: base_url+'index.php/Empleados/agregarEmpleados/',
+							url: base_url+'index.php/Vendedores/agregarVendedores/',
 						  	type: 'POST',
 						  	data: formData,
                             processData:false,
@@ -165,7 +165,7 @@
 								}
 								else if(data['exito']) {
 									obtenerDatos($('#opciones').val());
-									$('#frmEmpleados')[0].reset();
+									$('#frmVendedores')[0].reset();
 									dialogItself.close();
 								}
 						  	},
@@ -186,7 +186,7 @@
 			var id = $(this).attr('data-id');
 			BootstrapDialog.show({
 				
-                title: 'Modificar Empleados', // Aquí se pone el título
+                title: 'Modificar Vendedores', // Aquí se pone el título
 				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
 				message: function(dialog) { 
 					var $message = $('<div></div>');
@@ -195,7 +195,7 @@
 					return $message;
 				},
 				data: {
-					'pageToLoad': base_url+'index.php/Empleados/formulario/'+id
+					'pageToLoad': base_url+'index.php/Vendedores/formulario/'+id
 				},
 				buttons: [{ //agrega los botones del modal
 					label: 'Cancelar',
@@ -210,7 +210,7 @@
 				  	cssClass: 'btn-rojo',
                   	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
                     //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
-                        var form = $('#frmEmpleados')[0];
+                        var form = $('#frmVendedores')[0];
 						var formData = new FormData(form);
 						formData.append('cambio', cambio);
 						formData.append('id',id);
@@ -221,7 +221,7 @@
                         formData.append('oldTelefono',$('#inpTelefono').attr('data-telefono'));
                         
 						$.ajax({
-							url: base_url+'index.php/Empleados/modificarEmpleados/',
+							url: base_url+'index.php/Vendedores/modificarVendedores/',
 						  	type: 'POST',
 						  	data:formData,
                             processData: false,
@@ -238,7 +238,7 @@
 								}
 								else if(data['exito']) {
 									obtenerDatos($('#opciones').val());
-									$('#frmEmpleados')[0].reset();
+									$('#frmVendedores')[0].reset();
 									dialogItself.close();
 								}
 						  	},
@@ -257,7 +257,7 @@
 
 		function obtenerDatos(estatus) {
 			$.ajax({
-				url: base_url+'index.php/Empleados/obtenerEmpleados/'+estatus,
+				url: base_url+'index.php/Vendedores/obtenerVendedores/'+estatus,
 				type:'POST',
                 beforeSend: function(){
                     $('#load').show();
