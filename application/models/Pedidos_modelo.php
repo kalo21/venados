@@ -14,14 +14,14 @@ class Pedidos_modelo extends CI_Model{
     }
 
     public function informacionPedidos($id) {
-        $this->db->select('pedidos.id, usuarios.nombre, productos.nombre as productoNombre, detallepedidos.precio, detallepedidos.cantidad');
-            $this->db->from('detallepedidos');
-            $this->db->join('pedidos', 'pedidos.id = detallepedidos.idpedido');
-            $this->db->join('usuarios', 'usuarios.id = pedidos.idusuario');
-            $this->db->join('productos', 'productos.id = detallepedidos.idproducto');
-            $this->db->where('detallepedidos.idpedido', $id);
-            $query = $this->db->get();
-            return $query->result();
+        $this->db->select('pedidos.id, usuarios.nombre, productos.nombre as productoNombre, detallepedidos.precio, detallepedidos.cantidad, pedidos.total');
+        $this->db->from('detallepedidos');
+        $this->db->join('pedidos', 'pedidos.id = detallepedidos.idpedido');
+        $this->db->join('usuarios', 'usuarios.id = pedidos.idusuario');
+        $this->db->join('productos', 'productos.id = detallepedidos.idproducto');
+        $this->db->where('detallepedidos.idpedido', $id);
+        $query = $this->db->get();
+        return $query->result();
     }
 
     public function cancelarPedido($id) {

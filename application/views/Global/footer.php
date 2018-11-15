@@ -42,6 +42,7 @@
 
 <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap-filestyle.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap-datetimepicker.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/daterangepicker.js'); ?>"></script>
 
 
 

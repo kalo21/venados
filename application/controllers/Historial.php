@@ -20,4 +20,21 @@ class Historial extends CI_Controller {
     public function obtenerPedidos() {
         echo json_encode($this->Historial_modelo->obtenerPedidos($this->input->post('estatus')));
     }
+
+    public function informacion($id) {
+        $data['datos'] = $this->Historial_modelo->informacionPedido($id);
+        $this->load->view('Historial/historial_modal', $data);
+    }
+
+    public function buscarFecha() {
+        echo json_encode($this->Historial_modelo->buscarFecha($this->input->post('fechaInicio'), $this->input->post('fechaFinal')));
+    }
+
+    public function buscarUsuario($usuario) {
+        echo json_encode($this->Historial_modelo->buscarUsuario($usuario));
+    }
+
+    public function buscaEspecifica() {
+        echo json_encode($this->Historial_modelo->buscaEspecifica($this->input->post()));
+    }
 }
