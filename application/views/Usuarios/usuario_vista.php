@@ -115,7 +115,6 @@
 		$(document).on("click", "#modificar", function () {
 			var id = $(this).attr('data-id');
 			BootstrapDialog.show({
-				
                 title: 'Modificar Usuario', // Aquí se pone el título
 				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
 				message: function(dialog) { 

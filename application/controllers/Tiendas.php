@@ -15,4 +15,17 @@ class Tiendas extends CI_Controller {
     		$this->load->view('Tiendas/tiendas_vista',$data);
         }
     }
+
+    public function obtenerEmpresas() {
+        echo json_encode($this->Tiendas_modelo->infoEmpresas());
+    }
+    
+    public function productos($id) {
+        echo json_encode($this->Tiendas_modelo->obtenerProductos($id));
+    }
+    
+    public function infoProducto($id) {
+        $data['datos'] = $this->Tiendas_modelo->infoProducto($id);
+        $this->load->view('Tiendas/tiendas_modal', $data);
+    }
 }
