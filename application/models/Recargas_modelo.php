@@ -6,11 +6,24 @@ class Recargas_modelo extends CI_Model{
         parent::__construct();
 	}
     public function agregarRecargas($data) {
-        $this->db->where('nombre',$data['inpUsuario']);
-        $query = $this->db->get('usuarios')->row();
+        $this->db->where('id',$data['inpUsuario']);
+        $query = $this->db->get('clientes')->row();
         if($query != null) {
-            $datos = array("monto" => $data['inpMonto'],"id_usuario" => $query->id, "id_empleado" => $this->session->idUsuario);
+            $datos = array(
+                "monto" => $data['inpMonto'],
+                "id_cliente" => $query->id,
+                "id_vendedor" => $this->session->idUsuario);
             $this->db->insert('recargas', $datos);
+
+            $this->db->select('clientes.saldo');
+            $this->db->where('id',$query->id);
+            $saldo =  $this->db->get('clientes')->row();
+            $saldo = $saldo->saldo + $data['inpMonto'];
+
+            $this->db->where('id',$query->id);
+            $saldoCliente = array("saldo" => $saldo);
+            $this->db->update('clientes', $saldoCliente);
+
             if($this->db->affected_rows() > 0) {
                 return array('exito' => true, 'msg' => '');
             }
@@ -24,13 +37,12 @@ class Recargas_modelo extends CI_Model{
 	}
     
     	public function obtenerRecargas() {
-        
-        $this->db->select('usuarios.nombre, empleados.nombre as nombreVendedor, recargas.id, recargas.monto');    
-        $this->db->from('recargas');    
-        $this->db->join('usuarios', 'recargas.id_usuario = usuarios.id');    
-        $this->db->join('empleados', 'recargas.id_empleado = empleados.id_usuario');    
-        $this->db->where('recargas.id_empleado', $this->session->idUsuario);    
-		$query = $this->db->get();
+         $this->db->select('CONCAT(clientes.nombre," ",clientes.apellidopaterno," ",clientes.apellidomaterno) as nombre, CONCAT(vendedores.nombre," ",vendedores.apellidopaterno," ",vendedores.apellidomaterno) as nombreVendedor, recargas.id, recargas.monto');   
+         $this->db->join('clientes', 'recargas.id_cliente = clientes.id');    
+         $this->db->join('vendedores', 'recargas.id_vendedor = vendedores.id');    
+         $this->db->where('recargas.id_vendedor', $this->session->idVendedor);    
+        $query = $this->db->get('recargas');
+        //echo $this->db->last_query();
 		if($query->num_rows() > 0) {
 			return $query->result();
 		}

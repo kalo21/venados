@@ -22,9 +22,9 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="">
-                                            <input type="password" id="inpUsuario" name="inpUsuario" class="form-control input-lg" placeholder="Usuario">
+                                            <input type="password" id="inpUsuario" name="inpUsuario" class="form-control input-lg" placeholder="ID">
                                             <br>
-                                            <input type="text" id="inpVerificar" name="inpVerificar" class="form-control input-lg" placeholder="Usuario">
+                                            <input type="text" id="inpVerificar" name="inpVerificar" class="form-control input-lg" placeholder="ID">
                                             <br>
                                             <div class="form-group">
                                                 <div class="input-group input-group-lg">
@@ -85,6 +85,7 @@
             $('#titulo').html('Recargas');
         }); 
         $('#btnAgregar').click(function() {
+            $('#error').hide();
             BootstrapDialog.confirm({
                 title: 'Advertencia',
                 message: 'Se Recargara saldo al usuario seleccionada ¿Desea continuar?',
