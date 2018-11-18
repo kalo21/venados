@@ -23,13 +23,16 @@ class Api_model extends CI_Model {
 		return $query->result();
 	}
 
-	public function getUser($data){
+	public function getUser($usuario){
 
 		try{
-			$q = $this->db->select('*')->from('usuarios')->where(array('nombre'=>$data->user,'estatus'=>1,'idperfil'=>4))->get()->row();
+			$q = $this->db
+				->where(array('nombre'=>$usuario->user,'estatus'=>1))
+				->where('(idperfil = 4 OR idperfil = 5)')
+				->get('usuarios')->row();
 			if(!is_null($q)){
 				$encrypted_pass = $q->contraseña;
-				if(password_verify($data->password, $encrypted_pass)){
+				if(password_verify($usuario->password, $encrypted_pass)){
 					return (array) $q;
 				}
 				else{
@@ -47,10 +50,14 @@ class Api_model extends CI_Model {
 		}
 	}
 
-	public function addUser($data){
-		$data[0]->contraseña = password_hash($data[0]->contraseña, PASSWORD_DEFAULT);
+	public function register($usuario, $cliente){
+		$usuario->contraseña = password_hash($usuario->contraseña, PASSWORD_DEFAULT);
 		try{
-		    if($this->db->insert('usuarios', $data[0])){
+			$this->db->trans_start();
+		    if($this->db->insert('usuarios', $usuario)){
+				$cliente['id_usuario'] = $this->db->insert_id();
+				$this->db->insert('clientes', $cliente);
+				$this->db->trans_complete();
 		    	return 1;
 		    }
 		    else{
@@ -67,16 +74,28 @@ class Api_model extends CI_Model {
 		return $this->db->select('id')->where('nombre',$user)->get('usuarios')->row();
 	}
 
-	public function addPedido($data){
-		return $this->db->insert('pedidos', $data[0]);
+	public function addPedido($usuario){
+		return $this->db->insert('pedidos', $usuario[0]);
 	}
 
-	public function getProductos($id)
-		{
-			$q = $this->db->select('*')->from('productos')->where('idempresa',$id)->get();
-			return $q->result();
-		}
-	
-	//ACABA VAN LAS FUNCIONES
+	public function getProductos($id){
+		$q = $this->db->select('*')->from('productos')->where('idempresa',$id)->get();
+		return $q->result();
+	}
+
+	public function getNotifications($idUser){
+		$this->db->join('pedidos', 'pedidos.id = notificaciones.idpedido');
+		$this->db->join('empresas', 'pedidos.idempresa = empresas.id');
+		$this->db->where(array('pedidos.idusuario'=>$idUser, 'notificaciones.estatus'=>1));
+		$this->db->select('notificaciones.id, empresas.nombre, pedidos.estatus, notificaciones.idpedido, notificaciones.mensaje, notificaciones.fecha, notificaciones.hora');
+		$q = $this->db->get('notificaciones')->result();
+		return $q;
+	}
+
+	public function deleteNotifications($ids){
+		$this->db->where_in('id', $ids);
+		$usuario = array('estatus'=>0);
+		$this->db->update('notificaciones',$usuario);
+	}
 	
 }

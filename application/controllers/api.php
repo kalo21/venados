@@ -13,14 +13,14 @@ class Api extends CI_Controller {
 	        die();
 		}
 		$this->objOfJwt = new implementJwt();
-	    parent::__construct();
+		parent::__construct();
+		$this->load->model('Api_model');
 	}
 	public function index(){
 		echo "sirbp";
 	}
 	public function getStores(){
-		$this->load->model('Api_model');
-		$stores = $this->api_model->getStores();
+		$stores = $this->Api_model->getStores();
 		echo json_encode($stores);
 		//$json= json_encode($stores);
 		//$key = 'SuperSecretKeyss';
@@ -31,19 +31,31 @@ class Api extends CI_Controller {
 
 	}
 
-
+	/**
+	 * Registro
+	 */
 	public function addUser(){
-		$this->load->model('api_model');
-		$json_str = file_get_contents('php://input');
-		$json_obj = json_decode($json_str);
-		if($json_obj != ''){
-			if(($msg = $this->api_model->addUser($json_obj, true)) == 1){
-				$id = $this->getIdByUser($json_obj[0]->nombre);
+		$json_obj = json_decode(file_get_contents('php://input'));
+
+		$usuario = $json_obj[0];
+		$cliente = $json_obj[1];
+		$apellidos = explode(" ",$cliente->apellidos);
+		
+		$clienteDB = array(
+			'nombre' => $cliente->nombre,
+			'apellidopaterno' => $apellidos[0],
+			'apellidomaterno'=>sizeof($apellidos)== 2?$apellidos[1]:' ',
+			'telefono' => $cliente->telefono,
+			'saldo' => 0.0
+		);
+		if($usuario != ''){
+			if(($msg = $this->Api_model->register($usuario,$clienteDB)) == 1){
+				$id = $this->getIdByUser($usuario->nombre);
 				$dataToken = array('id' => $id, 
-								   'nombre' => $json_obj[0]->nombre);
+								   'nombre' => $usuario->nombre);
 				$token = $this->objOfJwt->GenerateToken($dataToken);
 				$response = array('id' => $id,
-							      'nombre' => $json_obj[0]->nombre,
+							      'nombre' => $usuario->nombre,
 								  'token' => $token);
 				echo json_encode($response);
 			}else{
@@ -62,8 +74,7 @@ class Api extends CI_Controller {
 	}
 
 	public function getIdByUser($user){
-		$this->load->model('api_model');
-		$id = $this->api_model->getIdByUser($user)->id;
+		$id = $this->Api_model->getIdByUser($user)->id;
 		return $id;
 	}
 
@@ -73,17 +84,17 @@ class Api extends CI_Controller {
 	}
 
 	public function login(){
-		$this->load->model('api_model');
 		$json_str = file_get_contents('php://input');
 		$json_obj = json_decode($json_str);
 		if($json_obj != ''){
-			$data = $this->api_model->getUser($json_obj);
+			$data = $this->Api_model->getUser($json_obj);
 			if (!(isset($data['code']))){
 				$dataToken = array('id' => $data['id'], 
 								   'nombre' => $data['nombre']);
 				$token = $this->objOfJwt->GenerateToken($dataToken);
 				$response = array('id' => $data['id'],
-							      'nombre' => $data['nombre'],
+								  'nombre' => $data['nombre'],
+								  'tipo_usuario'=>$data['idperfil']==4?'Cliente':'Vendedor',
 								  'token' => $token);
 				echo json_encode($response);
 			}else{
@@ -106,17 +117,15 @@ class Api extends CI_Controller {
 	public function getProducts()
 	{
 		$id = $this->input->get('id');
-		$this->load->model('api_model');
-		$productos = $this->api_model->getProductos($id);
+		$productos = $this->Api_model->getProductos($id);
 		echo json_encode($productos);
 		//$this->load->view('welcome_message');
 	}
 
 	public function addPedido(){
-		$this->load->model('api_model');
 		$json_str = file_get_contents('php://input');
 		$json_obj = json_decode($json_str);
-		echo $this->api_model->addPedido($json_obj, true);
+		echo $this->Api_model->addPedido($json_obj, true);
 	}
 
 	/**
@@ -162,5 +171,16 @@ class Api extends CI_Controller {
         $response = curl_exec($ch);
         curl_close($ch);
        return $response;
-    }
+	}
+	
+	public function getNotifications(){
+		$id_usuario = $this->input->get('id');
+		echo json_encode($this->Api_model->getNotifications($id_usuario));
+	}
+
+	public function deleteNotifications(){
+		$idsNotif_str = $this->input->get('ids');
+		$ids = explode(",", $idsNotif_str);
+		$this->Api_model->deleteNotifications($ids);
+	}
 }
