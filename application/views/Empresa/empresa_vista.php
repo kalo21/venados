@@ -70,6 +70,9 @@
         $(document).on("change", "#foto", function () {
 			cambio++;
 		});
+		$(document).on("change", "#fotoV", function () {
+			cambio++;
+		});
         
 		$(document).on("click", "#cambiarEstado", function () {
             var id = $(this).attr('data-id');
