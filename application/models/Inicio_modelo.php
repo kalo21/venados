@@ -38,6 +38,23 @@ class Inicio_modelo extends CI_Model{
                             return $obj = array('code'=>false, 'message'=>'Error, usuario sin empresa');
                         }
                     }
+                    if($query->idperfil == 5) {
+                        $this->db->where('id_usuario', $query->id);
+                        $datos = $this->db->get('vendedores')->row();
+                        if(!is_null($datos)){
+                            $vendedor_data = array(
+                                'nombreVendedor' => $datos->nombre,
+                                'apellidoVendedor' => $datos->apellidopaterno,
+                                'apellidoMaterno' =>$datos->apellidomaterno,
+                                'idVendedor' =>$datos->id
+                            );
+                            $session_data = array_merge($session_data, $vendedor_data);
+                            
+                        }
+                        else{
+                            return $obj = array('code'=>false, 'message'=>'Error, usuario sin vendedor');
+                        }
+                    }
                     $this->session->set_userdata($session_data);
                     return $obj = array('code'=>true, 'message'=>'Correcto');
                 }

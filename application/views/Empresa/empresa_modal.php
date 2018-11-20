@@ -17,20 +17,21 @@
     </div>
     <div class="col-md-5">
         <div id="divImagenV"> 
-            <label for="fotoV" id="labelImgV">  <img style="height: 200px; width:200px;" src="<?= (isset($datos->logotipo)) ? base_url($datos->logotipo) : base_url('assets/images/empresa.png')?>" class="img-circles img-responsive text-center" alt="imagen_producto"> </label>
+            <label for="fotoV" id="labelImgV">  <img style="height: 200px; width:200px;" src="<?= (isset($datos->img_fondo)) ? base_url($datos->img_fondo) : base_url('assets/images/empresa.png')?>" class="img-circles img-responsive text-center" alt="imagen_producto"> </label>
             <input class="form-control" name="fotoV" type="file" id="fotoV" style="display: none" accept="image/*">
         </div>
     </div> 
+    <div class="container"></div>
     <div class="form-group">
         <label class="col-sm-3 control-label">Empresa</label>
         <div class="col-sm-9">
-            <input type="text" value ="<?php echo(isset($datos->nombre)) ? $datos->nombre : '' ;?>" data-nombre="<?php echo(isset($datos->nombre)) ? $datos->nombre : '';?>" class="form-control Letras" id="inpNombreE" name="inpNombreE">
+            <input type="text" value ="<?= (isset($datos->nombre)) ? $datos->nombre : '' ;?>" data-nombre="<?php echo(isset($datos->nombre)) ? $datos->nombre : '';?>" class="form-control Letras" id="inpNombreE" name="inpNombreE">
         </div>        
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label">Descripcion</label>
         <div class="col-sm-9">
-            <input type="text" value ="<?php echo(isset($datos->descripcion)) ? $datos->descripcion : '' ;?>" data-descripcion="<?php echo(isset($datos->descripcion)) ? $datos->descripcion : '' ;?>" class="form-control Letras" id="inpDescripcion" data-role="tagsinput" name="inpDescripcion">
+            <input type="text" value ="<?= (isset($datos->descripcion)) ? $datos->descripcion : '' ;?>" data-descripcion="<?php echo(isset($datos->descripcion)) ? $datos->descripcion : '' ;?>" class="form-control Letras" id="inpDescripcion" data-role="tagsinput" name="inpDescripcion">
         </div> 
     </div>
     <div class="form-group">

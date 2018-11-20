@@ -106,13 +106,13 @@ class Empresa extends CI_Controller {
 		$this->form_validation->set_rules('inpTelefono', 'Teléfono de empresa', 'numeric');
 		$this->form_validation->set_rules('inpLocal', 'Local', 'required');
         if($this->upload->do_upload('foto')) {
+            $data = array("upload_data" => $this->upload->data());
+            $nombreArchivop = $data['upload_data']['file_name'];
             if($this->upload->do_upload('fotoV')){
                 $dataV = array("upload_data" => $this->upload->data());
                 $nombreArchivopV = $data['upload_data']['file_name'];
-                $data = array("upload_data" => $this->upload->data());
-            $nombreArchivop = $data['upload_data']['file_name'];
             if ($this->form_validation->run() === TRUE) {
-                echo json_encode($this->Empresa_modelo->modificarEmpresa($this->input->post(), $nombreArchivop));
+                echo json_encode($this->Empresa_modelo->modificarEmpresa($this->input->post(), $nombreArchivop,$nombreArchivopV));
             }
             else {
                 echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
