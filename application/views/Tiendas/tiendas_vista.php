@@ -39,7 +39,7 @@
         });
 
         $(document).on('click', '#empresa', function() {
-            var idEmpresa = $(this).attr('data-id');
+            idEmpresa = $(this).attr('data-id');
             $.ajax({
                 url: base_url+'index.php/Tiendas/productos/'+idEmpresa,
                 success: function(data) {
@@ -78,6 +78,22 @@
 				  	cssClass: 'btn-rojo',
                   	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
                     //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
+                    var cantidad = parseInt($('#cantidad').text()); 
+                    var nombre = $('#nombreProducto').text();
+                    var precio = parseFloat($('#precio').text());
+                    console.log(precio);
+                    $.ajax({
+                        url: base_url+'index.php/Tiendas/agregarCarrito',
+                        type: 'POST',
+                        data: {idProducto:idProducto, cantidad:cantidad, nombre:nombre, precio:precio, idEmpresa:idEmpresa},
+                        success: function(data) {
+                            if(data) {
+                                data = JSON.parse(data);
+                                console.log(data);
+                                dialogItself.close();
+                            }
+                        },
+                    });
 					},
 			  	}]
             });
@@ -117,10 +133,10 @@
                 contenedor += '<div id="infoProducto" data-id="'+producto['id']+'" class="thumbnail text-center col-md-4">';
                 contenedor += '   <img style="max-width: 312px; max-height:175px" class="img-responsive" src="'+base_url+producto['imagen']+'" alt="">'
                 contenedor += '   <div class="row-fluid" style="padding-top: 3%">';
-                contenedor += '       <div class="col-xs-7 text-left">';
+                contenedor += '       <div class="col-md-7 text-left">';
                 contenedor += '           <strong>'+producto['nombre']+'</strong>';
                 contenedor += '       </div>';
-                contenedor += '       <div class="col-xs-4 col-xs-offset-1">';
+                contenedor += '       <div class="col-md-4 col-xs-offset-1">';
                 contenedor += '           <p class="text-success">$ '+producto['precio']+'</p>';
                 contenedor += '       </div>';
                 contenedor += '   </div>';

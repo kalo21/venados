@@ -53,6 +53,7 @@
 </body>
 </html>
 <script>
+
 		var base_url = '<?php echo base_url(); ?>';
 		function insertarPaginado(id,length=10,search=false){
     	  return $(`#${id}`).DataTable({
@@ -93,6 +94,9 @@
         contenedor.style.visibility = 'hidden';
         contenedor.style.opacity = '0';
     }
+
+
+  
     
 
 </script>

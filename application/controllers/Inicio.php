@@ -54,6 +54,7 @@ class Inicio extends CI_Controller {
 
     public function salir() {
         $this->session->sess_destroy();
+        $this->cart->destroy();
         redirect('Inicio');
     }
 }

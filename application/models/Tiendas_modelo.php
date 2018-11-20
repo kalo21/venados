@@ -26,5 +26,6 @@ class Tiendas_modelo extends CI_Model{
         $query = $this->db->get('productos');
         return $query->result();
     }
+
 }
 	
