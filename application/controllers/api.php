@@ -127,24 +127,20 @@ class Api extends CI_Controller {
 		$json_obj = json_decode($json_str);
 		echo $this->Api_model->addPedido($json_obj, true);
 	}
-
 	/**
-     * Create New Notification
-     *
-     * Creates adjacency list based on item (id or slug) and shows leafs related only to current item
-     *
-     * @param int $user_id Current user id
-     * @param string $title Current title
-     *
-     * @return string $response
-     */
+	 * Envia notificaciones de la tienda al usuario
+	 * Recibe por post 
+	 * -store: El nombre de la tienda que lo manda 
+	 * -message: EL mensaje que va a mandar
+	 * -user: El nombre de usuario al que se le va a mandar
+	 */
     function send_notif(){
 		$store = $this->input->post('store');
         $message = $this->input->post("msg");
 		$user = $this->input->post("user");
         $content = array(
-			"en" => "El pedido de ${store} se ha cancelado por el siguiente motivo: ${message}",
-			"es" => "El pedido de ${store} se ha cancelado por el siguiente motivo: ${message}"
+			"en" => "Transacción exitosa, ha recibido $$monto de saldo.",
+			"es" => "Transacción exitosa, ha recibido $$monto de saldo."
         );
 
         $fields = array(
@@ -182,5 +178,59 @@ class Api extends CI_Controller {
 		$idsNotif_str = $this->input->get('ids');
 		$ids = explode(",", $idsNotif_str);
 		$this->Api_model->deleteNotifications($ids);
+	}
+
+	public function recargarSaldo(){
+		$data = json_decode(file_get_contents('php://input'))[0];
+		echo json_encode($this->Api_model->recargarSaldo($data));
+	}
+	/**
+	 * Envia la notificación de que el saldo se le ha bonificado correctamente
+	 * Recibe por post:
+	 * user: El nombre de usuario al que se le realizó la transacción
+	 * monto: La cantidad de saldo que se le depositó.
+	 */
+	function send_notif_saldo(){
+		$user = $this->input->post("user");
+		$monto = $this->input->post("monto");
+        $content = array(
+			"en" => "Transacción exitosa, ha recibido $$monto de saldo.",
+			"es" => "Transacción exitosa, ha recibido $$monto de saldo."
+        );
+
+        $fields = array(
+			'app_id' => "9ba5748e-6561-4bdf-8c4c-77d4766fbde8",
+            'filters' => array(array("field" => "tag", "key" => "email", "relation" => "=", "value" => "$user")),
+			'contents' => $content,
+			'priority' => '10',
+			'android_channel_id' => '2d85d014-c228-47af-bed2-f7b47dc94f56'
+		);
+		$fields = json_encode($fields);
+        print("\nJSON sent:\n");
+        print($fields);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+            'Authorization: Basic NDUxNTQ0OTItYmJmOS00ZDVhLWFjYjUtYzE2Mzg5YzkwODAy'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+       return $response;
+	}
+
+	public function verificarPin(){
+		$data = json_decode(file_get_contents('php://input'));
+		echo $this->Api_model->verificar_pin($data->pin, $data->user_id);
+	}
+
+	public function getHistorialRecargas(){
+		$data = json_decode(file_get_contents('php://input'));
+		echo json_encode($this->Api_model->get_historial_recargas($data->id_empleado, $data->limit,$data->offset));
 	}
 }

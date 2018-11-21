@@ -97,5 +97,45 @@ class Api_model extends CI_Model {
 		$usuario = array('estatus'=>0);
 		$this->db->update('notificaciones',$usuario);
 	}
+
+	public function recargarSaldo($data){
+		try{
+			$this->db->trans_start();
+		    if($this->db->insert('recargas', $data)){
+				$this->db->set('clientes.saldo','`clientes`.`saldo` + '.$data->monto, false);
+				$this->db->where('clientes.id', $data->id_cliente);
+				$this->db->update('clientes');
+				if($this->db->affected_rows()==0){
+					return 'El usuario no existe, reingreselo e inténte de nuevo.';
+				}
+				$this->db->trans_complete();
+		    	return 1;
+		    }
+		    else{
+		    	return 'Error en la conexión, por favor inténtelo de nuevo.';
+		    }
+		}
+		catch(Exception $e){
+		    return 'Error en la conexión, por favor inténtelo de nuevo.';
+		}
+	}
+
+	public function verificar_pin($pin, $usuario_id){
+		$this->db->select('vendedores.id');
+		$this->db->where(array('vendedores.pin'=>$pin, 'vendedores.id_usuario'=>$usuario_id));
+		if(is_null($this->db->get('vendedores')->row())){
+			return -1;
+		}
+		else{
+			return 1;
+		}
+	}
+
+	public function get_historial_recargas($id_empleado, $limit, $offset){
+		$this->db->where('recargas.id_empleado',$id_empleado);
+		$query = $this->db->get('recargas', $limit, $offset);
+		//echo $this->db->last_query();
+		return $query->result();
+	}
 	
 }
