@@ -198,7 +198,7 @@
 						$.ajax({
 							url: base_url+'index.php/Modulos/agregarModulo/',
 						  	type: 'POST',
-						  	data: $('#frmAgregarModulo').serialize(),
+						  	data: $('#frmAgregarModulo').serialize()+'&oldNombre='+$('#inpNombre').attr('data-id')+'&oldDescripcion='+$('#inpDescripcion').attr('data-descripcion')+'&oldIcono='+$('#inpIcono').attr('data-Icono'),
 						  	beforeSend: function(){
 							$('#load').show();
 							},
