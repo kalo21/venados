@@ -31,6 +31,11 @@ class Inicio extends CI_Controller {
                 $data['informacion'] = informacionInicial("VenadoSnacks | Cliente");
                 $this->load->view('Cliente/index',$data);
                 break;
+            case '5':
+                $data['modulos'] = modulos();
+                $data['informacion'] = informacionInicial("VenadoSnacks | Vendedor");
+                $this->load->view('Vendedor/index',$data);
+                break;    
             default:
                 $this->load->view('Inicio/login');
                 break;
@@ -49,6 +54,7 @@ class Inicio extends CI_Controller {
 
     public function salir() {
         $this->session->sess_destroy();
+        $this->cart->destroy();
         redirect('Inicio');
     }
 }

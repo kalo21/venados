@@ -135,12 +135,16 @@ class Api extends CI_Controller {
 	 * -user: El nombre de usuario al que se le va a mandar
 	 */
     function send_notif(){
-		$store = $this->input->post('store');
         $message = $this->input->post("msg");
 		$user = $this->input->post("user");
         $content = array(
+<<<<<<< HEAD
 			"en" => "Transacción exitosa, ha recibido $$monto de saldo.",
 			"es" => "Transacción exitosa, ha recibido $$monto de saldo."
+=======
+			"en" => "${message}",
+			"es" => "${message}"
+>>>>>>> aa1aeeaf513ca4d917e886e4809fec2ace16663c
         );
 
         $fields = array(

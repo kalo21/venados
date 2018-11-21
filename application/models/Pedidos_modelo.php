@@ -24,16 +24,38 @@ class Pedidos_modelo extends CI_Model{
         return $query->result();
     }
 
-    public function cancelarPedido($id) {
+    public function cancelarPedido($id, $msg) {
         $this->db->where('pedidos.id', $id);
         $data = array( 'estatus' => 'Cancelado');
         $this->db->update('pedidos', $data);
+        $notificacion = array(
+            'idpedido' => $id,
+            'mensaje' => $msg,
+            'fecha' => date('Y/m/d'),
+            'hora' => date('h:i:sa'),
+            'estatus' => 1
+        );
+        $this->db->insert('notificaciones', $notificacion);
     }
     
+    public function pedidoProceso($id) {
+        $this->db->where('pedidos.id', $id);
+        $data = array('estatus' => 'En proceso');
+        $this->db->update('pedidos', $data);
+    }
+
     public function finalizarPedido($id) {
         $this->db->where('pedidos.id', $id);
         $data = array('estatus' => 'Realizado');
         $this->db->update('pedidos', $data);
+        $notificacion = array(  
+            'idpedido' => $id,
+            'mensaje' => 'Pedido finalizado',
+            'fecha' => date('Y/m/d'),
+            'hora' => date('h:i:sa'),
+            'estatus' => 1
+        );
+        $this->db->insert('notificaciones', $notificacion);
     }
 
 }

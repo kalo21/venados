@@ -577,6 +577,10 @@
             opacity     : 0.6;
             background  : #000  url(<?php echo base_url('assets/images/carga.gif');?>) center no-repeat;
   }
+  .carrito::before{
+    content: "\f07a" !important;
+  }
+
    </style>
 </head>
 <body class="hold-transition skin-red-light sidebar-mini">
@@ -599,9 +603,16 @@
         <span class="sr-only">Toggle navigation</span>
       </a>
 
-      <div class="navbar-custom-menu">
+	  <?php 
+	  	if($this->session->idPerfil == 4) {
+			 echo '<a id="carrito" href="'.base_url('index.php/Carrito/').'" class="sidebar-toggle carrito" role="button">
+					   <span class="sr-only"></span>
+			  	   </a>';
+		  }
+	  ?>
+      
+      <div class="navbar-custom-menu"> 
         <ul class="nav navbar-nav">
- 
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -661,6 +672,7 @@
 
       </div>
     </nav>
+
    
   </header> 
 <div id="load" hidden >Please wait ...</div>
