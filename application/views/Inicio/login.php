@@ -41,54 +41,76 @@
 	  opacity     : 0.8;
 	  background  : #000  url(<?php echo base_url('assets/images/carga.gif');?>) center no-repeat;
 	}
+	.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+
+position: relative;
+min-height: 1px;
+padding-right: 0px;
+padding-left: 0px;
+
+}
+	/* #ecf0f5 */
 </style>
 </head>
 <body>
-	
-	<div class="limiter">
-		<div class="container-login100" style="background-image: url('<?php echo base_url();?>assets/images/bg-01.jpg');">
-			<div class="wrap-login100">
-				<form class="login100-form validate-form" id="frmLogin">
-					<span class="login100-form-logo">
-						<i class="fa fa-users"></i>
-						<!--<img class="" src="images/logo.jpg" alt="aa" style="width: 100%;">-->
-					</span>
+	<div class="col-md-6" style="display: flex; align-items: center; justify-content : center;  background: #f6032f;
+  background: -webkit-linear-gradient(top, #f6032f, #7b1821);
+  background: -o-linear-gradient(top, #f6032f, #7b1821);
+  background: -moz-linear-gradient(top, #f6032f, #7b1821); 
+  background: linear-gradient(top, #f6032f, #7b1821); height : 100%;">
+		<div>
+		<img height='150' src="<?= base_url('assets/images/logo2.png');?>" alt="">
+			
+		</div>
+		<div>
+			<h1 style="color : white; font-size : 60px;">enado<b>Snacks</b></h1> 
+		</div>
+		
+	</div>
+	<div class="col-md-6">
+		<div class="limiter">
+			<div class="container-login100" style="background-color: #ecf0f5; height : 100%;">
+				<div class="wrap-login100" >
+					<form class="login100-form validate-form" id="frmLogin">
+						<!-- <span class="login100-form-logo">
+							<i class="fa fa-users"></i>
+						</span> -->
 
-					<span class="login100-form-title p-b-34 p-t-27">
-						Inicio de sesión
-					</span>
-					<div class="col-12">
-						
-					</div>
-					<div id="divUsuario" class="wrap-input100 validate-input" data-validate = "El usuario es requerido">
-						<input class="input100" type="text" name="inpUsuario" id="inpUsuario" placeholder="Usuario">
-						<span class="focus-input100" data-placeholder="&#xf207;"></span>
-					</div>
+						<span class="login100-form-title p-b-34 p-t-27">
+							Inicio de sesión
+						</span>
+						<!-- <div class="col-12">
+							hola
+						</div> -->
+						<div id="divUsuario" class="wrap-input100 validate-input" data-validate = "El usuario es requerido">
+							<input class="input100" type="text" name="inpUsuario" id="inpUsuario" placeholder="Usuario">
+							<span class="focus-input100" data-placeholder="&#xf207;"></span>
+						</div>
 
-					<div id="divContrasena" class="wrap-input100 validate-input" data-validate="Contraseña es requerida">
-						<input class="input100" type="password" name="inpContrasena" id="inpContrasena" placeholder="Contraseña">
-						<span class="focus-input100" data-placeholder="&#xf191;"></span>
-					</div>
+						<div id="divContrasena" class="wrap-input100 validate-input" data-validate="Contraseña es requerida">
+							<input class="input100" type="password" name="inpContrasena" id="inpContrasena" placeholder="Contraseña">
+							<span class="focus-input100" data-placeholder="&#xf191;"></span>
+						</div>
 
-					<div id="error" hidden class="contact100-form-checkbox" >
-						<!--<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">-->
-						<label  id="msg-error" class="label-error text-center border">
-							Usuario/Contraseña incorrecta
-						</label>
-					</div>
+						<div id="error" hidden class="contact100-form-checkbox" >
+							<label  id="msg-error" class="label-error text-center border">
+								Usuario/Contraseña incorrecta
+							</label>
+						</div>
 
-					<div class="container-login100-form-btn">
-						<button type="button" id="btnInicio" class="login100-form-btn">
-							Entrar
-						</button>
-					</div>
+						<div class="container-login100-form-btn">
+							<button type="button" id="btnInicio" class="login100-form-btn">
+								Entrar
+							</button>
+						</div>
 
-					<div class="text-center p-t-40" >
-						<a id="olvContra" class="txt1">
-							Olvido Usuario / Contraseña?
-						</a>
-					</div>
-				</form>
+						<div class="text-center p-t-40" >
+							<a id="olvContra" class="txt1">
+								Olvido Usuario / Contraseña?
+							</a>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>

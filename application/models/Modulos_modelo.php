@@ -66,7 +66,7 @@ class Modulos_modelo extends CI_Model{
 	}
 	
 	public function modificarmodulo($data) {
-		if($data['inpNombre'] == $data['oldNombre'] && $data['inpDescripcion'] == $data['oldDescripcion'] ) {
+		if($data['inpNombre'] == $data['oldNombre'] && $data['inpDescripcion'] == $data['oldDescripcion'] && $data['inpIcono'] == $data['oldIcono']) {
 			return array('exito' => false, 'msg' =>'No se actualizaron los datos porque no hubo cambios');
 		}
 		if($data['inpNombre'] != $data['oldNombre']) {
@@ -78,19 +78,33 @@ class Modulos_modelo extends CI_Model{
 					return array('exito' => false, 'msg' => 'El nombre insertado ya se encuentra utilizado');
 				}	
 			}
-				$datos = array(
-					'nombre' => $data['inpNombre'],
-					'descripcion' => $data['inpDescripcion'],
-					'icono' => $data['inpIcono']
-				);
-				$this->db->where('id', $data['id']);
-				$this->db->update('modulos', $datos);
-				if($this->db->affected_rows() > 0) {
-					return array('exito' => true, 'msg' => '');
-				}
-				else {
-					return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
-				}
+			$datos = array(
+				'nombre' => $data['inpNombre'],
+				'descripcion' => $data['inpDescripcion'],
+				'icono' => $data['inpIcono']
+			);
+			$this->db->where('id', $data['id']);
+			$this->db->update('modulos', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
+			}
+		}
+		else{
+			$datos = array(
+				'descripcion' => $data['inpDescripcion'],
+				'icono' => $data['inpIcono']
+			);
+			$this->db->where('id', $data['id']);
+			$this->db->update('modulos', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
+			}
 		}
 	}
 	
