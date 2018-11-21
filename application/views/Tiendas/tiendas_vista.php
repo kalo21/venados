@@ -125,7 +125,7 @@
                 contenedor += '</div>';
             });
             $('#contenedor').html(contenedor);
-            $('#header').html('<h3 class="col-md-2 col-md-offset-5 text-center"><strong>Empresas</strong></h3>');
+            $('#header').html('<div style="height:56.4px; display: flex; align-items: center"><strong style="font-size:24px" class="col-md-2 col-md-offset-5 text-center">Empresas</strong></div>');
         }
         
         function dibujarProductos(info) {
@@ -148,8 +148,10 @@
             });
             $('#contenedor').html(contenedor)
             var encabezado = '';
+            encabezado += '<div style="height: 56.4px; display: flex; align-items: center">';
             encabezado += '<a id="regresar" class="col-xs-2"><label class="fa fa-arrow-left" style="color:black; font-size: 24px; "></label></a>';
-            encabezado += '<h3 class="col-xs-2 col-xs-offset-3"><strong>Productos</strong></h3>';
+            encabezado += '<strong style="font-size:24px" class="col-xs-2 col-xs-offset-3">Productos</strong>';
+            encabezado += '</div>';
             $('#header').html(encabezado);
         }
     });
