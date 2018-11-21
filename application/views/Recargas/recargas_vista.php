@@ -22,9 +22,9 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="">
-                                            <input type="password" id="inpUsuario" name="inpUsuario" class="form-control input-lg" placeholder="ID">
+                                            <input type="password" id="inpUsuario" name="inpUsuario" class="form-control input-lg" placeholder="ID de usuario">
                                             <br>
-                                            <input type="text" id="inpVerificar" name="inpVerificar" class="form-control input-lg" placeholder="ID">
+                                            <input type="text" id="inpVerificar" name="inpVerificar" class="form-control input-lg" placeholder="ID de usuario">
                                             <br>
                                             <div class="form-group">
                                                 <div class="input-group input-group-lg">
@@ -32,6 +32,7 @@
                                                     <input type="text" class="form-control" placeholder="Monto" id="inpMonto" name="inpMonto">       
                                                 </div>
                                             </div>
+                                            <input type="password" id="inpPIN" name="inpPIN" class="form-control input-lg" placeholder="PIN del empleado">
                                         </div>
                                     </div>
                                     <br>

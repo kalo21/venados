@@ -104,39 +104,47 @@ class Empresa extends CI_Controller {
 		$this->form_validation->set_rules('inpRFC', 'RFC', 'required');
 		$this->form_validation->set_rules('inpDomicilio', 'Domicilio de empresa', 'required');
 		$this->form_validation->set_rules('inpTelefono', 'Teléfono de empresa', 'numeric');
-		$this->form_validation->set_rules('inpLocal', 'Local', 'required');
+        $this->form_validation->set_rules('inpLocal', 'Local', 'required');
         if($this->upload->do_upload('foto')) {
             $data = array("upload_data" => $this->upload->data());
             $nombreArchivop = $data['upload_data']['file_name'];
             if($this->upload->do_upload('fotoV')){
                 $dataV = array("upload_data" => $this->upload->data());
-                $nombreArchivopV = $data['upload_data']['file_name'];
-                if ($this->form_validation->run() === TRUE) {
-                    echo json_encode($this->Empresa_modelo->modificarEmpresa($this->input->post(), $nombreArchivop,$nombreArchivopV));
+                $nombreArchivopV = $dataV['upload_data']['file_name'];
+                if ($this->form_validation->run() == TRUE) {
+                    echo json_encode($this->Empresa_modelo->modificarEmpresa($this->input->post(),$nombreArchivop , $nombreArchivopV));
                 }
                 else {
                     echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
-                }
-            }
-            else {
-                if($this->input->post('cambio') == 0) {
-                    if ($this->form_validation->run() === TRUE) {
-                        echo json_encode($this->Empresa_modelo->modificarEmpresa($this->input->post()));
-                    }
-                    else {
-                        echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
-                    }   
                 }
             }
         }
-        else {
-            if($this->input->post('cambio') == 0) {
-                if ($this->form_validation->run() === TRUE) {
-                    echo json_encode($this->Empresa_modelo->modificarEmpresa($this->input->post()));
-                }
-                else {
-                    echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
-                }   
+        else if($this->upload->do_upload('foto')  && $this->input->post('cambio') != 0) {
+            $data = array("upload_data" => $this->upload->data());
+            $nombreArchivop = $data['upload_data']['file_name'];
+            if ($this->form_validation->run() == TRUE) {
+                echo json_encode($this->Empresa_modelo->modificarEmpresaLogo($this->input->post(), $nombreArchivop));
+            }
+            else {
+                echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+            }
+        }
+        else if($this->upload->do_upload('fotoV') && $this->input->post('cambioV') != 0){
+            $dataV = array("upload_data" => $this->upload->data());
+            $nombreArchivopV = $dataV['upload_data']['file_name'];
+            if ($this->form_validation->run() == TRUE) {
+                echo json_encode($this->Empresa_modelo->modificarEmpresaFondo($this->input->post(),$nombreArchivopV));
+            }
+            else {
+                echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+            }
+        }
+        else if($this->input->post('cambioV') == 0 && $this->input->post('cambio') == 0){
+            if ($this->form_validation->run() == TRUE) {
+                echo json_encode($this->Empresa_modelo->modificarEmpresaTexto($this->input->post()));
+            }
+            else {
+                echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
             }
         }
 	}

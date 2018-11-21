@@ -22,7 +22,7 @@ class Recargas extends CI_Controller {
         $this->form_validation->set_rules('inpUsuario', 'ID', 'required');
 		$this->form_validation->set_rules('inpVerificar', 'verificar nombre', 'trim|required|matches[inpUsuario]');
 		$this->form_validation->set_rules('inpMonto', 'Monto', 'numeric');
-
+        $this->form_validation->set_rules('inpPIN', 'PIN', 'numeric');
         if ($this->form_validation->run() === TRUE) {
 			echo json_encode($this->Recargas_modelo->agregarRecargas($this->input->post()));
         }

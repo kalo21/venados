@@ -130,7 +130,7 @@ function previewImagenV(input){
         reader.readAsDataURL(input.files[0]);
         reader.onload = function(e){
             //$('#formServicio + img').remove();
-            x+='<label for="foto"> <img style="height: 200px;" src="'+e.target.result+'" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>';
+            x+='<label for="fotoV"> <img style="height: 200px;" src="'+e.target.result+'" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>';
             $('#labelImgV').html("");
             $('#labelImgV').html(x);
         }                

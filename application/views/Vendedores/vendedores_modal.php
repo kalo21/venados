@@ -4,7 +4,7 @@
 
 <form class="form-horizontal" id="frmVendedores" enctype="multipart/form-data">
    <div class="form-group text-center" id="divImagen">
-        <label for="foto" id="labelImg">  <img style="height: 250px; width:250px;" src="<?= (isset($datos->imagen)) ? base_url($datos->imagen) : base_url('assets/images/vendedores.png')?>" class="img-circles img-responsive text-center" alt="imagen_producto"> </label>
+        <label for="foto" id="labelImg">  <img style="height: 250px; width:250px;" src="<?= (isset($datos->imagen)) ? base_url($datos->imagen) : base_url('assets/images/cliente.png')?>" class="img-circles img-responsive text-center" alt="imagen_producto"> </label>
         <input class="form-control" name="foto" type="file" id="foto" style="display: none" accept="image/*">
     </div>
     <div class="form-group">
@@ -35,6 +35,12 @@
         <label class="col-sm-3 control-label">Teléfono</label>
         <div class="col-sm-9">
             <input type="text" value ="<?php echo(isset($datos->telefono)) ? $datos->telefono : '' ;?>" data-telefono="<?php echo(isset($datos->telefono)) ? $datos->telefono : '' ;?>" class="form-control Numeros" id="inpTelefono" name="inpTelefono">
+        </div> 
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">PIN</label>
+        <div class="col-sm-9">
+            <input type="text" value ="<?php echo(isset($datos->pin)) ? $datos->pin : '' ;?>" data-pin="<?php echo(isset($datos->pin)) ? $datos->pin : '' ;?>" class="form-control Numeros" id="inpPIN" name="inpPIN">
         </div> 
     </div>
     

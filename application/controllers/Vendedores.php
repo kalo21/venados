@@ -45,7 +45,8 @@ class Vendedores extends CI_Controller {
 		$this->form_validation->set_rules('inpPaterno', 'Apellido paterno', 'required');
 		$this->form_validation->set_rules('inpDomicilio', 'Domicilio de vendedor', 'required');
 		$this->form_validation->set_rules('inpTelefono', 'Teléfono del vendedor', 'numeric');
-		$this->form_validation->set_rules('inpNombre', 'Nombre', 'required');
+        $this->form_validation->set_rules('inpPIN', 'PIN', 'trim|numeric|max_length[4]|min_lengt[4]');
+        $this->form_validation->set_rules('inpNombre', 'Nombre', 'required');
 		$this->form_validation->set_rules('inpContrasena', 'Contraseña', 'trim|required|min_length[8]');
 		$this->form_validation->set_rules('inpVerificar', 'Verificiar contraseña', 'trim|required|matches[inpContrasena]');
 		$this->form_validation->set_rules('inpCorreo', 'Correo', 'trim|required|valid_email|is_unique[usuarios.correo]');
