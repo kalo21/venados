@@ -138,13 +138,8 @@ class Api extends CI_Controller {
         $message = $this->input->post("msg");
 		$user = $this->input->post("user");
         $content = array(
-<<<<<<< HEAD
-			"en" => "Transacción exitosa, ha recibido $$monto de saldo.",
-			"es" => "Transacción exitosa, ha recibido $$monto de saldo."
-=======
 			"en" => "${message}",
 			"es" => "${message}"
->>>>>>> aa1aeeaf513ca4d917e886e4809fec2ace16663c
         );
 
         $fields = array(
