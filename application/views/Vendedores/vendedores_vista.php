@@ -118,7 +118,6 @@
 
         $('#btnAgregar').click(function() {
 			BootstrapDialog.show({
-				
                 title: 'Agregar vendedores', // Aquí se pone el título
 				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
 				message: function(dialog) { 

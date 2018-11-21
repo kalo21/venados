@@ -60,6 +60,7 @@
 <script>
 	$(document).ready(function(){
         var cambio = 0;
+		var cambioV = 0;
 		var tabla = insertarPaginado('tabla');
 		obtenerDatos($('#opciones').val());
         
@@ -71,7 +72,7 @@
 			cambio++;
 		});
 		$(document).on("change", "#fotoV", function () {
-			cambio++;
+			cambioV++;
 		});
         
 		$(document).on("click", "#cambiarEstado", function () {
@@ -174,6 +175,7 @@
 							complete: function(){
 								$('#load').hide();
                                 cambio = 0;
+								cambioV = 0;
 						  	}
 					  	});
 					},
@@ -212,6 +214,7 @@
                         var form = $('#frmEmpresa')[0];
 						var formData = new FormData(form);
 						formData.append('cambio', cambio);
+						formData.append('cambioV', cambioV);
 						formData.append('id',id);
                         formData.append('oldNombre',$('#inpNombreE').attr('data-nombre'));
                         formData.append('oldDescripcion',$('#inpDescripcion').attr('data-descripcion'));
@@ -249,6 +252,7 @@
 							complete: function(){
 								$('#load').hide();
                                 cambio = 0;
+								cambioV = 0;
 						  	}
 					  	});
 					},

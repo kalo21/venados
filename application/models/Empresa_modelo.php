@@ -92,16 +92,12 @@ class Empresa_modelo extends CI_Model{
 			}
 	}
 
-	public function modificarEmpresa($data, $nombreArchivo = '',$nombreArchivoV = '') {
-        $this->db->select('empresas.logotipo');
+	public function modificarEmpresa($data,$nombreArchivo,$nombreArchivoV){
+		$this->db->select('empresas.logotipo,empresas.img_fondo');
         $this->db->where('id', $data['id']);
-		$nombreArchivop = $this->db->get('empresas')->row();
-		
-        $this->db->select('empresas.img_fondo');
-        $this->db->where('id', $data['id']);
-		$nombreArchivopV = $this->db->get('empresas')->row();
-		
-		if($data['cambio'] == 0 && $data['inpNombreE'] == $data['oldNombre'] && $data['inpDescripcion'] == $data['oldDescripcion'] && $data['inpRazonSocial'] == $data['oldRazonSocial'] && $data['inpRFC'] == $data['oldRFC'] && $data['inpDomicilio'] == $data['oldDomicilio'] && $data['inpTelefono'] == $data['oldTelefono'] && $data['inpLocal'] == $data['oldLocal']) {
+		$Archivo = $this->db->get('empresas')->row();
+
+		if($data['cambio'] == 0 && $data['cambioV'] == 0 && $data['inpNombreE'] == $data['oldNombre'] && $data['inpDescripcion'] == $data['oldDescripcion'] && $data['inpRazonSocial'] == $data['oldRazonSocial'] && $data['inpRFC'] == $data['oldRFC'] && $data['inpDomicilio'] == $data['oldDomicilio'] && $data['inpTelefono'] == $data['oldTelefono'] && $data['inpLocal'] == $data['oldLocal']) {
 			return array('exito' => false, 'msg' =>'No se actualizaron los datos porque no hubo cambios');
 		}
 		if($data['inpNombreE'] != $data['oldNombre']) {
@@ -113,7 +109,7 @@ class Empresa_modelo extends CI_Model{
 					return array('exito' => false, 'msg' => 'El nombre insertado ya se encuentra utilizado');
 				}	
 			}
-			if($data['cambio'] != 0) {
+			else {
 				$datos = array(
 					'nombre' => $data['inpNombreE'],
 					'descripcion' => str_replace(',','-',$data['inpDescripcion']),
@@ -124,9 +120,218 @@ class Empresa_modelo extends CI_Model{
                     'local' => $data['inpLocal'],
 					'logotipo' => 'assets/Empresas/'.$data['id'].'/'.$nombreArchivo,
 					'img_fondo' => 'assets/Empresas/'.$data['id'].'/'.$nombreArchivoV
+
 				);
-                unlink($nombreArchivop->logotipo);
-                unlink($nombreArchivopV->img_fondo);
+                unlink($Archivo->logotipo);
+                unlink($Archivo->img_fondo);
+			}
+			$this->db->where('id', $data['id']);
+			$this->db->update('empresas', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
+			}
+		}
+		if($data['cambio'] > 0 && $data['cambioV'] > 0){
+			$datos = array(
+				'descripcion' => str_replace(',','-',$data['inpDescripcion']),
+				'razonsocial' => $data['inpRazonSocial'],
+				'rfc' => $data['inpRFC'],
+				'domicilio' => $data['inpDomicilio'],
+				'telefono' => $data['inpTelefono'],
+				'local' => $data['inpLocal'],
+				'logotipo' => 'assets/Empresas/'.$data['id'].'/'.$nombreArchivo,
+				'img_fondo' => 'assets/Empresas/'.$data['id'].'/'.$nombreArchivoV
+			);
+			unlink($Archivo->logotipo);
+			unlink($Archivo->img_fondo);
+			$this->db->where('id', $data['id']);
+			$this->db->update('empresas', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
+			}
+		}
+		if($data['cambio'] > 0){
+			$datos = array(
+				'descripcion' => str_replace(',','-',$data['inpDescripcion']),
+				'razonsocial' => $data['inpRazonSocial'],
+				'rfc' => $data['inpRFC'],
+				'domicilio' => $data['inpDomicilio'],
+				'telefono' => $data['inpTelefono'],
+				'local' => $data['inpLocal'],
+				'logotipo' => 'assets/Empresas/'.$data['id'].'/'.$nombreArchivo
+			);
+			unlink($Archivo->logotipo);
+			$this->db->where('id', $data['id']);
+			$this->db->update('empresas', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
+			}
+		}
+		if($data['cambioV'] > 0){
+			$datos = array(
+				'descripcion' => str_replace(',','-',$data['inpDescripcion']),
+				'razonsocial' => $data['inpRazonSocial'],
+				'rfc' => $data['inpRFC'],
+				'domicilio' => $data['inpDomicilio'],
+				'telefono' => $data['inpTelefono'],
+				'local' => $data['inpLocal'],
+				'img_fondo' => 'assets/Empresas/'.$data['id'].'/'.$nombreArchivoV
+			);
+			unlink($Archivo->img_fondo);
+			$this->db->where('id', $data['id']);
+			$this->db->update('empresas', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
+			}
+		}
+	}
+
+	public function modificarEmpresaLogo($data,$nombreArchivo){
+		$this->db->select('empresas.logotipo');
+        $this->db->where('id', $data['id']);
+		$Archivo = $this->db->get('empresas')->row();
+
+		if($data['cambio'] == 0 && $data['cambioV'] == 0 && $data['inpNombreE'] == $data['oldNombre'] && $data['inpDescripcion'] == $data['oldDescripcion'] && $data['inpRazonSocial'] == $data['oldRazonSocial'] && $data['inpRFC'] == $data['oldRFC'] && $data['inpDomicilio'] == $data['oldDomicilio'] && $data['inpTelefono'] == $data['oldTelefono'] && $data['inpLocal'] == $data['oldLocal']) {
+			return array('exito' => false, 'msg' =>'No se actualizaron los datos porque no hubo cambios');
+		}
+		if($data['inpNombreE'] != $data['oldNombre']) {
+			$this->db->where('nombre', $data['inpNombreE']);
+			$query = $this->db->get('empresas');
+			if($query->num_rows() > 0) {
+				$query = $query->row();
+				if($query->nombre === $data['inpNombreE']) {
+					return array('exito' => false, 'msg' => 'El nombre insertado ya se encuentra utilizado');
+				}	
+			}
+			else {
+				$datos = array(
+					'nombre' => $data['inpNombreE'],
+					'descripcion' => str_replace(',','-',$data['inpDescripcion']),
+					'razonsocial' => $data['inpRazonSocial'],
+                    'rfc' => $data['inpRFC'],
+                    'domicilio' => $data['inpDomicilio'],
+                    'telefono' => $data['inpTelefono'],
+                    'local' => $data['inpLocal'],
+					'logotipo' => 'assets/Empresas/'.$data['id'].'/'.$nombreArchivo
+				);
+                unlink($Archivo->logotipo);
+			}
+			$this->db->where('id', $data['id']);
+			$this->db->update('empresas', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
+			}
+		}
+		if($data['cambio'] > 0){
+			$datos = array(
+				'descripcion' => str_replace(',','-',$data['inpDescripcion']),
+				'razonsocial' => $data['inpRazonSocial'],
+				'rfc' => $data['inpRFC'],
+				'domicilio' => $data['inpDomicilio'],
+				'telefono' => $data['inpTelefono'],
+				'local' => $data['inpLocal'],
+				'logotipo' => 'assets/Empresas/'.$data['id'].'/'.$nombreArchivo
+			);
+			unlink($Archivo->logotipo);
+			$this->db->where('id', $data['id']);
+			$this->db->update('empresas', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
+			}
+		}
+	}
+
+	public function modificarEmpresaFondo($data,$nombreArchivo){
+		$this->db->select('empresas.img_fondo');
+        $this->db->where('id', $data['id']);
+		$Archivo = $this->db->get('empresas')->row();
+
+		if($data['cambio'] == 0 && $data['cambioV'] == 0 && $data['inpNombreE'] == $data['oldNombre'] && $data['inpDescripcion'] == $data['oldDescripcion'] && $data['inpRazonSocial'] == $data['oldRazonSocial'] && $data['inpRFC'] == $data['oldRFC'] && $data['inpDomicilio'] == $data['oldDomicilio'] && $data['inpTelefono'] == $data['oldTelefono'] && $data['inpLocal'] == $data['oldLocal']) {
+			return array('exito' => false, 'msg' =>'No se actualizaron los datos porque no hubo cambios');
+		}
+		if($data['inpNombreE'] != $data['oldNombre']) {
+			$this->db->where('nombre', $data['inpNombreE']);
+			$query = $this->db->get('empresas');
+			if($query->num_rows() > 0) {
+				$query = $query->row();
+				if($query->nombre === $data['inpNombreE']) {
+					return array('exito' => false, 'msg' => 'El nombre insertado ya se encuentra utilizado');
+				}	
+			}
+			else {
+				$datos = array(
+					'nombre' => $data['inpNombreE'],
+					'descripcion' => str_replace(',','-',$data['inpDescripcion']),
+					'razonsocial' => $data['inpRazonSocial'],
+                    'rfc' => $data['inpRFC'],
+                    'domicilio' => $data['inpDomicilio'],
+                    'telefono' => $data['inpTelefono'],
+                    'local' => $data['inpLocal'],
+					'img_fondo' => 'assets/Empresas/'.$data['id'].'/'.$nombreArchivo
+				);
+                unlink($Archivo->img_fondo);
+			}
+			$this->db->where('id', $data['id']);
+			$this->db->update('empresas', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
+			}
+		}
+		if($data['cambioV'] > 0){
+			$datos = array(
+				'descripcion' => str_replace(',','-',$data['inpDescripcion']),
+				'razonsocial' => $data['inpRazonSocial'],
+				'rfc' => $data['inpRFC'],
+				'domicilio' => $data['inpDomicilio'],
+				'telefono' => $data['inpTelefono'],
+				'local' => $data['inpLocal'],
+				'img_fondo' => 'assets/Empresas/'.$data['id'].'/'.$nombreArchivo
+			);
+			unlink($Archivo->img_fondo);
+			$this->db->where('id', $data['id']);
+			$this->db->update('empresas', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
+			}
+		}
+	}
+
+	public function modificarEmpresaTexto($data){
+		if($data['cambio'] == 0 && $data['cambioV'] == 0 && $data['inpNombreE'] == $data['oldNombre'] && $data['inpDescripcion'] == $data['oldDescripcion'] && $data['inpRazonSocial'] == $data['oldRazonSocial'] && $data['inpRFC'] == $data['oldRFC'] && $data['inpDomicilio'] == $data['oldDomicilio'] && $data['inpTelefono'] == $data['oldTelefono'] && $data['inpLocal'] == $data['oldLocal']) {
+			return array('exito' => false, 'msg' =>'No se actualizaron los datos porque no hubo cambios');
+		}
+		if($data['inpNombreE'] != $data['oldNombre']) {
+			$this->db->where('nombre', $data['inpNombreE']);
+			$query = $this->db->get('empresas');
+			if($query->num_rows() > 0) {
+				$query = $query->row();
+				if($query->nombre === $data['inpNombreE']) {
+					return array('exito' => false, 'msg' => 'El nombre insertado ya se encuentra utilizado');
+				}	
 			}
 			else {
 				$datos = array(
@@ -146,37 +351,6 @@ class Empresa_modelo extends CI_Model{
 			}
 			else {
 				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
-			}
-		}
-		else if($data['cambio'] != 0 || $data['inpDescripcion'] != $data['oldDescripcion'] || $data['inpRazonSocial'] != $data['oldRazonSocial'] || $data['inpRFC'] != $data['oldRFC'] || $data['inpDomicilio'] != $data['oldDomicilio'] || $data['inpTelefono'] != $data['oldTelefono'] || $data['inpLocal'] != $data['oldLocal']) {
-			if($data['cambio'] != 0) {
-				$datos = array(
-					'descripcion' => str_replace(',','-',$data['inpDescripcion']),
-					'razonsocial' => $data['inpRazonSocial'],
-                    'rfc' => $data['inpRFC'],
-                    'domicilio' => $data['inpDomicilio'],
-                    'telefono' => $data['inpTelefono'],
-                    'local' => $data['inpLocal'],
-					'logotipo' => 'assets/Empresas/'.$data['id'].'/'.$nombreArchivo,
-					'img_fondo' => 'assets/Empresas/'.$data['id'].'/'.$nombreArchivoV
-				);
-                unlink($nombreArchivop->logotipo);
-                unlink($nombreArchivopV->img_fondp);
-			}
-			else {
-				$datos = array(
-					'descripcion' => str_replace(',','-',$data['inpDescripcion']),
-					'razonsocial' => $data['inpRazonSocial'],
-                    'rfc' => $data['inpRFC'],
-                    'domicilio' => $data['inpDomicilio'],
-                    'telefono' => $data['inpTelefono'],
-                    'local' => $data['inpLocal']
-				);
-			}
-			$this->db->where('id', $data['id']);
-			$this->db->update('empresas', $datos);
-			if($this->db->affected_rows() > 0) {
-				return array('exito' => true, 'msg' => '');
 			}
 		}
 	}

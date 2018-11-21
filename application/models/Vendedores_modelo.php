@@ -71,10 +71,11 @@ class Vendedores_modelo extends CI_Model{
             'apellidopaterno' => $data['inpPaterno'],
 			'domicilio' => $data['inpDomicilio'],
 			'telefono' => $data['inpTelefono'],
+			'pin' => $data['inpPIN'],
 			'estatus' => 1,
 			'id_usuario' => $query->id
 		);
-		$this->db->insert('vendedores', $datosVendedoress);
+		$this->db->insert('vendedores', $datosVendedores);
         $idRegistrado = $this->db->insert_id();
 			if($this->db->affected_rows() > 0) {
                 $imagenVendedores = array("imagen" => 'assets/Vendedores/'.$idRegistrado.'/'.$nombreArchivo);
@@ -109,7 +110,8 @@ class Vendedores_modelo extends CI_Model{
                     'apellidomaterno' => $data['inpMaterno'],
                     'apellidopaterno' => $data['inpPaterno'],
                     'domicilio' => $data['inpDomicilio'],
-                    'telefono' => $data['inpTelefono'],
+					'telefono' => $data['inpTelefono'],
+					'pin' => $data['inpPIN'],
 					'imagen' => 'assets/vendedores/'.$data['id'].'/'.$nombreArchivo
 				);
                 unlink($nombreArchivop->imagen);
@@ -119,7 +121,8 @@ class Vendedores_modelo extends CI_Model{
 					'nombre' => $data['inpNombreE'],
                     'apellidomaterno' => $data['inpMaterno'],
                     'apellidopaterno' => $data['inpPaterno'],
-                    'domicilio' => $data['inpDomicilio'],
+					'domicilio' => $data['inpDomicilio'],
+					'pin' => $data['inpPIN'],
                     'telefono' => $data['inpTelefono']
 				);
 			}
@@ -138,7 +141,8 @@ class Vendedores_modelo extends CI_Model{
                     'apellidomaterno' => $data['inpMaterno'],
                     'apellidopaterno' => $data['inpPaterno'],
                     'domicilio' => $data['inpDomicilio'],
-                    'telefono' => $data['inpTelefono'],
+					'telefono' => $data['inpTelefono'],
+					'pin' => $data['inpPIN'],
 					'imagen' => 'assets/Vendedores/'.$data['id'].'/'.$nombreArchivo
 				);
                 unlink($nombreArchivop->imagen);
@@ -147,7 +151,8 @@ class Vendedores_modelo extends CI_Model{
 				$datos = array(
 				    'apellidomaterno' => $data['inpMaterno'],
                     'apellidopaterno' => $data['inpPaterno'],
-                    'domicilio' => $data['inpDomicilio'],
+					'domicilio' => $data['inpDomicilio'],
+					'pin' => $data['inpPIN'],
                     'telefono' => $data['inpTelefono']
 				);
 			}
