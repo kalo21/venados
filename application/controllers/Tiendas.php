@@ -28,4 +28,16 @@ class Tiendas extends CI_Controller {
         $data['datos'] = $this->Tiendas_modelo->infoProducto($id);
         $this->load->view('Tiendas/tiendas_modal', $data);
     }
+
+    public function agregarCarrito() {
+        $data = array(
+            'id'        =>  $this->input->post('idProducto'),
+            'qty'       =>  $this->input->post('cantidad'),
+            'price'     =>  $this->input->post('precio'),
+            'name'      =>  $this->input->post('nombre'),
+            'idEmpresa' =>  $this->input->post('idEmpresa')
+        );
+        $this->cart->insert($data);
+        echo json_encode($this->cart->contents());
+    }
 }

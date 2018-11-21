@@ -26,11 +26,15 @@ class Pedidos extends CI_Controller {
     }
 
     public function cancelarPedido() {
-        $this->Pedidos_modelo->cancelarPedido($this->input->post('id'));
+        $this->Pedidos_modelo->cancelarPedido($this->input->post('id'), $this->input->post('msg'));
     }
 
     public function finalizarPedido() {
         $this->Pedidos_modelo->finalizarPedido($this->input->post('id'));
+    }
+
+    public function enproceso() {
+        $this->Pedidos_modelo->pedidoProceso($this->input->post('id'));
     }
 
 }

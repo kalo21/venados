@@ -65,7 +65,7 @@
                             $.ajax({
                                 url: base_url+'index.php/Pedidos/cancelarPedido/',
                                 type:'POST',
-                                data: {id:id},
+                                data: {id:id, msg:msg},
                                 beforeSend: function(){
                                     $('#load').show();
                                 },
@@ -106,6 +106,40 @@
                 	if(result){
 						$.ajax({
 							url: base_url+'index.php/Pedidos/finalizarPedido/',
+							type:'POST',
+							data: {id:id},
+							beforeSend: function(){
+								$('#load').show();
+							},
+							success: function() {
+                                obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
+                                $('#infoPedido').fadeOut('slow');
+							},
+							error: function(jqXHR, textStatus, errorThrown) {
+								console.log('error::'+errorThrown);
+							},
+							complete: function(){
+							$('#load').hide();
+                       		}
+                    	});
+                	}
+            	}
+          	});
+        });
+
+        $(document).on('click', '#enproceso', function() {
+            id = $(this).attr('data-id');
+            BootstrapDialog.confirm({
+				title: 'Pedido en proceso',
+				message: 'Se cambiará el estado del pedido seleccionado a En proceso ¿Desea continuar?',
+				type: BootstrapDialog.TYPE_DANGER, 
+				btnCancelLabel: 'Cancelar', 
+				btnOKLabel: 'Continuar', 
+				btnOKClass: 'btn-rojo', 
+				callback: function(result) {
+                	if(result){
+						$.ajax({
+							url: base_url+'index.php/Pedidos/enproceso/',
 							type:'POST',
 							data: {id:id},
 							beforeSend: function(){
@@ -196,12 +230,12 @@
                 divInfo += '</div>'
             });
             divInfo += '        <div class="row">'
-            divInfo += '            <div class="col-sm-5">'
+            divInfo += '            <div class="col-sm-7">'
             divInfo += '                <button type="button" id="cancelar" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-default btn-sm">Cancelar</button>'
+            divInfo += '                <button type="button" id="enproceso" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-primary btn-sm">En proceso</button>'
             divInfo += '                <button type="button" id="finalizado" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-rojo btn-sm">Finalizado</button>'
             divInfo += '            </div>'
-            divInfo += '            <b class="col-xs-2 col-xs-offset-2">Total:</b>'
-            divInfo += '            <b class="col-xs-3">$ '+data[0]['total']+'</b>'
+            divInfo += '            <b class="col-xs-5 text-center">Total: $ '+data[0]['total']+'</b>'
             divInfo += '        </div>'
             divInfo += '    </div>'
             divInfo += '</div>'
