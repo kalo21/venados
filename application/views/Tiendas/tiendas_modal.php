@@ -14,7 +14,7 @@
         <h3 class="text-success">$ <span id="precio"><?php echo $datos[0]->precio;?></span></h3>
     </div>
     <div class="col-xs-12 text-left text-justify">
-        <p  style="font-size: 18px"><?php echo $datos[0]->descripcion;?></p>
+        <p id="descripcion" style="font-size: 18px"><?php echo $datos[0]->descripcion;?></p>
     </div>
 </div>
 <div class="row" style="margin: 0 0 10px">

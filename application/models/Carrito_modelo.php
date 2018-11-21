@@ -35,6 +35,6 @@ class Carrito_modelo extends CI_Model{
                 $this->db->insert('detallepedidos', $detallepedidos);
             }
         }
-        var_dump($detallepedidos);
     }
+
 }

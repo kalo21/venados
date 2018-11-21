@@ -88,7 +88,7 @@
             $('#error').hide();
             BootstrapDialog.confirm({
                 title: 'Advertencia',
-                message: 'Se agregara saldo al usuarrio seleccionado ¿Desea continuar?',
+                message: 'Se agregara saldo al usuario seleccionado ¿Desea continuar?',
                 type: BootstrapDialog.TYPE_DANGER, 
                 btnCancelLabel: 'Cancelar', 
                 btnOKLabel: 'Continuar', 

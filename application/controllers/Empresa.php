@@ -111,12 +111,12 @@ class Empresa extends CI_Controller {
             if($this->upload->do_upload('fotoV')){
                 $dataV = array("upload_data" => $this->upload->data());
                 $nombreArchivopV = $data['upload_data']['file_name'];
-            if ($this->form_validation->run() === TRUE) {
-                echo json_encode($this->Empresa_modelo->modificarEmpresa($this->input->post(), $nombreArchivop,$nombreArchivopV));
-            }
-            else {
-                echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
-            }
+                if ($this->form_validation->run() === TRUE) {
+                    echo json_encode($this->Empresa_modelo->modificarEmpresa($this->input->post(), $nombreArchivop,$nombreArchivopV));
+                }
+                else {
+                    echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+                }
             }
             else {
                 if($this->input->post('cambio') == 0) {

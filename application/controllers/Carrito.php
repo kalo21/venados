@@ -31,4 +31,18 @@ class Carrito extends CI_Controller {
     public function realizarPedido() {
         $this->Carrito_modelo->realizarPedido($this->input->post('idEmpresa'));
     }
+
+    public function actualizarCantidad() {
+        if($this->input->post('qty') > 0) {
+            $producto = array(
+                'rowid' => $this->input->post('rowid'),
+                'qty'   => $this->input->post('qty')
+            );
+            $this->cart->update($producto);
+            echo $this->cart->total();
+        }
+        else {
+            echo $this->cart->total();
+        }
+    }
 }
