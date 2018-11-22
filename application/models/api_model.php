@@ -17,7 +17,7 @@ class Api_model extends CI_Model {
 	}
 
 	public function getStores(){
-		$query = $this->db->select('empresas.id, empresas.nombre, empresas.descripcion, empresas.logotipo, empresas.estatus')->from('empresas, detallesevento')->where('empresas.estatus',1)->where('detallesevento.id_empresa=empresas.id')->where('detallesevento.id_evento',1)->get();
+		$query = $this->db->select('empresas.id, empresas.nombre, empresas.descripcion, empresas.img_fondo, empresas.estatus')->from('empresas, detallesevento')->where('empresas.estatus',1)->where('detallesevento.id_empresa=empresas.id')->where('detallesevento.id_evento',1)->get();
 //		SELECT * FROM empresas, detallesevento WHERE empresas.id = detallesevento.id_empresa AND detallesevento.id_evento = 1
 
 		return $query->result();
@@ -136,6 +136,13 @@ class Api_model extends CI_Model {
 		$query = $this->db->get('recargas', $limit, $offset);
 		//echo $this->db->last_query();
 		return $query->result();
+	}
+
+	public function getUserByIdClient($id_cliente){
+		$this->db->select('usuarios.nombre');
+		$this->db->join("usuarios", "usuarios.id = clientes.id_usuario");
+		$this->db->where("clientes.id", $id_cliente);
+		return	 $this->db->get('clientes')->row();
 	}
 	
 }

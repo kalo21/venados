@@ -190,13 +190,17 @@ class Api extends CI_Controller {
 	 * monto: La cantidad de saldo que se le depositó.
 	 */
 	function send_notif_saldo(){
-		$user = $this->input->post("user");
-		$monto = $this->input->post("monto");
-        $content = array(
+		echo "wut";
+		$data = json_decode(file_get_contents('php://input'));
+		$monto = $data->monto;
+		$client = $data->id_cliente;
+		$user = $this->getUserByIdClient($client)->nombre;
+		
+		$content = array(
 			"en" => "Transacción exitosa, ha recibido $$monto de saldo.",
 			"es" => "Transacción exitosa, ha recibido $$monto de saldo."
-        );
-
+		);
+		
         $fields = array(
 			'app_id' => "9ba5748e-6561-4bdf-8c4c-77d4766fbde8",
             'filters' => array(array("field" => "tag", "key" => "email", "relation" => "=", "value" => "$user")),
@@ -231,5 +235,13 @@ class Api extends CI_Controller {
 	public function getHistorialRecargas(){
 		$data = json_decode(file_get_contents('php://input'));
 		echo json_encode($this->Api_model->get_historial_recargas($data->id_empleado, $data->limit,$data->offset));
+	}
+
+	public function getUserByIdClient($id_cliente){
+		return $this->Api_model->getUserByIdClient($id_cliente);
+	}
+
+	public function storeNotification(){
+
 	}
 }
