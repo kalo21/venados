@@ -27,5 +27,12 @@ class Tiendas_modelo extends CI_Model{
         return $query->result();
     }
 
+    public function nombreEmpresa($id) {
+        $this->db->select('empresas.nombre');
+        $this->db->where('id', $id);
+        $nombreEmpresa = $this->db->get('empresas')->row();
+        return $nombreEmpresa;
+    }
+
 }
 	
