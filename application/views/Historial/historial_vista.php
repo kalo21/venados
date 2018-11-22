@@ -18,20 +18,20 @@
 						<option value="3">Entregado</option>
 						<option value="4">Realizado</option>
 					</select>
-					<div class="input-group-addon" id="buscarEstado"><span class="fa fa-search"></span></div>
+					<div class="input-group-addon" id="buscarEstado"><span class="fa fa-search mano"></span></div>
 			  </div>
   			</div>
 			<div class="form-group col-md-4">
 				<div class="input-group">
 					<div class="input-group-addon"><span class="fa fa-calendar"></span></div>
 					<input type="text" class="form-control" id="inpFecha">
-					<div class="input-group-addon" id="buscarFecha"><span class="fa fa-search"></span></div>
+					<div class="input-group-addon" id="buscarFecha"><span class="fa fa-search mano"></span></div>
 				</div>
 			</div>
 			<div class="form-group col-md-3">
 				<div class="input-group">
 					<input type="text" class="form-control" id="inpUsuario">
-					<div class="input-group-addon" id="buscarUsuario"><span class="fa fa-search"></span></div>
+					<div class="input-group-addon" id="buscarUsuario"><span class="fa fa-search mano"></span></div>
 				</div>
 			</div>
 			<div class="col-md-1">
@@ -244,7 +244,7 @@
 					item['nombre'],
 					item['total'],
                     item['fecha'],
-					'<i  id="informacion" data-id="'+item['id']+'"class="fa fa-plus" style="font-size: 20px; color: #f6032f;"></i>',
+					'<i  id="informacion" data-id="'+item['id']+'"class="fa fa-plus mano" style="font-size: 20px; color: #f6032f;"></i>',
 					item['estatus']
 				]).draw(false).node();
 				$('td:eq(4)', fila).attr('class', 'text-center');

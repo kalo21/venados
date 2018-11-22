@@ -51,9 +51,8 @@ class Recargas_modelo extends CI_Model{
 	}
     
     	public function obtenerRecargas() {
-         $this->db->select('CONCAT(clientes.nombre," ",clientes.apellidopaterno," ",clientes.apellidomaterno) as nombre, CONCAT(vendedores.nombre," ",vendedores.apellidopaterno," ",vendedores.apellidomaterno) as nombreVendedor, recargas.id, recargas.monto');   
-         $this->db->join('clientes', 'recargas.id_cliente = clientes.id');    
-         $this->db->join('vendedores', 'recargas.id_vendedor = vendedores.id');    
+         $this->db->select('CONCAT(clientes.nombre," ",clientes.apellidopaterno," ",clientes.apellidomaterno) as nombre,recargas.fecha, recargas.id, recargas.monto');   
+         $this->db->join('clientes', 'recargas.id_cliente = clientes.id');      
          $this->db->where('recargas.id_vendedor', $this->session->idVendedor);    
         $query = $this->db->get('recargas');
         //echo $this->db->last_query();
