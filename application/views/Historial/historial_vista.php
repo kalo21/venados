@@ -96,7 +96,7 @@
 		$('#inpFecha').on('apply.daterangepicker', function(ev, picker) {
 				fechaInicio = picker.startDate.format('YYYY-MM-DD');
 				fechaFinal= picker.endDate.format('YYYY-MM-DD');
-			});
+		});
 
 		$('#buscarFecha').click(function(){
 			
