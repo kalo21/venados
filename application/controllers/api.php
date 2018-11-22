@@ -31,6 +31,12 @@ class Api extends CI_Controller {
 
 	}
 
+	public function addPedido(){
+		$json_str = file_get_contents('php://input');
+		$json_obj = json_decode($json_str);
+		
+		echo $this->Api_model->addPedido($json_obj, true);
+	}
 	/**
 	 * Registro
 	 */
@@ -122,25 +128,73 @@ class Api extends CI_Controller {
 		//$this->load->view('welcome_message');
 	}
 
-	public function addPedido(){
-		$json_str = file_get_contents('php://input');
-		$json_obj = json_decode($json_str);
-		echo $this->Api_model->addPedido($json_obj, true);
+	public function getPedidos(){
+		$idUser = $this->input->get('idUser');
+		$pedidos = $this->Api_model->getPedidos($idUser);
+		echo json_encode($pedidos);
 	}
 
+	public function getDetallesPedidos(){
+		$idPedido = $this->input->get('idPedido');
+		$detalles = $this->Api_model->getDetallesPedidos($idPedido);
+		echo json_encode($detalles);
+	}
+	public function getUserData()
+	{
+		$idUser = $this->input->get('idUser');
+		$userData = $this->Api_model->getUserData($idUser);
+		echo json_encode($userData);
+		//$this->load->view('welcome_message');
+	}
 	/**
-     * Create New Notification
-     *
-     * Creates adjacency list based on item (id or slug) and shows leafs related only to current item
-     *
-     * @param int $user_id Current user id
-     * @param string $title Current title
-     *
-     * @return string $response
-     */
+	*/
+	
+	public function eliminarPedido(){
+		$idPedido = $this->input->get('idPedido');
+		$response = $this->Api_model->eliminarPedido($idPedido);
+		echo json_encode($response);
+	}
+
+	public function getUserSaldo(){
+		$idUser = $this->input->get('idUser');
+		$userSaldo = $this->Api_model->getUserSaldo($idUser);
+		echo json_encode($userSaldo);
+	}
+
+
+	/**
+	 * Envia notificaciones de la tienda al usuario
+	 * Recibe por post 
+	 * -store: El nombre de la tienda que lo manda 
+	 * -message: EL mensaje que va a mandar
+	 * -user: El nombre de usuario al que se le va a mandar
+	 */
     function send_notif(){
-        $message = $this->input->post("msg");
-		$user = $this->input->post("user");
+		//Si viene desde la página
+		
+		if(sizeof($this->input->post()) > 0){
+			$title = $this->input->post("title");
+			$message = $this->input->post("msg");
+			$user = $this->input->post("user");
+			//Falta agregar unas cosas para que agregue la notificación a la bd.
+		}
+		//Si viene desde la app, para recargas
+		else{
+			$data = json_decode(file_get_contents('php://input'));
+			$title = $data->title;
+			$message = $data->msg;
+			$client = $data->id_cliente;
+			$datosCliente = $this->getUserByIdClient($client);
+			$user = $datosCliente->nombre;
+			$user_id = $datosCliente->id;
+			$notificacion = array(
+				'titulo'=>$title,
+				'mensaje'=>$message,
+				'estatus'=>1,
+				'id_usuario'=>$user_id
+			);
+			$this->storeNotification($notificacion);
+		}
         $content = array(
 			"en" => "${message}",
 			"es" => "${message}"
@@ -181,5 +235,29 @@ class Api extends CI_Controller {
 		$idsNotif_str = $this->input->get('ids');
 		$ids = explode(",", $idsNotif_str);
 		$this->Api_model->deleteNotifications($ids);
+	}
+
+	public function recargarSaldo(){
+		$data = json_decode(file_get_contents('php://input'))[0];
+		echo json_encode($this->Api_model->recargarSaldo($data));
+	}
+
+	public function verificarPin(){
+		$data = json_decode(file_get_contents('php://input'));
+		echo $this->Api_model->verificar_pin($data->pin, $data->user_id);
+	}
+
+	public function getHistorialRecargas(){
+		$data = json_decode(file_get_contents('php://input'));
+		echo json_encode($this->Api_model->get_historial_recargas($data->id_empleado, $data->limit,$data->offset));
+	}
+
+	public function getUserByIdClient($id_cliente){
+		return $this->Api_model->getUserByIdClient($id_cliente);
+	}
+
+	public function storeNotification($data){
+		$this->Api_model->storeNotification($data);
+
 	}
 }
