@@ -33,8 +33,7 @@
 									<tr>
 										<th>ID</th>
 										<th>Nombre</th>
-										<th>Apellido Materno</th>
-										<th>Apellido Paterno</th>
+										<th>Apellidos</th>
 										<th style='text-align:center'>Imagen</th>
 										<th style='text-align:center'>Estatus</th>
 										<th style='text-align:center'>Modificar</th>
@@ -294,17 +293,16 @@
 				var fila = tabla.row.add([
 					item['id'],
 					item['nombre'],
-					item['apellidomaterno'],
-                    item['apellidopaterno'],
+					item['apellidopaterno']+" "+item['apellidomaterno'],
 					"<img height='40' width='40' src='"+base_url+item['imagen']+"'></img>",
 					output,
 					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
 					output2
 				]).draw(false).node();
+				$('td:eq(3)', fila).attr('class', 'text-center');
 				$('td:eq(4)', fila).attr('class', 'text-center');
 				$('td:eq(5)', fila).attr('class', 'text-center');
-				$('td:eq(6)', fila).attr('class', 'text-center');
-                $('td:eq(7)', fila).attr('class', 'text-center');
+                $('td:eq(6)', fila).attr('class', 'text-center');
 			});
 		}
 	});

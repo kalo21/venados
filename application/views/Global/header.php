@@ -6,7 +6,6 @@
   <title><?php echo(isset($informacion['titulo'])) ? $informacion['titulo'] : 'VenadoSnacks' ;?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
   <link rel="stylesheet" href="<?php echo base_url('assets/css/carga.css'); ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/css/daterangepicker.css'); ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-dialog.min.css'); ?>">
@@ -19,20 +18,12 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url('assets/css/skins/skin-red-light.css'); ?>">
-  
-
-
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
-  
-  
    <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap.min.css'); ?>">
    <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-datetimepicker.min.css'); ?>">
-  
-
-  
    <link rel="icon" href="<?php echo base_url(); ?>assets/images/logo-v.jpg">
    <style>
        
@@ -621,7 +612,7 @@
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
-              <li class="user-header" style="background-color: #264d78;">
+              <li class="user-header" style="background-color: white;">
               <?php
                 function fechaEspañol ($fecha) {
                     $fecha = substr($fecha, 0, 10);
@@ -642,28 +633,9 @@
                 <p>
                   <?php echo(isset($informacion['nombre'])) ? $informacion['nombre'] : 'Infiltrado :o' ;?>
                   <small><?php echo fechaEspañol(date('Y-m-d H:i:s', time())); ?><br><span id="hora"></span></small>
+                  <br>
+                  <a href="<?= base_url(); ?>index.php/Inicio/salir" class="btn btn-rojo btn-block" >Salir</a>
                 </p>
-              </li>
-              <!-- Menu Body -->
-              <li class="user-body" style="border: 1px solid #f6032f;">
-                <div class="row">
-                  <div class="col-xs-12 text-center" >
-                    <a href="<?php echo base_url();?>">Inicio</a>
-                  </div>
-                  <!--<div class="col-xs-4 text-center">
-                    <a href="#">Ejemplo</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Ejemplo</a>
-                  </div>-->
-                </div>
-                <!-- /.row -->
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-right">
-                  <a href="<?php echo base_url(); ?>index.php/Inicio/salir" class="btn btn-rojo" >Salir</a>
-                </div>
               </li>
             </ul>
           </li>

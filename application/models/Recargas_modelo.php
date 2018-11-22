@@ -18,6 +18,13 @@ class Recargas_modelo extends CI_Model{
                     "id_vendedor" => $this->session->idUsuario);
                 $this->db->insert('recargas', $datos);
 
+                $datos2 = array(
+                    "titulo" => "Recarga exitosa!",
+                    "mensaje" => "Se ha recargado un monto de $".$data['inpMonto'],
+                    "estatus" => 1
+                );
+                $this->db->insert('notificaciones', $datos2);
+
                 $this->db->select('clientes.saldo');
                 $this->db->where('id',$query->id);
                 $saldo =  $this->db->get('clientes')->row();
