@@ -84,10 +84,7 @@ class Api_model extends CI_Model {
 	}
 
 	public function getNotifications($idUser){
-		$this->db->join('pedidos', 'pedidos.id = notificaciones.idpedido');
-		$this->db->join('empresas', 'pedidos.idempresa = empresas.id');
-		$this->db->where(array('pedidos.idusuario'=>$idUser, 'notificaciones.estatus'=>1));
-		$this->db->select('notificaciones.id, empresas.nombre, pedidos.estatus, notificaciones.idpedido, notificaciones.mensaje, notificaciones.fecha, notificaciones.hora');
+		$this->db->where(array('notificaciones.id_usuario'=>$idUser, 'notificaciones.estatus'=>1));
 		$q = $this->db->get('notificaciones')->result();
 		return $q;
 	}
@@ -140,10 +137,14 @@ class Api_model extends CI_Model {
 	}
 
 	public function getUserByIdClient($id_cliente){
-		$this->db->select('usuarios.nombre');
+		$this->db->select('usuarios.nombre, usuarios.id');
 		$this->db->join("usuarios", "usuarios.id = clientes.id_usuario");
 		$this->db->where("clientes.id", $id_cliente);
 		return	 $this->db->get('clientes')->row();
+	}
+
+	public function storeNotification($data){
+		$this->db->insert('notificaciones',$data);
 	}
 	
 }

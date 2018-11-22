@@ -141,6 +141,7 @@ class Api extends CI_Controller {
 			$title = $this->input->post("title");
 			$message = $this->input->post("msg");
 			$user = $this->input->post("user");
+			//Falta agregar unas cosas para que agregue la notificación a la bd.
 		}
 		//Si viene desde la app, para recargas
 		else{
@@ -148,7 +149,16 @@ class Api extends CI_Controller {
 			$title = $data->title;
 			$message = $data->msg;
 			$client = $data->id_cliente;
-			$user = $this->getUserByIdClient($client)->nombre;
+			$datosCliente = $this->getUserByIdClient($client);
+			$user = $datosCliente->nombre;
+			$user_id = $datosCliente->id;
+			$notificacion = array(
+				'titulo'=>$title,
+				'mensaje'=>$message,
+				'estatus'=>1,
+				'id_usuario'=>$user_id
+			);
+			$this->storeNotification($notificacion);
 		}
         $content = array(
 			"en" => "${message}",
@@ -211,7 +221,8 @@ class Api extends CI_Controller {
 		return $this->Api_model->getUserByIdClient($id_cliente);
 	}
 
-	public function storeNotification(){
+	public function storeNotification($data){
+		$this->Api_model->storeNotification($data);
 
 	}
 }
