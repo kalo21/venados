@@ -105,7 +105,7 @@
 					item['nombre2'],
 					item['correo'],
 					output,
-					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
+					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg mano'></i>",
 				]).draw(false).node();
 				$('td:eq(4)', fila).attr('class', 'text-center');
 				$('td:eq(5)', fila).attr('class', 'text-center');

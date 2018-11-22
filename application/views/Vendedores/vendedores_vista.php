@@ -284,11 +284,11 @@
 				var output2 = null;
 				if(item['estatus'] == '0') {
 					output = "<small class='label label-danger'>Inactivo</small>";
-					output2 = "<i style='color:#f6032f' data-estatus='"+item['estatus']+"' data-id='"+item['id']+"' id='cambiarEstado' class='fa fa-plus-circle fa-sm fa-2x fa-lg'></i>";
+					output2 = "<i style='color:#f6032f' data-estatus='"+item['estatus']+"' data-id='"+item['id']+"' id='cambiarEstado' class='fa fa-plus-circle fa-sm fa-2x fa-lg mano'></i>";
 				}
 				else if(item['estatus'] == '1') {
 					output = "<small class='label label-success'>Activo</small>";
-					output2 = "<i style='color:#f6032f' data-estatus='"+item['estatus']+"' data-id='"+item['id']+"' id='cambiarEstado' class='fa fa-minus-circle fa-sm fa-2x fa-lg'></i>";
+					output2 = "<i style='color:#f6032f' data-estatus='"+item['estatus']+"' data-id='"+item['id']+"' id='cambiarEstado' class='fa fa-minus-circle fa-sm fa-2x fa-lg mano'></i>";
 				}
 				var fila = tabla.row.add([
 					item['id'],
@@ -296,7 +296,7 @@
 					item['apellidopaterno']+" "+item['apellidomaterno'],
 					"<img height='40' width='40' src='"+base_url+item['imagen']+"'></img>",
 					output,
-					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
+					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg mano'></i>",
 					output2
 				]).draw(false).node();
 				$('td:eq(3)', fila).attr('class', 'text-center');

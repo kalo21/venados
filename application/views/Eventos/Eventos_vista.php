@@ -110,12 +110,7 @@ $(document).ready(function(){
       	});
 	});
 
-	$(document).on("click", "#modificar", function () {
-		$('#mdlModificar').modal();
-	});
-
 	$('#btnAgregar').click(function(){
-		console.log('Boton funciona');
 		BootstrapDialog.show({
 			title: 'Agregar evento', // Aquí se pone el título
 			size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
@@ -178,7 +173,6 @@ $(document).ready(function(){
 
 	$(document).on("click", "#modificar", function () {
 		var id = $(this).attr('data-id');
-		console.log(id);
 		BootstrapDialog.show({
 			
             title: 'Modificar evento', // Aquí se pone el título
@@ -280,12 +274,12 @@ $(document).ready(function(){
 			var output2 = null;
 			if(item['status'] == '0') {
 				output = "<small class='label label-danger'>Inactivo</small>";
-            output2 = "<i style='color:#f6032f' data-id='"+item['id']+"' data-estatus='"+item['status']+"' id='cambiarEstado' class='fa fa-plus-circle fa-sm fa-2x fa-lg'></i>";
+            output2 = "<i style='color:#f6032f' data-id='"+item['id']+"' data-estatus='"+item['status']+"' id='cambiarEstado' class='fa fa-plus-circle fa-sm fa-2x fa-lg mano'></i>";
 
 			}
 			else if(item['status'] == '1') {
 				output = "<small class='label label-success'>Activo</small>";
-				output2 = "<i style='color:#f6032f' data-id='"+item['id']+"' data-estatus='"+item['status']+"' id='cambiarEstado' class='fa fa-minus-circle fa-sm fa-2x fa-lg'></i>";
+				output2 = "<i style='color:#f6032f' data-id='"+item['id']+"' data-estatus='"+item['status']+"' id='cambiarEstado' class='fa fa-minus-circle fa-sm fa-2x fa-lg  mano'></i>";
 			}
 			var fila = tabla.row.add([
 				item['id'],
@@ -295,7 +289,7 @@ $(document).ready(function(){
 				item['fecha_fin'],
 				"<img height='30' width='30' src='"+base_url+"assets/images/eventos/"+item['imagen']+"'></img>",
 				output,
-				"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg'></i>",
+				"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg mano'></i>",
 				output2
 			]).draw(false).node();
 			$('td:eq(3)', fila).attr('class', 'text-center');

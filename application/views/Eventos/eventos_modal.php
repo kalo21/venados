@@ -1,8 +1,6 @@
 <div id="error" hidden class="alert alert-warning">
 
 </div>
-<?php print_r($datos); ?>
-<?php echo base_url('assets/images/eventos/'.$datos->imagen); ?>
 <form class="form-horizontal" id="formulario" enctype="multipart/form-data">
 	<div class="form-group">
         <label class="col-sm-3 control-label">Nombre</label>
@@ -55,4 +53,25 @@ function previewImagen(input){
         }                
     }
 }
+$('#inpInicioD').daterangepicker({
+    autoUpdateInput: false,
+    locale: {
+        cancelLabel: 'Clear'
+    }
+});
+
+$('#inpInicioD').on('apply.daterangepicker', function(ev, picker) {
+    $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+});
+
+$('#inpInicioD').on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('');
+});
+
+
+$('#inpInicioD').on('apply.daterangepicker', function(ev, picker) {
+        fechaInicio = picker.startDate.format('YYYY-MM-DD');
+        fechaFinal= picker.endDate.format('YYYY-MM-DD');
+    });
+
 </script>

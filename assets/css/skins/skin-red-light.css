@@ -36,7 +36,7 @@
 .skin-red-light .main-header .navbar .sidebar-toggle:hover {
    background: #7b1821;
 }
-@media (max-width: 767px) {
+@media (max-width: 767px) { 
   .skin-red-light .main-header .navbar .dropdown-menu li.divider {
     background-color: rgba(255, 255, 255, 0.1);
   }
@@ -49,13 +49,13 @@
     background: #7b1821;
   
   }
-}
+} 
 .skin-red-light .main-header .logo {
-  /*background: #f6032f;
+  background: #f6032f;
   background: -webkit-linear-gradient(left, #f6032f, #7b1821);
   background: -o-linear-gradient(left, #f6032f, #7b1821);
   background: -moz-linear-gradient(left, #f6032f, #7b1821);
-  background: linear-gradient(left, #f6032f, #7b1821);*/
+  background: linear-gradient(left, #f6032f, #7b1821);
   color: #ffffff;
   border-bottom: 0 solid transparent;
 }
@@ -65,11 +65,11 @@
 }
 .skin-red-light .main-header li.user-header {
   background: #f6032f;
-  background: -webkit-linear-gradient(top, #f6032f, #7b1821);
-  background: -o-linear-gradient(top, #f6032f, #7b1821);
-  background: -moz-linear-gradient(top, #f6032f, #7b1821);
-  background: linear-gradient(top, #f6032f, #7b1821);
-}
+  background: -webkit-linear-gradient(bottom, #ffffff, #ecf0f5);
+  background: -o-linear-gradient(bottom, #ffffff, #ecf0f5);
+  background: -moz-linear-gradient(bottom, #ffffff, #ecf0f5);
+  background: linear-gradient(bottom, #ffffff, #ecf0f5);  
+} 
 .skin-red-light .content-header {
   background: transparent;
 }

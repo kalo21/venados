@@ -50,7 +50,7 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Usuario</th>
-                                            <th>Vendedor</th>
+                                            <th>fecha</th>
                                             <th>Monto</th>
                                         </tr>
                                     </thead>
@@ -162,7 +162,7 @@
 				var fila = tabla.row.add([
 					item['id'],
 					item['nombre'],
-					item['nombreVendedor'],
+					item['fecha'],
                     item['monto']
 				]).draw(false).node();
 			});
