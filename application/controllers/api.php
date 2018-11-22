@@ -135,8 +135,21 @@ class Api extends CI_Controller {
 	 * -user: El nombre de usuario al que se le va a mandar
 	 */
     function send_notif(){
-        $message = $this->input->post("msg");
-		$user = $this->input->post("user");
+		//Si viene desde la página
+		
+		if(sizeof($this->input->post()) > 0){
+			$title = $this->input->post("title");
+			$message = $this->input->post("msg");
+			$user = $this->input->post("user");
+		}
+		//Si viene desde la app, para recargas
+		else{
+			$data = json_decode(file_get_contents('php://input'));
+			$title = $data->title;
+			$message = $data->msg;
+			$client = $data->id_cliente;
+			$user = $this->getUserByIdClient($client)->nombre;
+		}
         $content = array(
 			"en" => "${message}",
 			"es" => "${message}"
@@ -182,49 +195,6 @@ class Api extends CI_Controller {
 	public function recargarSaldo(){
 		$data = json_decode(file_get_contents('php://input'))[0];
 		echo json_encode($this->Api_model->recargarSaldo($data));
-	}
-	/**
-	 * Envia la notificación de que el saldo se le ha bonificado correctamente
-	 * Recibe por post:
-	 * user: El nombre de usuario al que se le realizó la transacción
-	 * monto: La cantidad de saldo que se le depositó.
-	 */
-	function send_notif_saldo(){
-		echo "wut";
-		$data = json_decode(file_get_contents('php://input'));
-		$monto = $data->monto;
-		$client = $data->id_cliente;
-		$user = $this->getUserByIdClient($client)->nombre;
-		
-		$content = array(
-			"en" => "Transacción exitosa, ha recibido $$monto de saldo.",
-			"es" => "Transacción exitosa, ha recibido $$monto de saldo."
-		);
-		
-        $fields = array(
-			'app_id' => "9ba5748e-6561-4bdf-8c4c-77d4766fbde8",
-            'filters' => array(array("field" => "tag", "key" => "email", "relation" => "=", "value" => "$user")),
-			'contents' => $content,
-			'priority' => '10',
-			'android_channel_id' => '2d85d014-c228-47af-bed2-f7b47dc94f56'
-		);
-		$fields = json_encode($fields);
-        print("\nJSON sent:\n");
-        print($fields);
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
-            'Authorization: Basic NDUxNTQ0OTItYmJmOS00ZDVhLWFjYjUtYzE2Mzg5YzkwODAy'));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_HEADER, FALSE);
-        curl_setopt($ch, CURLOPT_POST, TRUE);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-
-        $response = curl_exec($ch);
-        curl_close($ch);
-       return $response;
 	}
 
 	public function verificarPin(){

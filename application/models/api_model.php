@@ -133,6 +133,7 @@ class Api_model extends CI_Model {
 
 	public function get_historial_recargas($id_empleado, $limit, $offset){
 		$this->db->where('recargas.id_empleado',$id_empleado);
+		$this->db->order_by("id", "desc");
 		$query = $this->db->get('recargas', $limit, $offset);
 		//echo $this->db->last_query();
 		return $query->result();
