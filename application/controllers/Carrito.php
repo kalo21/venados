@@ -29,7 +29,7 @@ class Carrito extends CI_Controller {
     }
 
     public function realizarPedido() {
-        $this->Carrito_modelo->realizarPedido($this->input->post('idEmpresa'));
+        echo json_encode($this->Carrito_modelo->realizarPedido($this->input->post('idEmpresa')));
     }
 
     public function actualizarCantidad() {
@@ -44,5 +44,9 @@ class Carrito extends CI_Controller {
         else {
             echo $this->cart->total();
         }
+    }
+
+    public function confirmarPedido() {
+        echo json_encode($this->Carrito_modelo->confirmarPedido());
     }
 }
