@@ -18,6 +18,7 @@ class Api_model extends CI_Model {
 
 	public function getStores(){
 		$query = $this->db->select('empresas.id, empresas.nombre, empresas.descripcion, empresas.img_fondo, empresas.estatus')->from('empresas, detallesevento')->where('empresas.estatus',1)->where('detallesevento.id_empresa=empresas.id')->where('detallesevento.id_evento',1)->get();
+		$query = $this->db->select('empresas.id, empresas.nombre, empresas.descripcion, empresas.img_fondo, empresas.estatus')->from('empresas, detallesevento')->where('empresas.estatus',1)->where('detallesevento.id_empresa=empresas.id')->where('detallesevento.id_evento',2)->get();
 //		SELECT * FROM empresas, detallesevento WHERE empresas.id = detallesevento.id_empresa AND detallesevento.id_evento = 1
 
 		return $query->result();
@@ -70,13 +71,14 @@ class Api_model extends CI_Model {
 
 	}
 
+	public function addPedido($data){
+		
+	}
+
 	public function getIdByUser($user){
 		return $this->db->select('id')->where('nombre',$user)->get('usuarios')->row();
 	}
 
-	public function addPedido($usuario){
-		return $this->db->insert('pedidos', $usuario[0]);
-	}
 
 	public function getProductos($id){
 		$q = $this->db->select('*')->from('productos')->where('idempresa',$id)->get();
@@ -145,5 +147,64 @@ class Api_model extends CI_Model {
 		$this->db->where("clientes.id", $id_cliente);
 		return	 $this->db->get('clientes')->row();
 	}
+	public function getUserData($idUser){
+		try{
+			$query = $this->db->select('usuarios.correo, clientes.*')->from('clientes, usuarios')->where('usuarios.estatus',1)->where('usuarios.id', $idUser)->where('usuarios.id = clientes.id_usuario')->get();
+			return $query->result();
+		}catch (Exception $e) {
+			return $this->db->error();
+		}
+	}
+
+	public function getPedidos($idUser){
+		try {
+			$query = $this->db->select('empresas.nombre, pedidos.id, pedidos.idempresa, pedidos.total, pedidos.estatus')->from('pedidos, empresas')->where('pedidos.estatus != "Eliminado"')->where('idusuario', $idUser)->where('empresas.id = pedidos.idempresa')->get();
+			return $query->result();
+			
+		} catch (Exception $e) {
+			return $this->db->error();
+		}
+	}
+
+	public function getDetallesPedidos($idPedido){
+		try {
+			$query = $this->db->select('productos.nombre, productos.imagen, detallepedidos.*')->from('detallepedidos, productos')->where('detallepedidos.idpedido', $idPedido)->where('productos.id = detallepedidos.idproducto')->get();
+			return $query->result();
+			
+		} catch (Exception $e) {
+			return $this->db->error();
+		}
+	}
+
+	public function getUserSaldo($idUser){
+		try {
+			$query = $this->db->select('saldo')->from('clientes, usuarios')->where('clientes.id_usuario', $idUser)->where('usuarios.id = clientes.id_usuario')->get();
+			return $query->result();
+		} catch (Exception $e) {
+			return $this->db->error();
+		}
+	}
+
+	public function eliminarPedido($idPedido){
+		try {
+			$this->db->trans_begin();
+			$this->db->where('pedidos.id', $idPedido);
+	        $data = array( 'estatus' => 'Eliminado');
+	        $this->db->update('pedidos', $data);
+
+			if ($this->db->trans_status() == FALSE){
+				$this->db->trans_rollback();
+				return false;
+			}else{
+				$this->db->trans_commit();
+				return true;
+			}
+			
+			
+		} catch (Exception $e) {
+			return $this->db->error();
+		}
+	}
+	
 	
 }

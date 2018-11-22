@@ -31,6 +31,12 @@ class Api extends CI_Controller {
 
 	}
 
+	public function addPedido(){
+		$json_str = file_get_contents('php://input');
+		$json_obj = json_decode($json_str);
+		
+		echo $this->Api_model->addPedido($json_obj, true);
+	}
 	/**
 	 * Registro
 	 */
@@ -122,11 +128,40 @@ class Api extends CI_Controller {
 		//$this->load->view('welcome_message');
 	}
 
-	public function addPedido(){
-		$json_str = file_get_contents('php://input');
-		$json_obj = json_decode($json_str);
-		echo $this->Api_model->addPedido($json_obj, true);
+	public function getPedidos(){
+		$idUser = $this->input->get('idUser');
+		$pedidos = $this->Api_model->getPedidos($idUser);
+		echo json_encode($pedidos);
 	}
+
+	public function getDetallesPedidos(){
+		$idPedido = $this->input->get('idPedido');
+		$detalles = $this->Api_model->getDetallesPedidos($idPedido);
+		echo json_encode($detalles);
+	}
+	public function getUserData()
+	{
+		$idUser = $this->input->get('idUser');
+		$userData = $this->Api_model->getUserData($idUser);
+		echo json_encode($userData);
+		//$this->load->view('welcome_message');
+	}
+	/**
+	*/
+	
+	public function eliminarPedido(){
+		$idPedido = $this->input->get('idPedido');
+		$response = $this->Api_model->eliminarPedido($idPedido);
+		echo json_encode($response);
+	}
+
+	public function getUserSaldo(){
+		$idUser = $this->input->get('idUser');
+		$userSaldo = $this->Api_model->getUserSaldo($idUser);
+		echo json_encode($userSaldo);
+	}
+
+
 	/**
 	 * Envia notificaciones de la tienda al usuario
 	 * Recibe por post 
