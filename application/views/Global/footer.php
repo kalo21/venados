@@ -1,6 +1,6 @@
 <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 0.0
+      <b>Version</b> 0.1
     </div>
     <strong>Copyright &copy; 2018 <a style="color:  #f6032f;" href="<?php echo base_url(); ?>">VenadoSnacks</a>.</strong> Todos los Derechos Reservados <strong>Proyecto especiales</strong> by UPSIN.
 </footer>

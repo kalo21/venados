@@ -15,15 +15,9 @@
         </div>        
     </div>
     <div class="form-group">
-        <label class="col-sm-3 control-label">Fecha de inicio del evento</label>
+        <label class="col-sm-3 control-label">Fecha del evento</label>
         <div class="col-sm-9">
             <input type="text" data-fechaInicial = "<?php echo(isset($datos->fecha_inicial)) ? $datos->fecha_inicial : '';?>" value ="<?php echo(isset($datos->fecha_inicial)) ? $datos->fecha_inicial : '' ;?>" class="form-control LetrasNumeros" id="inpInicioD" name="inpInicioD">
-        </div>        
-    </div>
-    <div class="form-group">
-        <label class="col-sm-3 control-label">Fecha de inicio del evento</label>
-        <div class="col-sm-9">
-            <input type="text" data-fechaFin = "<?php echo(isset($datos->fecha_fin)) ? $datos->fecha_fin : '';?>" value ="<?php echo(isset($datos->fecha_fin)) ? $datos->fecha_fin : '' ;?>" class="form-control LetrasNumeros" id="inpFinD" name="inpFinD">
         </div>        
     </div>
 	<div class="custom-file">
@@ -35,41 +29,42 @@
 </form>
 
 <script>
-//Funcion que espera un cambio en el input para la foto principal de cada servicio
-$("#divImagen").delegate("#foto","change", function(){
-    previewImagen(this);
-});
-//Esta funcion solo crea un img nuevo para la foto principal, quitando la que estaba y añadiendo una nueva.
-function previewImagen(input){
-    if(input.files && input.files[0]){
-        var x="";
-        var reader = new FileReader();
-        reader.readAsDataURL(input.files[0]);
-        reader.onload = function(e){
-            //$('#formServicio + img').remove();
-            x+='<label for="foto"> <img style="height: 150px;" src="'+e.target.result+'" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>';
-            $('#labelImg').html("");
-            $('#labelImg').html(x);
-        }                
+    //Funcion que espera un cambio en el input para la foto principal de cada servicio
+    $("#divImagen").delegate("#foto","change", function(){
+        previewImagen(this);
+    });
+    //Esta funcion solo crea un img nuevo para la foto principal, quitando la que estaba y añadiendo una nueva.
+    function previewImagen(input){
+        if(input.files && input.files[0]){
+            var x="";
+            var reader = new FileReader();
+            reader.readAsDataURL(input.files[0]);
+            reader.onload = function(e){
+                //$('#formServicio + img').remove();
+                x+='<label for="foto"> <img style="height: 150px;" src="'+e.target.result+'" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>';
+                $('#labelImg').html("");
+                $('#labelImg').html(x);
+            }                
+        }
     }
-}
-$('#inpInicioD').daterangepicker({
-    autoUpdateInput: false,
-    locale: {
-        cancelLabel: 'Clear'
-    }
-});
 
-$('#inpInicioD').on('apply.daterangepicker', function(ev, picker) {
-    $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-});
+     $('#inpInicioD').daterangepicker({
+        autoUpdateInput: false,
+         locale: {
+            cancelLabel: 'Clear'
+        }
+    });
 
-$('#inpInicioD').on('cancel.daterangepicker', function(ev, picker) {
-    $(this).val('');
-});
+    $('#inpInicioD').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+
+    $('#inpInicioD').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
 
 
-$('#inpInicioD').on('apply.daterangepicker', function(ev, picker) {
+    $('#inpInicioD').on('apply.daterangepicker', function(ev, picker) {
         fechaInicio = picker.startDate.format('YYYY-MM-DD');
         fechaFinal= picker.endDate.format('YYYY-MM-DD');
     });
