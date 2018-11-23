@@ -14,15 +14,15 @@
         </div>        
     </div>
     <div class="form-group">
-        <label class="col-sm-3 control-label">Apellido Materno</label>
-        <div class="col-sm-9">
-            <input type="text" value ="<?php echo(isset($datos->apellidomaterno)) ? $datos->apellidomaterno : '' ;?>" data-materno="<?php echo(isset($datos->apellidomaterno)) ? $datos->apellidomaterno : '' ;?>" class="form-control Letras" id="inpMaterno" data- name="inpMaterno">
-        </div> 
-    </div>
-    <div class="form-group">
         <label class="col-sm-3 control-label">Apellido Paterno</label>
         <div class="col-sm-9">
             <input type="text" value ="<?php echo(isset($datos->apellidopaterno)) ? $datos->apellidopaterno : '' ;?>" data-paterno="<?php echo(isset($datos->apellidopaterno)) ? $datos->apellidopaterno : '' ;?>" class="form-control Letras" id="inpPaterno" name="inpPaterno">
+        </div> 
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Apellido Materno</label>
+        <div class="col-sm-9">
+            <input type="text" value ="<?php echo(isset($datos->apellidomaterno)) ? $datos->apellidomaterno : '' ;?>" data-materno="<?php echo(isset($datos->apellidomaterno)) ? $datos->apellidomaterno : '' ;?>" class="form-control Letras" id="inpMaterno" data- name="inpMaterno">
         </div> 
     </div>
     <div class="form-group">

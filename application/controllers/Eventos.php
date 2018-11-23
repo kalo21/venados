@@ -42,7 +42,6 @@ class Eventos extends CI_Controller{
 		$this->form_validation->set_rules('inpNombre', 'Nombre del evento', 'required');
 		$this->form_validation->set_rules('inpDescripcion', 'Descripcion del evento', 'required');
 		$this->form_validation->set_rules('inpInicioD', 'Fecha de inicio del evento', 'required');
-		$this->form_validation->set_rules('inpFinD', 'Fecha en que termina el evento', 'required');
 
 		if ($this->upload->do_upload('inpFoto')) {
 			$data = array('upload_data' => $this->upload->data());

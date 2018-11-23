@@ -22,8 +22,8 @@ class Eventos_model extends CI_Model{
 		$data = array(
 			'nombre' => $datos['inpNombre'],
 			'descripcion' => $datos['inpDescripcion'],
-			'fecha_inicial' => $datos['inpInicioD'],
-			'fecha_fin' => $datos['inpFinD'],
+			'fecha_inicial' => $datos['fechaInicio'],
+			'fecha_fin' => $datos['fechaFinal'],
 			'imagen' => $file_nombre,
 			'status' => 1
 		);

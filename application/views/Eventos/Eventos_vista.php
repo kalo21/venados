@@ -137,6 +137,8 @@ $(document).ready(function(){
               	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
                 //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
                 	var formData = new FormData($('#formulario')[0]);
+					formData.append('fechaInicio',fechaInicio);
+					formData.append('fechaFinal', fechaFinal);
 					$.ajax({
 						url: base_url+'index.php/Eventos/agregarEvento/',
 					  	type: 'POST',
