@@ -632,7 +632,7 @@
                       return $nombredia." ".$numeroDia." de ".$nombreMes." del ".$anio;
                   }
                   ?>
-                <img src="<?php echo base_url(); echo (isset($informacion['imagen'])) ? $informacion['imagen'] : 'hacker.png' ;?>" class="user-image" alt="<?php echo(isset($informacion['imagen'])) ? $informacion['imagen'] : 'No seleccionada' ;?>" class="img-circle" >
+                <img src="<?= base_url(); echo (isset($informacion['imagen'])) ? $informacion['imagen'] : 'hacker.png' ;?>" class="user-image" alt="<?php echo(isset($informacion['imagen'])) ? $informacion['imagen'] : 'No seleccionada' ;?>" class="img-circle" >
                 <p style="color : black;">
                   <?php echo(isset($informacion['nombre'])) ? $informacion['nombre'] : 'Infiltrado :o' ;?>
                   <small><?php echo fechaEspañol(date('Y-m-d H:i:s', time())); ?><br><span id="hora"></span></small>

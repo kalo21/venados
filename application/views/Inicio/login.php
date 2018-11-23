@@ -105,7 +105,7 @@
 
 						<div class="text-center p-t-40" >
 							<a id="olvContra" class="txt1">
-								Olvido Usuario / Contraseña?
+								Olvidó Usuario / Contraseña?
 							</a>
 						</div>
 					</form>

@@ -7,7 +7,7 @@
   background: -webkit-linear-gradient(left, #f6032f, #7b1821);
   background: -o-linear-gradient(left, #f6032f, #7b1821);
   background: -moz-linear-gradient(left, #f6032f, #7b1821); 
-  background: linear-gradient(left, #f6032f, #7b1821);
+  background: linear-gradient(left, #f6032f, #7b1821); 
 }
 .skin-red-light .main-header .navbar .nav > li > a {
   color: #ffffff;
@@ -51,11 +51,11 @@
   }
 } 
 .skin-red-light .main-header .logo {
-  background: #f6032f;
+  /*background: #f6032f;
   background: -webkit-linear-gradient(left, #f6032f, #7b1821);
   background: -o-linear-gradient(left, #f6032f, #7b1821);
   background: -moz-linear-gradient(left, #f6032f, #7b1821);
-  background: linear-gradient(left, #f6032f, #7b1821);
+  background: linear-gradient(left, #f6032f, #7b1821); */
   color: #ffffff;
   border-bottom: 0 solid transparent;
 }
@@ -70,9 +70,9 @@
   background: -moz-linear-gradient(bottom, #ffffff, #ecf0f5);
   background: linear-gradient(bottom, #ffffff, #ecf0f5);  
 } 
-.skin-red-light .content-header {
+/* .skin-red-light .content-header {
   background: transparent;
-}
+} */
 .skin-red-light .wrapper,
 .skin-red-light .main-sidebar,
 .skin-red-light .left-side {

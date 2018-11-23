@@ -353,5 +353,23 @@ class Empresa_modelo extends CI_Model{
 				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
 			}
 		}
+		else{
+			$datos = array(
+				'descripcion' => str_replace(',','-',$data['inpDescripcion']),
+				'razonsocial' => $data['inpRazonSocial'],
+				'rfc' => $data['inpRFC'],
+				'domicilio' => $data['inpDomicilio'],
+				'telefono' => $data['inpTelefono'],
+				'local' => $data['inpLocal']
+			);
+			$this->db->where('id', $data['id']);
+			$this->db->update('empresas', $datos);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => '');
+			}
+			else {
+				return array('exito' => false, 'msg' => 'No se actualizo la base de datos');
+			}
+		}
 	}
 }
