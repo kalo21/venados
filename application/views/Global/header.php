@@ -6,7 +6,6 @@
   <title><?php echo(isset($informacion['titulo'])) ? $informacion['titulo'] : 'VenadoSnacks' ;?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
   <link rel="stylesheet" href="<?php echo base_url('assets/css/carga.css'); ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/css/daterangepicker.css'); ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-dialog.min.css'); ?>">
@@ -19,22 +18,17 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url('assets/css/skins/skin-red-light.css'); ?>">
-  
-
-
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
-  
-  
    <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap.min.css'); ?>">
    <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-datetimepicker.min.css'); ?>">
-  
-
-  
    <link rel="icon" href="<?php echo base_url(); ?>assets/images/logo-v.jpg">
    <style>
+      .mano{
+        cursor : pointer;
+      }
        
        .nav-tabs-custom > .nav-tabs > li.active {
             border-top-color: #f6032f;
@@ -621,49 +615,30 @@
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
-              <li class="user-header" style="background-color: #264d78;">
-              <?php
-                function fechaEspañol ($fecha) {
-                    $fecha = substr($fecha, 0, 10);
-                    $numeroDia = date('d', strtotime($fecha));
-                    $dia = date('l', strtotime($fecha));
-                    $mes = date('F', strtotime($fecha));
-                    $anio = date('Y', strtotime($fecha));
-                    $dias_ES = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo");
-                    $dias_EN = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
-                    $nombredia = str_replace($dias_EN, $dias_ES, $dia);
-                    $meses_ES = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
-                    $meses_EN = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-                    $nombreMes = str_replace($meses_EN, $meses_ES, $mes);
-                    return $nombredia." ".$numeroDia." de ".$nombreMes." del ".$anio;
-                }
-                ?>
+              <li class="user-header">
+                <?php
+                  function fechaEspañol ($fecha) {
+                      $fecha = substr($fecha, 0, 10);
+                      $numeroDia = date('d', strtotime($fecha));
+                      $dia = date('l', strtotime($fecha));
+                      $mes = date('F', strtotime($fecha));
+                      $anio = date('Y', strtotime($fecha));
+                      $dias_ES = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo");
+                      $dias_EN = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+                      $nombredia = str_replace($dias_EN, $dias_ES, $dia);
+                      $meses_ES = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+                      $meses_EN = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+                      $nombreMes = str_replace($meses_EN, $meses_ES, $mes);
+                      return $nombredia." ".$numeroDia." de ".$nombreMes." del ".$anio;
+                  }
+                  ?>
                 <img src="<?php echo base_url(); echo (isset($informacion['imagen'])) ? $informacion['imagen'] : 'hacker.png' ;?>" class="user-image" alt="<?php echo(isset($informacion['imagen'])) ? $informacion['imagen'] : 'No seleccionada' ;?>" class="img-circle" >
-                <p>
+                <p style="color : black;">
                   <?php echo(isset($informacion['nombre'])) ? $informacion['nombre'] : 'Infiltrado :o' ;?>
                   <small><?php echo fechaEspañol(date('Y-m-d H:i:s', time())); ?><br><span id="hora"></span></small>
+                  <br>
+                  <a href="<?= base_url(); ?>index.php/Inicio/salir" class="btn btn-rojo btn-block" >Salir</a>
                 </p>
-              </li>
-              <!-- Menu Body -->
-              <li class="user-body" style="border: 1px solid #f6032f;">
-                <div class="row">
-                  <div class="col-xs-12 text-center" >
-                    <a href="<?php echo base_url();?>">Inicio</a>
-                  </div>
-                  <!--<div class="col-xs-4 text-center">
-                    <a href="#">Ejemplo</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Ejemplo</a>
-                  </div>-->
-                </div>
-                <!-- /.row -->
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-right">
-                  <a href="<?php echo base_url(); ?>index.php/Inicio/salir" class="btn btn-rojo" >Salir</a>
-                </div>
               </li>
             </ul>
           </li>

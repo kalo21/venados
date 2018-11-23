@@ -20,7 +20,7 @@ class Carrito extends CI_Controller {
         $this->cart->remove($this->input->post('rowid'));
     }
 
-    public function cancelarPedido() {
+    public function cancelarCarrito() {
         foreach($this->cart->contents() as $productos) {
             if($productos['idEmpresa'] == $this->input->post('idEmpresa')) {
                 $this->cart->remove($productos['rowid']);
@@ -29,6 +29,44 @@ class Carrito extends CI_Controller {
     }
 
     public function realizarPedido() {
-        $this->Carrito_modelo->realizarPedido($this->input->post('idEmpresa'));
+        echo json_encode($this->Carrito_modelo->realizarPedido($this->input->post('idEmpresa')));
+    }
+
+    public function actualizarCantidad() {
+        if($this->input->post('qty') > 0) {
+            $producto = array(
+                'rowid' => $this->input->post('rowid'),
+                'qty'   => $this->input->post('qty')
+            );
+            $this->cart->update($producto);
+            echo $this->cart->total();
+        }
+        else {
+            echo $this->cart->total();
+        }
+    }
+
+    public function confirmarPedido() {
+        echo json_encode($this->Carrito_modelo->confirmarPedido());
+    }
+
+    public function obtenerPedidos() {
+        echo json_encode($this->Carrito_modelo->obtenerPedidos());
+    }
+
+    public function cancelarPedido() {
+        echo json_encode($this->Carrito_modelo->cancelarPedido($this->input->post('idPedido')));
+    }
+
+    public function obtenerRealizados() {
+        echo json_encode($this->Carrito_modelo->obtenerRealizados());
+    }
+
+    public function obtenerCancelados() {
+        echo json_encode($this->Carrito_modelo->obtenerCancelados());
+    }
+
+    public function eliminarPedido() {
+        $this->Carrito_modelo->eliminarPedido($this->input->post('idPedido'));
     }
 }

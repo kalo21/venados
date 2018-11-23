@@ -1,25 +1,58 @@
 
 <?php $this->load->view('Global/header'); ?>
 <?php $this->load->view('Global/menu'); ?>
-
+<style>
+    .box-body{
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+</style>
 <div class="content-wrapper">
     <section class="content">
         <div class="container-fluid">
-        <div class="row" id="">
-            <div class="col-md-8" id="contenedor">
-                <!-- Pedidos por empresa -->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="col-md-12" id="contenedor">
+                    <!-- <div style="display:flex; align-items: center; justify-content: center" class="col-md-12" height="30px">
+                        <h3>Por pedir</h3>
+                    </div> -->
+                    <!-- Pedidos por empresa -->
+                </div>
+                <div class="col-md-12" id="pedidos">
+                    <div style="display:flex; align-items: center; justify-content: center" class="col-md-12" height="30px">
+                        <h3>Pedidos</h3>
+                    </div>
+                    <!-- Pedidos hechos -->
+                </div>
+                <div class="col-md-12" id="listos">
+                    <div style="display:flex; align-items: center; justify-content: center" class="col-md-12" height="30px">
+                        <h3>Listos</h3>
+                    </div>
+                    <!-- Pedidos listos -->
+                </div>
+                <div class="col-md-12" id="cancelados">
+                    <div style="display:flex; align-items: center; justify-content: center" class="col-md-12" height="30px">
+                        <h3>Cancelados</h3>
+                    </div>
+                    <!-- Pedidos cancelados -->
+                </div>
             </div>
             <div class="col-md-4">
                 <div class="box box-solid">
-                    <div class="box-header with-border" style="background-color: #f6032f">
+                    <div class="box-header with-border text-center" style="background-color: #f6032f">
                         <h3 class="box-title" style="color:white">Confirmación de pedidos</h3>
                     </div>
-                    <div class="box box-body text-center">
-                        <h3><strong class="col-xs-12">Total: $ <span id="total"></span></strong></h3>
+                    <div class="box box-body">
+                        <div style="display: flex; align-items: center; height:56.4px" class="text-center">
+                            <strong style="font-size:24px" class="col-xs-12">Total: $ <span id="total"></span></strong>
+                        </div>
                         <button id="confirmar" type="button" class="btn btn-rojo col-xs-12">Confirmar Pedidos</button>
                     </div>
                 </div>
             </div>
+            
 		</div>
     </section>
 </div>
@@ -29,21 +62,121 @@
 <script>
     $(document).ready(function() {
 
+        dibujarCarrito();
         dibujarPedidos();
+        dibujarRealizados();
+        dibujarCancelados();
+
+        $(document).on('click', '#minimizar', function() {
+            if($(this).attr('class') == 'pull-right fa fa-plus') {
+                $(this).attr('class', 'pull-right fa fa-minus');
+            }
+            else {
+                $(this).attr('class', 'pull-right fa fa-plus');
+            }
+        });
 
         $(document).on('click', '#confirmar', function() {
+            $.ajax({
+                url: base_url+'index.php/Carrito/confirmarPedido',
+                success: function(data) {
+                    data = JSON.parse(data);
+                    if(data['exito']) {
+                        $('.realizar').trigger('click');
+                    }
+                    else {
+                        BootstrapDialog.confirm({
+                            title: 'Advertencia',
+                            message: data['msg'],
+                            type: BootstrapDialog.TYPE_DANGER, 
+                            btnOKLabel: 'OK', 
+                            btnOKClass: 'btn-rojo', 
+                        });
+                    }
+                }
+            })
         });
 
         $(document).on('click', '#cancelar', function() {
             var idEmpresa = $(this).parent().attr('data-id');
-            $.ajax({
-                url: base_url+'index.php/Carrito/cancelarPedido',
-                type: 'POST',
-                data: {idEmpresa:idEmpresa},
-                success: function() {
-                    location.reload();
-                }
-            });
+            BootstrapDialog.confirm({
+				title: 'Advertencia',
+				message: 'Se eliminará el pedido seleccionado ¿Desea continuar?',
+				type: BootstrapDialog.TYPE_DANGER, 
+				btnCancelLabel: 'Cancelar', 
+				btnOKLabel: 'Continuar', 
+				btnOKClass: 'btn-rojo', 
+				callback: function(result) {
+                	if(result){
+                        $.ajax({
+                            url: base_url+'index.php/Carrito/cancelarCarrito',
+                            type: 'POST',
+                            data: {idEmpresa:idEmpresa},
+                            success: function() {
+                                location.reload();
+                            }
+                        });
+                	}
+            	}
+          	});
+        });
+
+        $(document).on('click', '#cancelarPedido', function() {
+            var idPedido = $(this).parent().attr('data-id');
+            BootstrapDialog.confirm({
+				title: 'Advertencia',
+				message: 'Se cancelará el pedido seleccionado siempre y cuando no se encuentre en proceso ¿Desea continuar?',
+				type: BootstrapDialog.TYPE_DANGER, 
+				btnCancelLabel: 'Cancelar', 
+				btnOKLabel: 'Continuar', 
+				btnOKClass: 'btn-rojo', 
+				callback: function(result) {
+                	if(result){
+                        $.ajax({
+                            url: base_url+'index.php/Carrito/cancelarPedido',
+                            type: 'POST',
+                            data: {idPedido:idPedido},
+                            success: function(data) {
+                                data = JSON.parse(data);
+                                BootstrapDialog.confirm({
+                                    title: 'Advertencia',
+                                    message: data['msg'],
+                                    type: BootstrapDialog.TYPE_DANGER, 
+                                    btnOKLabel: 'Continuar', 
+                                    btnOKClass: 'btn-rojo',
+                                    callback: function(result) {
+                                        location.reload();
+                                    } 
+                                });
+                            }
+                        });
+                	}
+            	}
+          	});
+        });
+
+        $(document).on('click', '#eliminarPedido', function() {
+            var idPedido = $(this).parent().attr('data-id');
+            BootstrapDialog.confirm({
+				title: 'Advertencia',
+				message: 'Se eliminará el pedido seleccionado ¿Desea continuar?',
+				type: BootstrapDialog.TYPE_DANGER, 
+				btnCancelLabel: 'Cancelar', 
+				btnOKLabel: 'Continuar', 
+				btnOKClass: 'btn-rojo', 
+				callback: function(result) {
+                	if(result){
+                        $.ajax({
+                            url: base_url+'index.php/Carrito/eliminarPedido',
+                            type: 'POST',
+                            data: {idPedido:idPedido},
+                            success: function() {
+                                location.reload();
+                            }
+                        });
+                	}
+            	}
+          	});
         });
 
         $(document).on('click', '#realizar', function() {
@@ -52,68 +185,283 @@
                 url: base_url+'index.php/Carrito/realizarPedido',
                 type: 'POST',
                 data: {idEmpresa:idEmpresa},
-                success: function() {
-                    location.reload();
+                success: function(data) {
+                    data = JSON.parse(data);
+                    if(data['exito']) {
+                        location.reload();
+                    }
+                    else {
+                        BootstrapDialog.confirm({
+                            title: 'Advertencia',
+                            message: data['msg'],
+                            type: BootstrapDialog.TYPE_DANGER, 
+                            btnOKLabel: 'OK', 
+                            btnOKClass: 'btn-rojo', 
+                        });
+                    }
                 }
             });
         });
 
         $(document).on('click', '#eliminar', function() {
-            var rowid = $(this).attr('data-id');
+            var rowid = $(this).parent().attr('data-id');
+            BootstrapDialog.confirm({
+				title: 'Advertencia',
+				message: 'Se eliminará el producto seleccionado ¿Desea continuar?',
+				type: BootstrapDialog.TYPE_DANGER, 
+				btnCancelLabel: 'Cancelar', 
+				btnOKLabel: 'Continuar', 
+				btnOKClass: 'btn-rojo', 
+				callback: function(result) {
+                	if(result){
+                        $.ajax({
+                            url: base_url+'index.php/Carrito/eliminarProducto/',
+                            type: "POST",
+                            data:{rowid:rowid},
+                            success: function() {
+                                location.reload();
+                            }
+                        });
+                	}
+            	}
+          	});
+        });
+
+        $(document).on('change', 'input', function() {
+            var qty = $(this).val();
+            var rowid = $(this).parent().attr('data-id');
             $.ajax({
-                url: base_url+'index.php/Carrito/eliminarProducto/',
-                type: "POST",
-                data:{rowid:rowid},
-                success: function() {
-                    location.reload();
+                url: base_url+'index.php/Carrito/actualizarCantidad',
+                type: 'POST',
+                data: {rowid:rowid, qty:qty},
+                success: function(data) {
+                    $('#total').html(data);
                 }
             });
         });
 
-        function dibujarPedidos() {
+        function dibujarCarrito() {
             var data = <?php echo json_encode($this->cart->contents());?>;
+            console.log(data);
             var contenedor = '';
-            $.each(data, (function(index, producto) {
-                if($('#'+producto.idEmpresa+'').length) {
-                    contenedor += '<div class="col-md-9">';
-                    contenedor += '    <p class="col-md-2">'+producto.name+'</p>';
-                    contenedor += '    <p class="col-md-7 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi, animi quam rerum expedita nisi, inventore veniam nemo et nesciunt molestiae iusto tempora a blanditiis pariatur!</p>';
-                    contenedor += '    <p class="col-md-3 text-success text-center">$ '+producto.price+'</p>';
-                    contenedor += '</div>';
-                    contenedor += '<div class="col-md-3">';
-                    contenedor += '    <input type="number" min="1" class="col-md-6 form-group" value="'+producto.qty+'">';
-                    contenedor += '    <a href="#" id="eliminar" data-id="'+producto.rowid+'" class="col-md-6 text-center"><span class="fa fa-times" style="color:#f6032f"></span></a>';
-                    contenedor += '</div>';
-                    $('#'+producto.idEmpresa+'').append(contenedor);
-                    contenedor = '';
+            if(data.length != 0) {
+                $.each(data, (function(index, producto) {
+                    if($('#'+producto.idEmpresa+'').length) {
+                        contenedor += '        <div class="col-md-7 col-xs-8">';
+                        contenedor += '            <p class="col-md-3">'+producto.name+'</p>';
+                        contenedor += '            <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                        contenedor += '        </div>';
+                        contenedor += '        <div class="col-md-5 col-xs-4" data-id="'+producto.rowid+'">';
+                        contenedor += '            <p class="col-md-5 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
+                        contenedor += '            <input type="number" min="1" class="form-group col-md-4 col-xs-12" value="'+producto.qty+'">';
+                        contenedor += '            <a href="#" id="eliminar" data-id="'+producto.rowid+'" class="col-md-3 col-xs-12 text-center"><span class="fa fa-times" style="color:#f6032f"></span></a>';
+                        contenedor += '        </div>';
+                        $('#'+producto.idEmpresa+'').append(contenedor);
+                        contenedor = '';
+                    }
+                    else {
+                        contenedor += '<div class="col-md-12">';
+                        contenedor += '    <div class="box box-solid">';
+                        contenedor += '        <div  class="box-header with-border" style="background-color: #f6032f">';
+                        contenedor += '            <h3 class="box-title" style="color:white">Empresa: '+producto.nombreEmpresa+'</h3>';
+                        contenedor += '            <span data-toggle="collapse" data-target=".'+producto.idEmpresa+'" style="font-size:20px; color:white; padding-right:10px" id="minimizar" class="pull-right fa fa-minus"></span>';
+                        contenedor += '        </div>';
+                        contenedor += '        <div class="'+producto.idEmpresa+'  collapse in">';
+                        contenedor += '            <div class="box box-body" id="'+producto.idEmpresa+'">';
+                        contenedor += '                <div class="col-md-7 col-xs-8">';
+                        contenedor += '                    <p class="col-md-3">'+producto.name+'</p>';
+                        contenedor += '                        <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                        contenedor += '                </div>';
+                        contenedor += '                <div class="col-md-5 col-xs-4" data-id="'+producto.rowid+'">';
+                        contenedor += '                    <p class="col-md-5 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
+                        contenedor += '                    <input type="number" min="1" class="form-group col-md-4 col-xs-12" value="'+producto.qty+'">';
+                        contenedor += '                    <a href="#" id="eliminar" data-id="'+producto.rowid+'" class="col-md-3 col-xs-12 text-center"><span class="fa fa-times" style="color:#f6032f"></span></a>';
+                        contenedor += '               </div>';
+                        contenedor += '            </div>';
+                        contenedor += '            <div data-id="'+producto.idEmpresa+'" class="box box-footer">';
+                        contenedor += '                 <a id="cancelar" class="col-md-3 col-md-offset-6 col-xs-6" href="#">Cancelar pedido</a>';
+                        contenedor += '                 <a id="realizar" class="col-md-3 col-xs-6 realizar" href="#">Realizar pedido</a>';
+                        contenedor += '            </div>';
+                        contenedor += '        </div>';
+                        contenedor += '    </div>';
+                        contenedor += '</div>';
+                        $('#contenedor').append(contenedor);
+                        contenedor = '';
+                    }
+                }));
+                $('#total').html('<?php echo $this->cart->total();?>');
+            }
+            else {
+                $('#contenedor').html('<p>No hay nada en el carrito</p>');
+            }
+        }
+
+        function dibujarPedidos() {
+            $.ajax({
+                url: base_url+'index.php/Carrito/obtenerPedidos',
+                success: function(data) {
+                    data = JSON.parse(data);
+                    console.log(data);
+                    var contenedor = '';
+                    if(data.length != 0) {
+                        $.each(data, (function(index, producto) {
+                            if($('#'+producto.idPedido+'').length) {
+                                contenedor += '        <div class="col-md-7 col-xs-8">';
+                                contenedor += '            <p class="col-md-3">'+producto.name+'</p>';
+                                contenedor += '            <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                                contenedor += '        </div>';
+                                contenedor += '        <div class="col-md-5 col-xs-4">';
+                                contenedor += '            <p class="col-md-6 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
+                                contenedor += '            <p class="col-md-4 col-md-offset-2 col-xs-12">'+producto.qty+'</p>';
+                                contenedor += '        </div>';
+                                $('#'+producto.idPedido+'').append(contenedor);
+                                contenedor = '';
+                            }
+                            else {
+                                contenedor += '<div class="col-md-12">';
+                                contenedor += '    <div class="box box-solid">';
+                                contenedor += '        <div  class="box-header with-border" style="background-color: #f6032f">';
+                                contenedor += '            <h3 class="box-title" style="color:white">Pedido: '+producto.idPedido+'</h3>';
+                                contenedor += '            <span data-toggle="collapse" data-target=".'+producto.idPedido+'" style="font-size:20px; color:white; padding-right:10px" id="minimizar" class="pull-right fa fa-plus"></span>';
+                                contenedor += '        </div>';
+                                contenedor += '        <div class="'+producto.idPedido+' collapse">';
+                                contenedor += '            <div class="box box-body" id="'+producto.idPedido+'">';
+                                contenedor += '                <div class="col-md-7 col-xs-8">';
+                                contenedor += '                    <p class="col-md-3">'+producto.name+'</p>';
+                                contenedor += '                        <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                                contenedor += '                </div>';
+                                contenedor += '                <div class="col-md-5 col-xs-4">';
+                                contenedor += '                    <p class="col-md-6 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
+                                contenedor += '                    <p class="col-md-4 col-md-offset-2 col-xs-12">'+producto.qty+'</p>';
+                                contenedor += '               </div>';
+                                contenedor += '            </div>';
+                                contenedor += '            <div data-id="'+producto.idPedido+'" class="box box-footer">';
+                                contenedor += '                 <a style="padding-right: 30px" id="cancelarPedido" class="pull-right" href="#">Cancelar pedido</a>';
+                                contenedor += '            </div>';
+                                contenedor += '        </div>';
+                                contenedor += '    </div>';
+                                contenedor += '</div>';
+                                $('#pedidos').append(contenedor);
+                                contenedor = '';
+                            }
+                        }));
+                    }
+                    else {
+                        $('#pedidos').html('<p>No hay nada en el carrito</p>');
+                    }
                 }
-                else {
-                    contenedor += '<div class="col-md-12">';
-                    contenedor += '    <div class="box box-solid">';
-                    contenedor += '        <div class="box-header with-border" style="background-color: #f6032f">';
-                    contenedor += '        <h3 class="box-title" style="color:white">Empresa: '+producto.idEmpresa+'</h3>';
-                    contenedor += '    </div>';
-                    contenedor += '    <div class="box box-body" id="'+producto.idEmpresa+'">';
-                    contenedor += '        <div class="col-md-9">';
-                    contenedor += '            <p class="col-md-2">'+producto.name+'</p>';
-                    contenedor += '            <p class="col-md-7 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi, animi quam rerum expedita nisi, inventore veniam nemo et nesciunt molestiae iusto tempora a blanditiis pariatur!</p>';
-                    contenedor += '            <p class="col-md-3 text-success text-center">$ '+producto.price+'</p>';
-                    contenedor += '        </div>';
-                    contenedor += '        <div class="col-md-3">';
-                    contenedor += '            <input type="number" min="1" class="form-group col-md-6" value="'+producto.qty+'">';
-                    contenedor += '            <a href="#" id="eliminar" data-id="'+producto.rowid+'" class="col-md-6 text-center"><span class="fa fa-times" style="color:#f6032f"></span></a>';
-                    contenedor += '        </div>';
-                    contenedor += '    </div>';
-                    contenedor += '    <div data-id="'+producto.idEmpresa+'" class="box box-footer">';
-                    contenedor += '        <a id="cancelar" class="col-xs-3 col-xs-offset-6" href="#">Cancelar pedido</a>';
-                    contenedor += '        <a id="realizar" class="col-xs-3 " href="#">Realizar pedido</a>';
-                    contenedor += '    </div>';
-                    contenedor += '</div>';
-                    $('#contenedor').append(contenedor);
-                    contenedor = '';
+            });
+        }
+
+        function dibujarRealizados() {
+            $.ajax({
+                url: base_url+'index.php/Carrito/obtenerRealizados',
+                success: function(data) {
+                    data = JSON.parse(data);
+                    console.log(data);
+                    var contenedor = '';
+                    if(data.length != 0) {
+                        $.each(data, (function(index, producto) {
+                            if($('#'+producto.idPedido+'').length) {
+                                contenedor += '        <div class="col-md-7 col-xs-8">';
+                                contenedor += '            <p class="col-md-3">'+producto.name+'</p>';
+                                contenedor += '            <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                                contenedor += '        </div>';
+                                contenedor += '        <div class="col-md-5 col-xs-4">';
+                                contenedor += '            <p class="col-md-6 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
+                                contenedor += '            <p class="col-md-4 col-md-offset-2 col-xs-12">'+producto.qty+'</p>';
+                                contenedor += '        </div>';
+                                $('#'+producto.idPedido+'').append(contenedor);
+                                contenedor = '';
+                            }
+                            else {
+                                contenedor += '<div class="col-md-12">';
+                                contenedor += '    <div class="box box-solid">';
+                                contenedor += '        <div  class="box-header with-border" style="background-color: #f6032f">';
+                                contenedor += '            <h3 class="box-title" style="color:white">Pedido: '+producto.idPedido+'</h3>';
+                                contenedor += '            <span data-toggle="collapse" data-target=".'+producto.idPedido+'" style="font-size:20px; color:white; padding-right:10px" id="minimizar" class="pull-right fa fa-plus"></span>';
+                                contenedor += '        </div>';
+                                contenedor += '        <div class="'+producto.idPedido+' collapse">';
+                                contenedor += '            <div class="box box-body" id="'+producto.idPedido+'">';
+                                contenedor += '                <div class="col-md-7 col-xs-8">';
+                                contenedor += '                    <p class="col-md-3">'+producto.name+'</p>';
+                                contenedor += '                        <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                                contenedor += '                </div>';
+                                contenedor += '                <div class="col-md-5 col-xs-4">';
+                                contenedor += '                    <p class="col-md-6 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
+                                contenedor += '                    <p class="col-md-4 col-md-offset-2 col-xs-12">'+producto.qty+'</p>';
+                                contenedor += '               </div>';
+                                contenedor += '            </div>';
+                                contenedor += '        </div>';
+                                contenedor += '    </div>';
+                                contenedor += '</div>';
+                                $('#listos').append(contenedor);
+                                contenedor = '';
+                            }
+                        }));
+                    }
+                    else {
+                        $('#listos').html('<p>No hay nada en el carrito</p>');
+                    }
                 }
-            }));
-            $('#total').html('<?php echo $this->cart->total();?>');
+            });
+        }
+
+        function dibujarCancelados() {
+            $.ajax({
+                url: base_url+'index.php/Carrito/obtenerCancelados',
+                success: function(data) {
+                    data = JSON.parse(data);
+                    console.log(data);
+                    var contenedor = '';
+                    if(data.length != 0) {
+                        $.each(data, (function(index, producto) {
+                            if($('#'+producto.idPedido+'').length) {
+                                contenedor += '        <div class="col-md-7 col-xs-8">';
+                                contenedor += '            <p class="col-md-3">'+producto.name+'</p>';
+                                contenedor += '            <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                                contenedor += '        </div>';
+                                contenedor += '        <div class="col-md-5 col-xs-4">';
+                                contenedor += '            <p class="col-md-6 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
+                                contenedor += '            <p class="col-md-4 col-md-offset-2 col-xs-12">'+producto.qty+'</p>';
+                                contenedor += '        </div>';
+                                $('#'+producto.idPedido+'').append(contenedor);
+                                contenedor = '';
+                            }
+                            else {
+                                contenedor += '<div class="col-md-12">';
+                                contenedor += '    <div class="box box-solid">';
+                                contenedor += '        <div  class="box-header with-border" style="background-color: #f6032f">';
+                                contenedor += '            <h3 class="box-title" style="color:white">Pedido: '+producto.idPedido+'</h3>';
+                                contenedor += '            <span data-toggle="collapse" data-target=".'+producto.idPedido+'" style="font-size:20px; color:white; padding-right:10px" id="minimizar" class="pull-right fa fa-plus"></span>';
+                                contenedor += '        </div>';
+                                contenedor += '        <div class="'+producto.idPedido+' collapse">';
+                                contenedor += '            <div class="box box-body" id="'+producto.idPedido+'">';
+                                contenedor += '                <div class="col-md-7 col-xs-8">';
+                                contenedor += '                    <p class="col-md-3">'+producto.name+'</p>';
+                                contenedor += '                        <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                                contenedor += '                </div>';
+                                contenedor += '                <div class="col-md-5 col-xs-4">';
+                                contenedor += '                    <p class="col-md-6 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
+                                contenedor += '                    <p class="col-md-4 col-md-offset-2 col-xs-12">'+producto.qty+'</p>';
+                                contenedor += '               </div>';
+                                contenedor += '            </div>';
+                                contenedor += '            <div data-id="'+producto.idPedido+'" class="box box-footer">';
+                                contenedor += '                 <a style="padding-right: 30px" id="eliminarPedido" class="pull-right" href="#">Eliminar</a>';
+                                contenedor += '            </div>';
+                                contenedor += '        </div>';
+                                contenedor += '    </div>';
+                                contenedor += '</div>';
+                                $('#cancelados').append(contenedor);
+                                contenedor = '';
+                            }
+                        }));
+                    }
+                    else {
+                        $('#cancelados').html('<p>No hay nada en el carrito</p>');
+                    }
+                }
+            });
         }
 
     })

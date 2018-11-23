@@ -9,6 +9,7 @@ class Pedidos_modelo extends CI_Model{
         $this->db->where('pedidos.idempresa', $id);
         $this->db->where('pedidos.estatus !=', 'Entregado');
         $this->db->where('pedidos.estatus !=', 'Cancelado');
+        $this->db->where('pedidos.estatus !=', 'Eliminado');
         $query = $this->db->get();
         return $query->result();
     }
@@ -29,7 +30,7 @@ class Pedidos_modelo extends CI_Model{
         $data = array( 'estatus' => 'Cancelado');
         $this->db->update('pedidos', $data);
         $notificacion = array(
-            'idpedido' => $id,
+            'titulo' => $this->session->nombreEmpresa,
             'mensaje' => $msg,
             'fecha' => date('Y/m/d'),
             'hora' => date('h:i:sa'),
@@ -49,7 +50,7 @@ class Pedidos_modelo extends CI_Model{
         $data = array('estatus' => 'Realizado');
         $this->db->update('pedidos', $data);
         $notificacion = array(  
-            'idpedido' => $id,
+            'titulo' => $this->session->nombreEmpresa,
             'mensaje' => 'Pedido finalizado',
             'fecha' => date('Y/m/d'),
             'hora' => date('h:i:sa'),

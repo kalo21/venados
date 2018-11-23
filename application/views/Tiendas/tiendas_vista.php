@@ -81,11 +81,12 @@
                     var cantidad = parseInt($('#cantidad').text()); 
                     var nombre = $('#nombreProducto').text();
                     var precio = parseFloat($('#precio').text());
+                    var descripcion = $('#descripcion').text();
                     console.log(precio);
                     $.ajax({
                         url: base_url+'index.php/Tiendas/agregarCarrito',
                         type: 'POST',
-                        data: {idProducto:idProducto, cantidad:cantidad, nombre:nombre, precio:precio, idEmpresa:idEmpresa},
+                        data: {idProducto:idProducto, descripcion:descripcion, cantidad:cantidad, nombre:nombre, precio:precio, idEmpresa:idEmpresa},
                         success: function(data) {
                             if(data) {
                                 data = JSON.parse(data);
@@ -114,8 +115,8 @@
         function dibujarEmpresas(info) {
             var contenedor = '';
             info.forEach(function(empresa, index) {
-                contenedor += '<div id="empresa" data-id="'+empresa['id']+'" class="thumbnail text-center col-md-4">';
-                contenedor += '    <img style="max-width:324px; max-height: 182px" class="img-responsive" src="'+base_url+empresa['img_fondo']+'" alt="">';
+                contenedor += '<div style="width:33%; height:182px" id="empresa" data-id="'+empresa['id']+'" class="thumbnail text-center col-md-4">';
+                contenedor += '    <img style="max-width:324px; max-height: 172px" class="img-responsive" src="'+base_url+empresa['img_fondo']+'" alt="">';
                 contenedor += '    <div class="caption" style="background-color: rgba(0,0,0,0.6)">';
                 contenedor += '        <strong style="color:white">'+empresa['nombre']+'</strong>';
                 contenedor += '        <br>';
@@ -124,7 +125,7 @@
                 contenedor += '</div>';
             });
             $('#contenedor').html(contenedor);
-            $('#header').html('<h3 class="col-md-2 col-md-offset-5 text-center"><strong>Empresas</strong></h3>');
+            $('#header').html('<div style="height:56.4px; display: flex; align-items: center"><strong style="font-size:24px" class="col-md-2 col-md-offset-5 text-center">Empresas</strong></div>');
         }
         
         function dibujarProductos(info) {
@@ -147,8 +148,10 @@
             });
             $('#contenedor').html(contenedor)
             var encabezado = '';
+            encabezado += '<div style="height: 56.4px; display: flex; align-items: center">';
             encabezado += '<a id="regresar" class="col-xs-2"><label class="fa fa-arrow-left" style="color:black; font-size: 24px; "></label></a>';
-            encabezado += '<h3 class="col-xs-2 col-xs-offset-3"><strong>Productos</strong></h3>';
+            encabezado += '<strong style="font-size:24px" class="col-xs-2 col-xs-offset-3">Productos</strong>';
+            encabezado += '</div>';
             $('#header').html(encabezado);
         }
     });

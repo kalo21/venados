@@ -14,7 +14,7 @@
         <h3 class="text-success">$ <span id="precio"><?php echo $datos[0]->precio;?></span></h3>
     </div>
     <div class="col-xs-12 text-left text-justify">
-        <p  style="font-size: 18px"><?php echo $datos[0]->descripcion;?></p>
+        <p id="descripcion" style="font-size: 18px"><?php echo $datos[0]->descripcion;?></p>
     </div>
 </div>
 <div class="row" style="margin: 0 0 10px">
@@ -22,7 +22,7 @@
         <h4><strong>Total: $<span id="total"><?php echo $datos[0]->precio;?></span></strong></h4>
     </div>
     <div class="col-xs-6 text-right">
-        <p style="font-size:20px"><span id="minus" class="fa fa-minus-circle" style="color:#f6032f"></span>  <span id="cantidad">1</span>  <span id="plus" class="fa fa-plus-circle" style="color:green"></span></p>
+        <p style="font-size:20px"><span id="minus" class="fa fa-minus-circle mano" style="color:#f6032f"></span>  <span id="cantidad">1</span>  <span id="plus" class="fa fa-plus-circle mano" style="color:green"></span></p>
     </div>
 </div>
 
