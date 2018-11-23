@@ -13,26 +13,26 @@
     <section class="content">
         <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
-                <div class="col-md-12" id="contenedor">
+            <div class="col-md-8" style="padding-left:0px; padding-right:0px">
+                <div class="col-md-12" id="contenedor" style="padding-left:0px; padding-right:0px">
                     <!-- <div style="display:flex; align-items: center; justify-content: center" class="col-md-12" height="30px">
                         <h3>Por pedir</h3>
                     </div> -->
                     <!-- Pedidos por empresa -->
                 </div>
-                <div class="col-md-12" id="pedidos">
+                <div class="col-md-12" id="pedidos" style="padding-left:0px; padding-right:0px">
                     <div style="display:flex; align-items: center; justify-content: center" class="col-md-12" height="30px">
                         <h3>Pedidos</h3>
                     </div>
                     <!-- Pedidos hechos -->
                 </div>
-                <div class="col-md-12" id="listos">
+                <div class="col-md-12" id="listos" style="padding-left:0px; padding-right:0px">
                     <div style="display:flex; align-items: center; justify-content: center" class="col-md-12" height="30px">
                         <h3>Listos</h3>
                     </div>
                     <!-- Pedidos listos -->
                 </div>
-                <div class="col-md-12" id="cancelados">
+                <div class="col-md-12" id="cancelados" style="padding-left:0px; padding-right:0px">
                     <div style="display:flex; align-items: center; justify-content: center" class="col-md-12" height="30px">
                         <h3>Cancelados</h3>
                     </div>
@@ -68,11 +68,11 @@
         dibujarCancelados();
 
         $(document).on('click', '#minimizar', function() {
-            if($(this).attr('class') == 'pull-right fa fa-plus') {
-                $(this).attr('class', 'pull-right fa fa-minus');
+            if($(this).attr('class') == 'mano pull-right fa fa-plus') {
+                $(this).attr('class', 'mano pull-right fa fa-minus');
             }
             else {
-                $(this).attr('class', 'pull-right fa fa-plus');
+                $(this).attr('class', 'mano pull-right fa fa-plus');
             }
         });
 
@@ -264,7 +264,7 @@
                         contenedor += '    <div class="box box-solid">';
                         contenedor += '        <div  class="box-header with-border" style="background-color: #f6032f">';
                         contenedor += '            <h3 class="box-title" style="color:white">Empresa: '+producto.nombreEmpresa+'</h3>';
-                        contenedor += '            <span data-toggle="collapse" data-target=".'+producto.idEmpresa+'" style="font-size:20px; color:white; padding-right:10px" id="minimizar" class="pull-right fa fa-minus"></span>';
+                        contenedor += '            <span data-toggle="collapse" data-target=".'+producto.idEmpresa+'" style="font-size:20px; color:white; padding-right:10px" id="minimizar" class="mano pull-right fa fa-minus"></span>';
                         contenedor += '        </div>';
                         contenedor += '        <div class="'+producto.idEmpresa+'  collapse in">';
                         contenedor += '            <div class="box box-body" id="'+producto.idEmpresa+'">';
@@ -322,7 +322,7 @@
                                 contenedor += '    <div class="box box-solid">';
                                 contenedor += '        <div  class="box-header with-border" style="background-color: #f6032f">';
                                 contenedor += '            <h3 class="box-title" style="color:white">Pedido: '+producto.idPedido+'</h3>';
-                                contenedor += '            <span data-toggle="collapse" data-target=".'+producto.idPedido+'" style="font-size:20px; color:white; padding-right:10px" id="minimizar" class="pull-right fa fa-plus"></span>';
+                                contenedor += '            <span data-toggle="collapse" data-target=".'+producto.idPedido+'" style="font-size:20px; color:white; padding-right:10px" id="minimizar" class="mano pull-right fa fa-plus"></span>';
                                 contenedor += '        </div>';
                                 contenedor += '        <div class="'+producto.idPedido+' collapse">';
                                 contenedor += '            <div class="box box-body" id="'+producto.idPedido+'">';
@@ -379,7 +379,7 @@
                                 contenedor += '    <div class="box box-solid">';
                                 contenedor += '        <div  class="box-header with-border" style="background-color: #f6032f">';
                                 contenedor += '            <h3 class="box-title" style="color:white">Pedido: '+producto.idPedido+'</h3>';
-                                contenedor += '            <span data-toggle="collapse" data-target=".'+producto.idPedido+'" style="font-size:20px; color:white; padding-right:10px" id="minimizar" class="pull-right fa fa-plus"></span>';
+                                contenedor += '            <span data-toggle="collapse" data-target=".'+producto.idPedido+'" style="font-size:20px; color:white; padding-right:10px" id="minimizar" class="mano pull-right fa fa-plus"></span>';
                                 contenedor += '        </div>';
                                 contenedor += '        <div class="'+producto.idPedido+' collapse">';
                                 contenedor += '            <div class="box box-body" id="'+producto.idPedido+'">';
@@ -433,7 +433,7 @@
                                 contenedor += '    <div class="box box-solid">';
                                 contenedor += '        <div  class="box-header with-border" style="background-color: #f6032f">';
                                 contenedor += '            <h3 class="box-title" style="color:white">Pedido: '+producto.idPedido+'</h3>';
-                                contenedor += '            <span data-toggle="collapse" data-target=".'+producto.idPedido+'" style="font-size:20px; color:white; padding-right:10px" id="minimizar" class="pull-right fa fa-plus"></span>';
+                                contenedor += '            <span data-toggle="collapse" data-target=".'+producto.idPedido+'" style="font-size:20px; color:white; padding-right:10px" id="minimizar" class="mano pull-right fa fa-plus"></span>';
                                 contenedor += '        </div>';
                                 contenedor += '        <div class="'+producto.idPedido+' collapse">';
                                 contenedor += '            <div class="box box-body" id="'+producto.idPedido+'">';

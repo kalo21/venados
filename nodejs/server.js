@@ -24,12 +24,50 @@ io.on("connection", function(socket){
         //Si el receptor existe
         if (clients[data.idEmpresa]){
             io.sockets.connected[clients[data.idEmpresa]].emit("pedido", data);
+            //socket.disconnect();
         }
         //Si no existe el receptor
         else{
             console.log("User does not exist: " + data.idEmpresa); 
+            //socket.disconnect();
         }
-    })
+    });
+
+    socket.on('add-pedido',function(data, fn){
+        db.insertPedido(data, fn);
+        console.log(data.idEmpresa);
+        console.log(clients);
+        //Si el receptor existe
+        if (clients[data.idEmpresa]){
+            io.sockets.connected[clients[data.idEmpresa]].emit("pedido", data);
+            //socket.disconnect();
+            fn(true);
+        }
+        //Si no existe el receptor
+        else{
+            fn("No se encontró la tienda");
+            //socket.disconnect();
+        }
+    });
+
+    socket.on('cancelar-pedido',function(data, fn){
+        console.log("IDEMPRESA: "+data.idEmpresa);
+
+        db.cancelarPedido(data.idPedido);
+        //Si el receptor existe
+        console.log(clients);
+        console.log(clients[data.idEmpresa]);
+        if (clients[data.idEmpresa]){
+            io.sockets.connected[clients[data.idEmpresa]].emit("pedido", data);
+            fn(true);
+            //socket.disconnect();
+        }
+        //Si no existe el receptor
+        else{
+            fn("No se encontró la tienda");
+            //socket.disconnect();
+        }
+    });
 
     /**
      * Esta función es para agregar un usuario.
