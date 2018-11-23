@@ -173,9 +173,17 @@ class Api extends CI_Controller {
 		//Si viene desde la página
 		
 		if(sizeof($this->input->post()) > 0){
-			$title = $this->input->post("title");
+			//$title = $this->input->post("title");
 			$message = $this->input->post("msg");
 			$user = $this->input->post("user");
+			$id = $this->input->post("id");
+			$notification = array(
+				'titulo' 	 => $this->session->nombreEmpresa,
+				'mensaje'	 => $message,
+				'estatus'    => 1,
+				'id_usuario' => $id
+			);
+			$this->storeNotification($notification);
 			//Falta agregar unas cosas para que agregue la notificación a la bd.
 		}
 		//Si viene desde la app, para recargas

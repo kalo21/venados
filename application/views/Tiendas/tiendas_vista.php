@@ -115,7 +115,7 @@
         function dibujarEmpresas(info) {
             var contenedor = '';
             info.forEach(function(empresa, index) {
-                contenedor += '<div style="width:33%; height:182px" id="empresa" data-id="'+empresa['id']+'" class="thumbnail text-center col-md-4">';
+                contenedor += '<div style=" height:182px" id="empresa" data-id="'+empresa['id']+'" class="thumbnail text-center col-md-4 col-sm-6">';
                 contenedor += '    <img style="max-width:324px; max-height: 172px" class="img-responsive" src="'+base_url+empresa['img_fondo']+'" alt="">';
                 contenedor += '    <div class="caption" style="background-color: rgba(0,0,0,0.6)">';
                 contenedor += '        <strong style="color:white">'+empresa['nombre']+'</strong>';
@@ -125,7 +125,7 @@
                 contenedor += '</div>';
             });
             $('#contenedor').html(contenedor);
-            $('#header').html('<div style="height:56.4px; display: flex; align-items: center"><strong style="font-size:24px" class="col-md-2 col-md-offset-5 text-center">Empresas</strong></div>');
+            $('#header').html('<div style="height:56.4px; display: flex; align-items: center; justify-content: center"><strong style="font-size:24px">Empresas</strong></div>');
         }
         
         function dibujarProductos(info) {

@@ -71,7 +71,7 @@
                                 },
                                 success: function() {
                                     obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
-                                    sendNotification(user, msg);
+                                    sendNotification(user, msg, id);
                                     $('#infoPedido').fadeOut('slow');
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
@@ -95,6 +95,8 @@
 
         $(document).on('click', '#finalizado', function() {
             id = $(this).attr('data-id');
+            var user = $(this).attr('data-name');
+            var msg = "Su pedido está listo para recogerse";
             BootstrapDialog.confirm({
 				title: 'Finalizar pedido',
 				message: 'Se cambiará el estado del pedido seleccionado a finalizado ¿Desea continuar?',
@@ -113,6 +115,7 @@
 							},
 							success: function() {
                                 obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
+                                sendNotification(user, msg, id);
                                 $('#infoPedido').fadeOut('slow');
 							},
 							error: function(jqXHR, textStatus, errorThrown) {
@@ -247,11 +250,11 @@
             msg = Mensaje
             empresa = nombre de empresa
          */
-        function sendNotification(user, msg, empresa){
+        function sendNotification(user, msg, id){
             $.ajax({
                 url: base_url+'index.php/Api/send_notif/',
                 type:'POST',
-                data: {user:user, msg:msg, store: empresa},
+                data: {user:user, msg:msg, id:id},
                 success: function() {
                     console.log("Notificación enviada")
                 },

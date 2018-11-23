@@ -26,17 +26,19 @@ class Pedidos_modelo extends CI_Model{
     }
 
     public function cancelarPedido($id, $msg) {
-        $this->db->where('pedidos.id', $id);
         $data = array( 'estatus' => 'Cancelado');
+        $this->db->where('pedidos.id', $id);
         $this->db->update('pedidos', $data);
-        $notificacion = array(
-            'titulo' => $this->session->nombreEmpresa,
-            'mensaje' => $msg,
-            'fecha' => date('Y/m/d'),
-            'hora' => date('h:i:sa'),
-            'estatus' => 1
-        );
-        $this->db->insert('notificaciones', $notificacion);
+        // $this->db->select('pedidos.idusuario');
+        // $this->db->where('pedidos.id', $id);
+        // $idUsuario = $this->db->get('pedidos')->row();
+        // $notificacion = array(
+        //     'titulo'      => $this->session->nombreEmpresa,
+        //     'mensaje'     => $msg,
+        //     'estatus'     => 1,
+        //     'id_usuario'  => $idUsuario->idusuario
+        // );
+        // $this->db->insert('notificaciones', $notificacion);
     }
     
     public function pedidoProceso($id) {
@@ -44,19 +46,21 @@ class Pedidos_modelo extends CI_Model{
         $data = array('estatus' => 'En proceso');
         $this->db->update('pedidos', $data);
     }
-
+    
     public function finalizarPedido($id) {
         $this->db->where('pedidos.id', $id);
         $data = array('estatus' => 'Realizado');
         $this->db->update('pedidos', $data);
-        $notificacion = array(  
-            'titulo' => $this->session->nombreEmpresa,
-            'mensaje' => 'Pedido finalizado',
-            'fecha' => date('Y/m/d'),
-            'hora' => date('h:i:sa'),
-            'estatus' => 1
-        );
-        $this->db->insert('notificaciones', $notificacion);
+        // $this->db->select('pedidos.idusuario');
+        // $this->db->where('pedidos.id', $id);
+        // $idUsuario = $this->db->get('pedidos')->row();
+        // $notificacion = array(  
+        //     'titulo' => $this->session->nombreEmpresa,
+        //     'mensaje' => 'Pedido finalizado',
+        //     'estatus' => 1
+        //     'id_usuario'  => $idUsuario->idusuario
+        // );
+        // $this->db->insert('notificaciones', $notificacion);
     }
 
 }
