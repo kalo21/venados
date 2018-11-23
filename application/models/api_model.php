@@ -87,6 +87,7 @@ class Api_model extends CI_Model {
 
 	public function getNotifications($idUser){
 		$this->db->where(array('notificaciones.id_usuario'=>$idUser, 'notificaciones.estatus'=>1));
+		$this->db->order_by('id','desc');
 		$q = $this->db->get('notificaciones')->result();
 		return $q;
 	}
@@ -206,6 +207,12 @@ class Api_model extends CI_Model {
 		} catch (Exception $e) {
 			return $this->db->error();
 		}
+	}
+
+	public function isThereAnEvent($fecha){
+		$this->db->where(array('eventos.fecha_inicial <=' => $fecha, 'eventos.fecha_fin >=' => $fecha, 'status' => 1));
+		$q = $this->db->get('eventos');
+		return $q->row();
 	}
 	
 	

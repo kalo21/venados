@@ -258,6 +258,17 @@ class Api extends CI_Controller {
 
 	public function storeNotification($data){
 		$this->Api_model->storeNotification($data);
+	}
 
+	public function isThereAnEvent(){
+		date_default_timezone_set('America/Mazatlan');
+		$date = date('Y-m-d H:i:s', time());
+		$datos = $this->Api_model->isThereAnEvent($date);
+		if(empty($datos)){
+			echo -1;
+		}
+		else{
+			echo $datos->id;
+		}
 	}
 }
