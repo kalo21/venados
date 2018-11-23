@@ -30,13 +30,15 @@ class Tiendas extends CI_Controller {
     }
 
     public function agregarCarrito() {
+        $nombreEmpresa = $this->Tiendas_modelo->nombreEmpresa($this->input->post('idEmpresa'));
         $data = array(
             'id'            =>  $this->input->post('idProducto'),
             'qty'           =>  $this->input->post('cantidad'),
             'price'         =>  $this->input->post('precio'),
             'name'          =>  $this->input->post('nombre'),
             'idEmpresa'     =>  $this->input->post('idEmpresa'),
-            'description'   =>  $this->input->post('descripcion')
+            'description'   =>  $this->input->post('descripcion'),
+            'nombreEmpresa' =>  $nombreEmpresa->nombre
         );
         $this->cart->insert($data);
         echo json_encode($this->cart->contents());
