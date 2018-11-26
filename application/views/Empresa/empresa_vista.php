@@ -118,6 +118,191 @@
 
         $('#btnAgregar').click(function() {
 			BootstrapDialog.show({
+                title: '<b>Agregar Empresa</b>(1/3 - Usuario)',
+				size: BootstrapDialog.SIZE_NORMAL,
+				message: function(dialog) { 
+					var $message = $('<div></div>');
+					var pageToLoad = dialog.getData('pageToLoad');
+					$message.load(pageToLoad);
+					return $message;
+				},
+				data: {
+					'pageToLoad': base_url+'index.php/Empresa/formulariousuario/'
+				},
+				buttons: [{
+					label: 'Cancelar',
+					cssClass: 'btn-default',
+					action: function(dialogItself) {
+						dialogItself.close();
+					},
+
+				},
+                {
+				  	label: 'Siguiente',
+				  	cssClass: 'btn-rojo',
+                  	action: function(dialogItself) {
+						var form = $('#frmEmpresaUsuario')[0];
+						var formData = new FormData(form);
+						$.ajax({
+							url: base_url+'index.php/Empresa/agregarUsuario/',
+							type: 'POST',
+							data: formData,
+							processData:false,
+							contentType:false,
+							cache:false,
+							beforeSend: function(){
+								$('#load').show();
+							},
+							success: function (data) {
+								data = JSON.parse(data);
+								if(!data['exito']) {
+									$('#error2').html(data['msg']);
+									$('#error2').show();
+									location.href = '#error';
+								}
+								else if(data['exito']) {
+									obtenerDatos($('#opciones').val());
+									$('#frmEmpresaUsuario')[0].reset();
+									ids = data['msg'];
+									dialogItself.close();
+									BootstrapDialog.show({
+										title: '<b>Agregar Empresa</b>(2/3 - Informacion)',
+										size: BootstrapDialog.SIZE_NORMAL,
+										message: function(dialog) { 
+											var $message = $('<div></div>');
+											var pageToLoad = dialog.getData('pageToLoad');
+											$message.load(pageToLoad);
+											return $message;
+										},
+										data: {
+											'pageToLoad': base_url+'index.php/Empresa/formularioinformacion/'
+										},
+										buttons: [{ 
+											label: 'Cancelar',
+											cssClass: 'btn-default',
+											action: function(dialogItself) {
+												dialogItself.close();
+											},
+											
+										},
+										{
+											label: 'Siguiente',
+											cssClass: 'btn-rojo',
+											action: function(dialogItself) {
+												var form = $('#frmEmpresaInfo')[0];
+												var formData = new FormData(form);
+												formData.append('idUsuario', ids);
+												$.ajax({
+													url: base_url+'index.php/Empresa/agregarInfo/',
+													type: 'POST',
+													data: formData,
+													processData:false,
+													contentType:false,
+													cache:false,
+													beforeSend: function(){
+														$('#load').show();
+													},
+													success: function (data) {
+														data = JSON.parse(data);
+														if(!data['exito']) {
+															$('#error1').html(data['msg']);
+															$('#error1').show();
+															location.href = '#error';
+														}
+														else if(data['exito']) {
+															obtenerDatos($('#opciones').val());
+															$('#frmEmpresaInfo')[0].reset();
+															idEmpresa = data['msg'];
+															dialogItself.close();
+															BootstrapDialog.show({
+										title: '<b>Agregar Empresa</b>(3/3 - Imagenes)',
+										size: BootstrapDialog.SIZE_NORMAL,
+										message: function(dialog) { 
+											var $message = $('<div></div>');
+											var pageToLoad = dialog.getData('pageToLoad');
+											$message.load(pageToLoad);
+											return $message;
+										},
+										data: {
+											'pageToLoad': base_url+'index.php/Empresa/formulario/'
+										},
+										buttons: [{
+											label: 'Cancelar',
+											cssClass: 'btn-default',
+											action: function(dialogItself) {
+												dialogItself.close();
+											},
+
+										},
+										{
+											label: 'Agregar',
+											cssClass: 'btn-rojo',
+											action: function(dialogItself) {
+												var form = $('#frmEmpresaImagen')[0];
+												var formData = new FormData(form);
+												formData.append('idEmpresa', idEmpresa);
+												$.ajax({
+													url: base_url+'index.php/Empresa/agregarImagen/',
+													type: 'POST',
+													data: formData,
+													processData:false,
+													contentType:false,
+													cache:false,
+													beforeSend: function(){
+														$('#load').show();
+													},
+													success: function (data) {
+														data = JSON.parse(data);
+														if(!data['exito']) {
+															$('#error').html(data['msg']);
+															$('#error').show();
+															location.href = '#error';
+														}
+														else if(data['exito']) {
+															obtenerDatos($('#opciones').val());
+															$('#frmEmpresaImagen')[0].reset();
+															dialogItself.close();
+														}
+													},
+													error: function(jqXHR, textStatus, errorThrown) {
+														console.log('error::'+errorThrown);
+													},
+													complete: function(){
+														$('#load').hide();
+														cambio = 0;
+														cambioV = 0;
+													}
+												});
+											},
+										}]
+									});
+														}
+													},
+													error: function(jqXHR, textStatus, errorThrown) {
+														console.log('error::'+errorThrown);
+													},
+													complete: function(){
+														$('#load').hide();
+													}
+												});
+														},
+													}]
+												});
+											}
+										},
+							error: function(jqXHR, textStatus, errorThrown) {
+								console.log('error::'+errorThrown);
+							},
+							complete: function(){
+								$('#load').hide();
+							}
+						});
+					},
+			  	}]
+            });     
+		});
+
+		/*BootstrapDialog.show({
 				
                 title: 'Agregar Empresa', // Aquí se pone el título
 				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
@@ -180,8 +365,7 @@
 					  	});
 					},
 			  	}]
-            });        
-		});
+            });  */ 
 
 		$(document).on("click", "#modificar", function () {
 			var id = $(this).attr('data-id');
