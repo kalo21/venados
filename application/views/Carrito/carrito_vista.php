@@ -14,6 +14,8 @@
         <div class="container-fluid">
         <div class="row">
             <div class="col-md-8" style="padding-left:0px; padding-right:0px">
+
+
                 <div class="col-md-12" id="contenedor" style="padding-left:0px; padding-right:0px">
                     <!-- <div style="display:flex; align-items: center; justify-content: center" class="col-md-12" height="30px">
                         <h3>Por pedir</h3>
@@ -242,17 +244,16 @@
 
         function dibujarCarrito() {
             var data = <?php echo json_encode($this->cart->contents());?>;
-            console.log(data);
             var contenedor = '';
             if(data.length != 0) {
                 $.each(data, (function(index, producto) {
                     if($('#'+producto.idEmpresa+'').length) {
-                        contenedor += '        <div class="col-md-7 col-xs-8">';
+                        contenedor += '        <div class="col-md-7 col-xs-7">';
                         contenedor += '            <p class="col-md-3">'+producto.name+'</p>';
-                        contenedor += '            <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                        contenedor += '            <p class="col-md-9 text-justify">'+producto.description+'</p>';
                         contenedor += '        </div>';
-                        contenedor += '        <div class="col-md-5 col-xs-4" data-id="'+producto.rowid+'">';
-                        contenedor += '            <p class="col-md-5 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
+                        contenedor += '        <div class="col-md-5 col-xs-5 text-center" data-id="'+producto.rowid+'">';
+                        contenedor += '            <p class="col-md-5 col-xs-12 text-success">$ '+producto.price+'</p>';
                         contenedor += '            <input type="number" min="1" class="form-group col-md-4 col-xs-12" value="'+producto.qty+'">';
                         contenedor += '            <a href="#" id="eliminar" data-id="'+producto.rowid+'" class="col-md-3 col-xs-12 text-center"><span class="fa fa-times" style="color:#f6032f"></span></a>';
                         contenedor += '        </div>';
@@ -268,11 +269,11 @@
                         contenedor += '        </div>';
                         contenedor += '        <div class="'+producto.idEmpresa+'  collapse in">';
                         contenedor += '            <div class="box box-body" id="'+producto.idEmpresa+'">';
-                        contenedor += '                <div class="col-md-7 col-xs-8">';
+                        contenedor += '                <div class="col-md-7 col-xs-7">';
                         contenedor += '                    <p class="col-md-3">'+producto.name+'</p>';
-                        contenedor += '                        <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                        contenedor += '                        <p class="col-md-9 text-justify">'+producto.description+'</p>';
                         contenedor += '                </div>';
-                        contenedor += '                <div class="col-md-5 col-xs-4" data-id="'+producto.rowid+'">';
+                        contenedor += '                <div class="col-md-5 col-xs-5 text-center" data-id="'+producto.rowid+'">';
                         contenedor += '                    <p class="col-md-5 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
                         contenedor += '                    <input type="number" min="1" class="form-group col-md-4 col-xs-12" value="'+producto.qty+'">';
                         contenedor += '                    <a href="#" id="eliminar" data-id="'+producto.rowid+'" class="col-md-3 col-xs-12 text-center"><span class="fa fa-times" style="color:#f6032f"></span></a>';
@@ -292,7 +293,7 @@
                 $('#total').html('<?php echo $this->cart->total();?>');
             }
             else {
-                $('#contenedor').html('<p>No hay nada en el carrito</p>');
+                $('#contenedor').html('<div class="box box-solid col-md-12"><div  class="box-header with-border text-center" style="background-color: white"><h3 class="box-title">No hay nada en el carrito</h3></div></div>');
             }
         }
 
@@ -301,17 +302,16 @@
                 url: base_url+'index.php/Carrito/obtenerPedidos',
                 success: function(data) {
                     data = JSON.parse(data);
-                    console.log(data);
                     var contenedor = '';
-                    if(data.length != 0) {
+                    if(data) {
                         $.each(data, (function(index, producto) {
                             if($('#'+producto.idPedido+'').length) {
-                                contenedor += '        <div class="col-md-7 col-xs-8">';
+                                contenedor += '        <div class="col-md-7 col-xs-7">';
                                 contenedor += '            <p class="col-md-3">'+producto.name+'</p>';
-                                contenedor += '            <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                                contenedor += '            <p class="col-md-9 text-justify">'+producto.description+'</p>';
                                 contenedor += '        </div>';
-                                contenedor += '        <div class="col-md-5 col-xs-4">';
-                                contenedor += '            <p class="col-md-6 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
+                                contenedor += '        <div class="col-md-5 col-xs-5 text-center">';
+                                contenedor += '            <p class="col-md-6 col-xs-12 text-success">$ '+producto.price+'</p>';
                                 contenedor += '            <p class="col-md-4 col-md-offset-2 col-xs-12">'+producto.qty+'</p>';
                                 contenedor += '        </div>';
                                 $('#'+producto.idPedido+'').append(contenedor);
@@ -326,12 +326,12 @@
                                 contenedor += '        </div>';
                                 contenedor += '        <div class="'+producto.idPedido+' collapse">';
                                 contenedor += '            <div class="box box-body" id="'+producto.idPedido+'">';
-                                contenedor += '                <div class="col-md-7 col-xs-8">';
+                                contenedor += '                <div class="col-md-7 col-xs-7">';
                                 contenedor += '                    <p class="col-md-3">'+producto.name+'</p>';
-                                contenedor += '                        <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                                contenedor += '                        <p class="col-md-9 text-justify">'+producto.description+'</p>';
                                 contenedor += '                </div>';
-                                contenedor += '                <div class="col-md-5 col-xs-4">';
-                                contenedor += '                    <p class="col-md-6 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
+                                contenedor += '                <div class="col-md-5 col-xs-5 text-center">';
+                                contenedor += '                    <p class="col-md-6 col-xs-12 text-success">$ '+producto.price+'</p>';
                                 contenedor += '                    <p class="col-md-4 col-md-offset-2 col-xs-12">'+producto.qty+'</p>';
                                 contenedor += '               </div>';
                                 contenedor += '            </div>';
@@ -347,7 +347,7 @@
                         }));
                     }
                     else {
-                        $('#pedidos').html('<p>No hay nada en el carrito</p>');
+                        $('#pedidos').append('<div class="box box-solid col-md-12"><div  class="box-header with-border text-center" style="background-color: white"><h3 class="box-title">No hay ningún pedido solicitado</h3></div></div>');
                     }
                 }
             });
@@ -358,16 +358,15 @@
                 url: base_url+'index.php/Carrito/obtenerRealizados',
                 success: function(data) {
                     data = JSON.parse(data);
-                    console.log(data);
                     var contenedor = '';
-                    if(data.length != 0) {
+                    if(data) {
                         $.each(data, (function(index, producto) {
                             if($('#'+producto.idPedido+'').length) {
-                                contenedor += '        <div class="col-md-7 col-xs-8">';
+                                contenedor += '        <div class="col-md-7 col-xs-7">';
                                 contenedor += '            <p class="col-md-3">'+producto.name+'</p>';
-                                contenedor += '            <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                                contenedor += '            <p class="col-md-9 text-justify">'+producto.description+'</p>';
                                 contenedor += '        </div>';
-                                contenedor += '        <div class="col-md-5 col-xs-4">';
+                                contenedor += '        <div class="col-md-5 col-xs-5">';
                                 contenedor += '            <p class="col-md-6 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
                                 contenedor += '            <p class="col-md-4 col-md-offset-2 col-xs-12">'+producto.qty+'</p>';
                                 contenedor += '        </div>';
@@ -383,12 +382,12 @@
                                 contenedor += '        </div>';
                                 contenedor += '        <div class="'+producto.idPedido+' collapse">';
                                 contenedor += '            <div class="box box-body" id="'+producto.idPedido+'">';
-                                contenedor += '                <div class="col-md-7 col-xs-8">';
+                                contenedor += '                <div class="col-md-7 col-xs-7">';
                                 contenedor += '                    <p class="col-md-3">'+producto.name+'</p>';
-                                contenedor += '                        <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                                contenedor += '                        <p class="col-md-9 text-justify">'+producto.description+'</p>';
                                 contenedor += '                </div>';
-                                contenedor += '                <div class="col-md-5 col-xs-4">';
-                                contenedor += '                    <p class="col-md-6 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
+                                contenedor += '                <div class="col-md-5 col-xs-5 text-center">';
+                                contenedor += '                    <p class="col-md-6 col-xs-12 text-success">$ '+producto.price+'</p>';
                                 contenedor += '                    <p class="col-md-4 col-md-offset-2 col-xs-12">'+producto.qty+'</p>';
                                 contenedor += '               </div>';
                                 contenedor += '            </div>';
@@ -401,7 +400,7 @@
                         }));
                     }
                     else {
-                        $('#listos').html('<p>No hay nada en el carrito</p>');
+                        $('#listos').append('<div class="box box-solid col-md-12"><div  class="box-header with-border text-center" style="background-color: white"><h3 class="box-title">No hay ningún pedido listo</h3></div></div>');
                     }
                 }
             });
@@ -412,17 +411,16 @@
                 url: base_url+'index.php/Carrito/obtenerCancelados',
                 success: function(data) {
                     data = JSON.parse(data);
-                    console.log(data);
                     var contenedor = '';
-                    if(data.length != 0) {
+                    if(data) {
                         $.each(data, (function(index, producto) {
                             if($('#'+producto.idPedido+'').length) {
-                                contenedor += '        <div class="col-md-7 col-xs-8">';
+                                contenedor += '        <div class="col-md-7 col-xs-7">';
                                 contenedor += '            <p class="col-md-3">'+producto.name+'</p>';
-                                contenedor += '            <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                                contenedor += '            <p class="col-md-9 text-justify">'+producto.description+'</p>';
                                 contenedor += '        </div>';
-                                contenedor += '        <div class="col-md-5 col-xs-4">';
-                                contenedor += '            <p class="col-md-6 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
+                                contenedor += '        <div class="col-md-5 col-xs-5 text-center">';
+                                contenedor += '            <p class="col-md-6 col-xs-12 text-success">$ '+producto.price+'</p>';
                                 contenedor += '            <p class="col-md-4 col-md-offset-2 col-xs-12">'+producto.qty+'</p>';
                                 contenedor += '        </div>';
                                 $('#'+producto.idPedido+'').append(contenedor);
@@ -437,12 +435,12 @@
                                 contenedor += '        </div>';
                                 contenedor += '        <div class="'+producto.idPedido+' collapse">';
                                 contenedor += '            <div class="box box-body" id="'+producto.idPedido+'">';
-                                contenedor += '                <div class="col-md-7 col-xs-8">';
+                                contenedor += '                <div class="col-md-7 col-xs-7">';
                                 contenedor += '                    <p class="col-md-3">'+producto.name+'</p>';
-                                contenedor += '                        <p class="col-md-9 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere aut officia aliquid nihil quasi</p>';
+                                contenedor += '                        <p class="col-md-9 text-justify">'+producto.description+'</p>';
                                 contenedor += '                </div>';
-                                contenedor += '                <div class="col-md-5 col-xs-4">';
-                                contenedor += '                    <p class="col-md-6 col-xs-12 text-center text-success">$ '+producto.price+'</p>';
+                                contenedor += '                <div class="col-md-5 col-xs-5 text-center">';
+                                contenedor += '                    <p class="col-md-6 col-xs-12 text-success">$ '+producto.price+'</p>';
                                 contenedor += '                    <p class="col-md-4 col-md-offset-2 col-xs-12">'+producto.qty+'</p>';
                                 contenedor += '               </div>';
                                 contenedor += '            </div>';
@@ -458,7 +456,7 @@
                         }));
                     }
                     else {
-                        $('#cancelados').html('<p>No hay nada en el carrito</p>');
+                        $('#cancelados').append('<div class="box box-solid col-md-12"><div  class="box-header with-border text-center" style="background-color: white"><h3 class="box-title">No hay ningún pedido cancelado</h3></div></div>');
                     }
                 }
             });

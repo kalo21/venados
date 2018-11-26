@@ -5,14 +5,14 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row-fluid">
-                <h3 class="text-center" id="titulo">Recargas</h3>
+                <h3 class="text-center" id="titulo">Registros</h3>
             </div>
             <br>
             <div class="form-group col-md-4 col-md-offset-1">
 				<div class="input-group">
 					<div class="input-group-addon"><span class="fa fa-calendar"></span></div>
-					<input type="text" class="form-control" id="inpFecha">
-                    <div class="input-group-addon" id="buscarFecha"><span class="fa fa-search"></span></div>
+					<input type="text" class="form-control" id="inpFecha" placeholder="Fecha inicial - Fecha final">
+                    <div class="input-group-addon" id="buscarFecha"><span class="mano fa fa-search"></span></div>
 				</div>
 			</div>
             <div class="col-md-offset-1 col-md-10" id="contenedorperro">

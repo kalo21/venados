@@ -16,6 +16,8 @@ class Registros_modelo extends CI_Model{
             $this->db->where('pedidos.idempresa', $empresa->id);
             $this->db->where('pedidos.fecha >=', $fechas['fechaInicio']);
             $this->db->where('pedidos.fecha <=', $fechas['fechaFinal']);
+            $this->db->where('pedidos.estatus !=', 'Cancelado');
+            $this->db->where('pedidos.estatus !=', 'Eliminado');
             $aux = $this->db->get('pedidos');
             foreach($aux->result() as $monto) {
                 $total += $monto->total;

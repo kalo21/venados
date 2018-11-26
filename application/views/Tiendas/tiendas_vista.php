@@ -115,7 +115,7 @@
         function dibujarEmpresas(info) {
             var contenedor = '';
             info.forEach(function(empresa, index) {
-                contenedor += '<div style=" height:182px" id="empresa" data-id="'+empresa['id']+'" class="thumbnail text-center col-md-4 col-sm-6">';
+                contenedor += '<div style=" height:182px" id="empresa" data-id="'+empresa['id']+'" class="mano thumbnail text-center col-md-4 col-sm-6">';
                 contenedor += '    <img style="max-width:324px; max-height: 172px" class="img-responsive" src="'+base_url+empresa['img_fondo']+'" alt="">';
                 contenedor += '    <div class="caption" style="background-color: rgba(0,0,0,0.6)">';
                 contenedor += '        <strong style="color:white">'+empresa['nombre']+'</strong>';
@@ -131,7 +131,7 @@
         function dibujarProductos(info) {
             var contenedor = '';
             info.forEach(function(producto, index) {
-                contenedor += '<div id="infoProducto" data-id="'+producto['id']+'" class="thumbnail text-center col-md-4">';
+                contenedor += '<div id="infoProducto" data-id="'+producto['id']+'" class="mano thumbnail text-center col-md-4">';
                 contenedor += '   <img style="max-width: 312px; max-height:175px" class="img-responsive" src="'+base_url+producto['imagen']+'" alt="">'
                 contenedor += '   <div class="row-fluid" style="padding-top: 3%">';
                 contenedor += '       <div class="col-md-7 text-left">';
@@ -149,7 +149,7 @@
             $('#contenedor').html(contenedor)
             var encabezado = '';
             encabezado += '<div style="height: 56.4px; display: flex; align-items: center">';
-            encabezado += '<a id="regresar" class="col-xs-2"><label class="fa fa-arrow-left" style="color:black; font-size: 24px; "></label></a>';
+            encabezado += '<a class="col-xs-2"><label id="regresar" class="mano fa fa-arrow-left" style="color:black; font-size: 24px; "></label></a>';
             encabezado += '<strong style="font-size:24px" class="col-xs-2 col-xs-offset-3">Productos</strong>';
             encabezado += '</div>';
             $('#header').html(encabezado);
