@@ -90,14 +90,14 @@
         function dibujarProductos(data) {
             var divProductos = '';
             data.forEach(function(producto, index){
-                divProductos += '<div id="cambiarEstado" data-estatus="'+producto['estatus']+'" data-id="'+producto['id']+'" class="thumbnail text-center col-md-4">';
+                divProductos += '<div class="thumbnail text-center col-md-4">';
                 divProductos += '   <img style="max-width: 312px; max-height:175px" class="img-responsive" src="'+base_url+producto['imagen']+'" alt="">'
                 if(producto['estatus'] == 0) {
-                    divProductos += '   <div class="caption" style="background-color: rgba(246,3, 47)">';
+                    divProductos += '   <div id="cambiarEstado" data-id="'+producto['id']+'" data-estatus="'+producto['estatus']+'" class="mano caption" style="background-color: rgba(246,3, 47)">';
                     divProductos += '       <strong style="color:white">NO DISPONIBLE</strong>';
                 }
                 else {
-                    divProductos += '   <div class="caption" style="background-color: rgba(0,188, 91)">';
+                    divProductos += '   <div id="cambiarEstado" data-id="'+producto['id']+'" data-estatus="'+producto['estatus']+'" class="mano caption" style="background-color: rgba(0,188, 91)">';
                     divProductos += '       <strong style="color:white">DISPONIBLE</strong>';
                 }
                 divProductos += '   </div>';

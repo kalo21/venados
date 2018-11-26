@@ -15,7 +15,7 @@ class Pedidos_modelo extends CI_Model{
     }
 
     public function informacionPedidos($id) {
-        $this->db->select('pedidos.id, usuarios.nombre, productos.nombre as productoNombre, detallepedidos.precio, detallepedidos.cantidad, pedidos.total');
+        $this->db->select('pedidos.estatus, pedidos.id, usuarios.nombre, productos.nombre as productoNombre, detallepedidos.precio, detallepedidos.cantidad, pedidos.total');
         $this->db->from('detallepedidos');
         $this->db->join('pedidos', 'pedidos.id = detallepedidos.idpedido');
         $this->db->join('usuarios', 'usuarios.id = pedidos.idusuario');
@@ -25,7 +25,19 @@ class Pedidos_modelo extends CI_Model{
         return $query->result();
     }
 
-    public function cancelarPedido($id, $msg) {
+    public function cancelarPedido($id) {
+        $this->db->select('pedidos.total, pedidos.idusuario');
+        $this->db->where('pedidos.id', $id);
+        $query = $this->db->get('pedidos')->row();
+
+        $this->db->select('clientes.saldo');
+        $this->db->where('id_usuario', $query->idusuario);
+        $saldo = $this->db->get('clientes')->row();
+
+        $total = array('saldo' => $saldo->saldo + $query->total);
+        $this->db->where('id_usuario', $query->idusuario);
+        $this->db->update('clientes', $total);
+
         $data = array( 'estatus' => 'Cancelado');
         $this->db->where('pedidos.id', $id);
         $this->db->update('pedidos', $data);
@@ -61,6 +73,12 @@ class Pedidos_modelo extends CI_Model{
         //     'id_usuario'  => $idUsuario->idusuario
         // );
         // $this->db->insert('notificaciones', $notificacion);
+    }
+
+    public function entregarPedido($idPedido) {
+        $data = array('estatus' => 'Entregado');
+        $this->db->where('id', $idPedido);
+        $this->db->update('pedidos', $data);
     }
 
 }

@@ -26,7 +26,7 @@ class Pedidos extends CI_Controller {
     }
 
     public function cancelarPedido() {
-        $this->Pedidos_modelo->cancelarPedido($this->input->post('id'), $this->input->post('msg'));
+        $this->Pedidos_modelo->cancelarPedido($this->input->post('id'));
     }
 
     public function finalizarPedido() {
@@ -35,6 +35,16 @@ class Pedidos extends CI_Controller {
 
     public function enproceso() {
         $this->Pedidos_modelo->pedidoProceso($this->input->post('id'));
+    }
+
+    public function entregarPedido() {
+        if($this->input->post('id') == $this->input->post('idPedido')) {
+            $this->Pedidos_modelo->entregarPedido($this->input->post('idPedido'));
+            echo true;
+        }
+        else {
+            echo false;
+        }
     }
 
 }

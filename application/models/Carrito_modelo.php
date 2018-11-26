@@ -83,7 +83,12 @@ class Carrito_modelo extends CI_Model{
                 );
             }
         }
-        return $data;
+        if(empty($data)) {
+            return false;
+        }
+        else {
+            return $data;
+        }
     }
 
     public function cancelarPedido($idPedido) {
@@ -126,7 +131,12 @@ class Carrito_modelo extends CI_Model{
                 );
             }
         }
-        return $data;
+        if(empty($data)) {
+            return false;
+        }
+        else {
+            return $data;
+        }
     }
 
     public function obtenerCancelados() {
@@ -149,7 +159,12 @@ class Carrito_modelo extends CI_Model{
                 );
             }
         }
-        return $data;
+        if(empty($data)) {
+            return false;
+        }
+        else {
+            return $data;
+        }
     }
 
     public function eliminarPedido($idPedido) {

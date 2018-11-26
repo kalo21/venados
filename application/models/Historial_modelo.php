@@ -24,6 +24,14 @@ class Historial_modelo extends CI_Model{
                 $this->db->where('pedidos.estatus', 'Realizado');
                 break;
             }
+            case 5: {
+                $this->db->where('pedidos.estatus', 'En proceso');
+                break;
+            }
+            case 6: {
+                $this->db->where('pedidos.estatus', 'Eliminado');
+                break;
+            }
             default: {
                 break;
             }
@@ -91,6 +99,14 @@ class Historial_modelo extends CI_Model{
             }
             case 4: {
                 $this->db->where('pedidos.estatus', 'Realizado');
+                break;
+            }
+            case 5: {
+                $this->db->where('pedidos.estatus', 'En proceso');
+                break;
+            }
+            case 6: {
+                $this->db->where('pedidos.estatus', 'Eliminado');
                 break;
             }
             default: {
