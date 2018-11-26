@@ -48,25 +48,25 @@
         }
     }
 
-     $('#inpInicioD').daterangepicker({
-        autoUpdateInput: false,
-         locale: {
-            cancelLabel: 'Clear'
-        }
-    });
+      $('#inpInicioD').daterangepicker({
+         autoUpdateInput: false,
+          locale: {
+             cancelLabel: 'Clear'
+         }
+     });
 
-    $('#inpInicioD').on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-    });
+     $('#inpInicioD').on('apply.daterangepicker', function(ev, picker) {
+         $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+     });
 
-    $('#inpInicioD').on('cancel.daterangepicker', function(ev, picker) {
-        $(this).val('');
-    });
+     $('#inpInicioD').on('cancel.daterangepicker', function(ev, picker) {
+         $(this).val('');
+     });
 
 
-    $('#inpInicioD').on('apply.daterangepicker', function(ev, picker) {
-        fechaInicio = picker.startDate.format('YYYY-MM-DD');
-        fechaFinal= picker.endDate.format('YYYY-MM-DD');
-    });
+     $('#inpInicioD').on('apply.daterangepicker', function(ev, picker) {
+         fechaInicio = picker.startDate.format('YYYY-MM-DD');
+         fechaFinal= picker.endDate.format('YYYY-MM-DD');
+     });
 
 </script>
