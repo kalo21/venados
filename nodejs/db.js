@@ -49,11 +49,16 @@ function insertPedido(data, fn){
     console.log("1 record inserted");
   });*/
 }
-function cancelarPedido(idPedido){
-    var sql = `UPDATE pedidos SET estatus = 'Cancelado' WHERE pedidos.id = ${idPedido}`;
+function cancelarPedido(data){
+    var sql = `UPDATE pedidos SET estatus = 'Cancelado' WHERE pedidos.id = ${data.idPedido}`;
     con.query(sql, function (err, result) {
     if (err) throw err;
+     var sql2 = `UPDATE clientes SET saldo = saldo + ${data.total} WHERE id = ${data.usuario}`;
+    con.query(sql2, function (err, result) {
+        console.log("Se le aumentó");
+    });
     console.log("1 record inserted");
+    
   });
 }
 

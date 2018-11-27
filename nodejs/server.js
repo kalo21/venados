@@ -51,12 +51,9 @@ io.on("connection", function(socket){
     });
 
     socket.on('cancelar-pedido',function(data, fn){
-        console.log("IDEMPRESA: "+data.idEmpresa);
 
-        db.cancelarPedido(data.idPedido);
+        db.cancelarPedido(data);
         //Si el receptor existe
-        console.log(clients);
-        console.log(clients[data.idEmpresa]);
         if (clients[data.idEmpresa]){
             io.sockets.connected[clients[data.idEmpresa]].emit("pedido", data);
             fn(true);
