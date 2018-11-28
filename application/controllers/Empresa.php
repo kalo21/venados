@@ -28,9 +28,18 @@ class Empresa extends CI_Controller {
 		}
 		else {
 			$data['datos'] = $this->Empresa_modelo->obtenerDatos($id);
-			$data['usuario'] = $this->Empresa_modelo->obtenerUsuario($data['datos']->id_usuario);
-			$this->load->view('Empresa/empresa_modal',$data);
+			$this->load->view('Empresa/empresa_visual_modal',$data);
 		}
+    }
+
+    public function modificarImagen($id){
+        $data['datos'] = $this->Empresa_modelo->obtenerDatos($id);
+		$this->load->view('Empresa/empresa_dividir_modal',$data);
+    }
+
+    public function modificarTexto($id){
+        $data['datos'] = $this->Empresa_modelo->obtenerDatos($id);
+		$this->load->view('Empresa/empresa_modal',$data);
     }
 
     public function formularioinformacion(){
@@ -158,7 +167,51 @@ class Empresa extends CI_Controller {
             rmdir('./assets/Empresas/abc');
         }
         
-	}
+    }
+    
+    public function ModificarImg(){
+        $config = [
+            "upload_path" => "./assets/Empresas/".$this->input->post('id'),
+            'allowed_types' => "png|jpg|jpeg"
+        ];
+        $this->load->library("upload",$config);
+        if($this->upload->do_upload('foto')) {
+            $data = array("upload_data" => $this->upload->data());
+            $nombreArchivop = $data['upload_data']['file_name'];
+            if($this->upload->do_upload('fotoV')){
+                $dataV = array("upload_data" => $this->upload->data());
+                $nombreArchivopV = $dataV['upload_data']['file_name'];
+                echo json_encode($this->Empresa_modelo->modificarEmpresa($this->input->post(),$nombreArchivop , $nombreArchivopV));
+            }
+        }
+        else if($this->upload->do_upload('foto')  && $this->input->post('cambio') != 0) {
+            $data = array("upload_data" => $this->upload->data());
+            $nombreArchivop = $data['upload_data']['file_name'];
+            echo json_encode($this->Empresa_modelo->modificarEmpresaLogo($this->input->post(), $nombreArchivop));
+        }
+        else if($this->upload->do_upload('fotoV') && $this->input->post('cambioV') != 0){
+            $dataV = array("upload_data" => $this->upload->data());
+            $nombreArchivopV = $dataV['upload_data']['file_name'];
+            echo json_encode($this->Empresa_modelo->modificarEmpresaFondo($this->input->post(),$nombreArchivopV));
+        }
+    }
+
+    public function modificarTxt(){
+        $this->form_validation->set_rules('inpNombreE', 'Nombre de empresa', 'required');
+        $this->form_validation->set_rules('inpDescripcion', 'Descripcion', 'required');
+		$this->form_validation->set_rules('inpRazonSocial', 'Razón social', 'required');
+		$this->form_validation->set_rules('inpRFC', 'RFC', 'required');
+		$this->form_validation->set_rules('inpDomicilio', 'Domicilio de empresa', 'required');
+		$this->form_validation->set_rules('inpTelefono', 'Teléfono de empresa', 'numeric');
+        $this->form_validation->set_rules('inpLocal', 'Local', 'required');
+        if ($this->form_validation->run() == TRUE) {
+            echo json_encode($this->Empresa_modelo->modificarEmpresaTexto($this->input->post()));
+        }
+        else {
+            echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+        }
+    }
+    
 
 	public function modificarEmpresa() {
         $config = [
