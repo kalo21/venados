@@ -22,7 +22,7 @@
 			<div class="col-md-12">
 				<div class="box box-danger">
 					<div class="box-header with-border">
-						<h3 class="box-title">Listado de módulos</h3>
+						<h3 class="box-title">Listado de Eventos</h3>
 						<div class="box-tools pull-right">
 							 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
@@ -37,8 +37,8 @@
 										<th>Descripción</th>
 										<th>Inicio</th>
 										<th>Final</th>
-										<th>imagen</th>
-										<th style='text-align:center'>Estado</th>
+										<th>Imagen</th>
+										<th style='text-align:center'>Estatus</th>
 										<th style='text-align:center'>Modificar</th>
 										<th style='text-align:center'>Activar/Desactivar</th>
 									</tr>
@@ -112,7 +112,7 @@ $(document).ready(function(){
 
 	$('#btnAgregar').click(function(){
 		BootstrapDialog.show({
-			title: 'Agregar evento', // Aquí se pone el título
+			title: 'Agregar Evento', // Aquí se pone el título
 			size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
 			message: function(dialog) { 
 				var $message = $('<div></div>');
@@ -177,7 +177,7 @@ $(document).ready(function(){
 		var id = $(this).attr('data-id');
 		BootstrapDialog.show({
 			
-            title: 'Modificar evento', // Aquí se pone el título
+            title: 'Modificar Evento', // Aquí se pone el título
 			size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
 			message: function(dialog) { 
 				var $message = $('<div></div>');
@@ -203,6 +203,9 @@ $(document).ready(function(){
                 //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
 					var form = $('#formulario')[0];
 					var formData = new FormData(form);
+					formData.append('cambio', cambio);
+					formData.append('fechaInicio',fechaInicio);
+					formData.append('fechaFinal', fechaFinal);
 					// Agregamos los atributos 'data' del form
 					// formData.append('cambio', cambio);
 					formData.append('id',id);

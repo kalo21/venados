@@ -21,7 +21,7 @@
 			<div class="col-md-12">
 				<div class="box box-danger">
 					<div class="box-header with-border">
-						<h3 class="box-title">Listado de módulos</h3>
+						<h3 class="box-title">Listado de Módulos</h3>
 						<div class="box-tools pull-right">
 							 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
@@ -171,7 +171,7 @@
 		$('#btnAgregar').click(function() {
 			BootstrapDialog.show({
 				
-                title: 'Agregar módulo', // Aquí se pone el título
+                title: 'Agregar Módulo', // Aquí se pone el título
 				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
 				message: function(dialog) { 
 					var $message = $('<div></div>');

@@ -2,16 +2,31 @@
 <?php $this->load->view('Global/menu'); ?>
 <style>
 
-.thumbnail {
-    position: relative;
-}
+    .thumbnail {
+        position: relative;
+    }
 
-.caption {
-    position: absolute;
-    top: 35%;
-    left: 0;
-    width: 100%;
-}
+    .caption {
+        position: absolute;
+        top: 35%;
+        left: 0;
+        width: 100%;
+    }
+    @media screen and (min-width: 768px) {
+        .col-md-4 {
+            width: calc(50% - 20px);
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        .col-md-4 {
+            width: calc(33.3333% - 20px);
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+    }
 </style>
 
 <div class="content-wrapper">
@@ -116,7 +131,9 @@
             var contenedor = '';
             info.forEach(function(empresa, index) {
                 contenedor += '<div style=" height:182px" id="empresa" data-id="'+empresa['id']+'" class="mano thumbnail text-center col-md-4 col-sm-6">';
-                contenedor += '    <img style="max-width:324px; max-height: 172px" class="img-responsive" src="'+base_url+empresa['img_fondo']+'" alt="">';
+                contenedor += '<div style="height: 100%; width:100%; display:flex; justify-content: center; align-items:center">';
+                contenedor += '    <img style="max-width:auto; max-height: 172px" class="img-responsive" src="'+base_url+empresa['img_fondo']+'" alt="">';
+                contenedor += '</div>';
                 contenedor += '    <div class="caption" style="background-color: rgba(0,0,0,0.6)">';
                 contenedor += '        <strong style="color:white">'+empresa['nombre']+'</strong>';
                 contenedor += '        <br>';
@@ -131,13 +148,15 @@
         function dibujarProductos(info) {
             var contenedor = '';
             info.forEach(function(producto, index) {
-                contenedor += '<div id="infoProducto" data-id="'+producto['id']+'" class="mano thumbnail text-center col-md-4">';
-                contenedor += '   <img style="max-width: 312px; max-height:175px" class="img-responsive" src="'+base_url+producto['imagen']+'" alt="">'
+                contenedor += '<div id="infoProducto" data-id="'+producto['id']+'" class="mano thumbnail text-center col-md-4 col-sm-6">';
+                contenedor += '<div style="display:flex; justify-content: center; align-items:center">';
+                contenedor += '   <img style="max-width: auto; max-height:175px" class="img-responsive" src="'+base_url+producto['imagen']+'" alt="">'
+                contenedor += '</div>';
                 contenedor += '   <div class="row-fluid" style="padding-top: 3%">';
-                contenedor += '       <div class="col-md-7 text-left">';
+                contenedor += '       <div class="col-md-7 col-xs-6 text-left">';
                 contenedor += '           <strong>'+producto['nombre']+'</strong>';
                 contenedor += '       </div>';
-                contenedor += '       <div class="col-md-4 col-xs-offset-1">';
+                contenedor += '       <div class="col-md-4 col-xs-6 col-xs-offset-1">';
                 contenedor += '           <p class="text-success">$ '+producto['precio']+'</p>';
                 contenedor += '       </div>';
                 contenedor += '   </div>';

@@ -21,7 +21,7 @@
             <div class="col-md-12">
                 <div class="box box-danger">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Listado de perfiles</h3>
+                        <h3 class="box-title">Listado de Perfiles</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                         </div>
@@ -269,7 +269,7 @@
 					item['descripcion'],
 					output,
 					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg mano'></i>",
-					output2+"&nbsp;&nbsp;&nbsp;&nbsp;<button type='button' data-id='"+item['id']+"' class='btn btn-rojo btnModulos'>Modulos<i class='entypo-layout'></i> </button>"
+					output2+"&nbsp;&nbsp;&nbsp;&nbsp;<button type='button' data-id='"+item['id']+"' class='btn btn-rojo btnModulos'>Módulos<i class='entypo-layout'></i> </button>"
 				]).draw(false).node();
 				$('td:eq(3)', fila).attr('class', 'text-center');
 				$('td:eq(4)', fila).attr('class', 'text-center');

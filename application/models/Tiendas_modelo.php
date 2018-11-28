@@ -14,7 +14,7 @@ class Tiendas_modelo extends CI_Model{
 
     public function obtenerProductos($id) {
         $this->db->select('productos.id, productos.nombre, productos.descripcion, productos.precio, productos.imagen');
-        $this->db   ->where('idempresa', $id);
+        $this->db->where('idempresa', $id);
         $this->db->where('estatus', 1);
         $query = $this->db->get('productos');
         return $query->result();

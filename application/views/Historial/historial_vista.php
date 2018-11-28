@@ -45,7 +45,7 @@
 			<div class="col-md-12">
 				<div class="box box-danger">
 					<div class="box-header with-border">
-						<h3 class="box-title">Listado de pedidos</h3>
+						<h3 class="box-title">Listado de Pedidos</h3>
 						<div class="box-tools pull-right">
 							 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
@@ -81,9 +81,20 @@
 
 		$('#inpFecha').daterangepicker({
 			autoUpdateInput: false,
+			"applyClass": "btn-rojo",
 			locale: {
-				cancelLabel: 'Clear'
-				
+				"cancelLabel": 'Clear',
+				"applyLabel": "Aplicar",
+        		"cancelLabel": "Cancelar",
+				"daysOfWeek": [
+					"Do",
+					"Lu",
+					"Ma",
+					"Mi",
+					"Ju",
+					"Vi",
+					"Sa"
+				],
 			}
 		});
 
@@ -132,7 +143,9 @@
 			var usuario = $('#inpUsuario').val();
 			if(usuario != '') {
 				$.ajax({
-					url: base_url+'index.php/Historial/buscarUsuario/'+usuario,
+					url: base_url+'index.php/Historial/buscarUsuario/',
+					type: 'POST',
+					data: {usuario:usuario},
 					beforeSend: function(){
 						$('#load').show();
 					},

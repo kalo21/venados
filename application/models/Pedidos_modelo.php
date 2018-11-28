@@ -55,14 +55,35 @@ class Pedidos_modelo extends CI_Model{
     
     public function pedidoProceso($id) {
         $this->db->where('pedidos.id', $id);
+        $this->db->where('estatus !=', 'Cancelado');
         $data = array('estatus' => 'En proceso');
         $this->db->update('pedidos', $data);
+        if($this->db->affected_rows() > 0) {
+            return array('exito' => true, 'msg' => '');
+        }
+        else {
+            return array('exito' => false, 'msg' => 'No se pudo cambiar el estado del pedido debido a que se había cancelado');
+        }
     }
     
     public function finalizarPedido($id) {
         $this->db->where('pedidos.id', $id);
         $data = array('estatus' => 'Realizado');
         $this->db->update('pedidos', $data);
+
+        $this->db->select('pedidos.total');
+        $this->db->where('pedidos.id', $id);
+        $total = $this->db->get('pedidos')->row();
+
+        $this->db->select('clientes.saldo');
+        $this->db->where('id_usuario', $this->session->idUsuario);
+        $saldo = $this->db->get('clientes')->row();
+
+        $data = array('saldo' => $total->total + $saldo->saldo);
+
+        $this->db->select('clientes.saldo');
+        $this->db->where('id_usuario', $this->session->idUsuario);
+        $this->db->update('clientes', $data);
         // $this->db->select('pedidos.idusuario');
         // $this->db->where('pedidos.id', $id);
         // $idUsuario = $this->db->get('pedidos')->row();

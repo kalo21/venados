@@ -26,21 +26,21 @@
                             </div>        
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Saldo</label>
-                            <div class="col-sm-9">
-                                <input type="text" value ="$<?= (isset($datos->saldo)) ? $datos->saldo : '' ;?>" class="form-control Letras">
-                            </div>        
-                        </div>
-                        <div class="form-group">
                             <label class="col-sm-3 control-label">Correo</label>
                             <div class="col-sm-9">
                                 <input type="text" value ="<?= (isset($datos->correo)) ? $datos->correo : '' ;?>" class="form-control Letras">
                             </div>        
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Usuario</label>
+                            <label class="col-sm-3 control-label">Teléfono</label>
                             <div class="col-sm-9">
-                                <input type="text" value ="<?= (isset($datos->usuario)) ? $datos->usuario : '' ;?>" class="form-control Letras">
+                                <input type="text" value ="<?= (isset($datos->telefono)) ? $datos->telefono : '' ;?>" class="form-control Letras">
+                            </div>        
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Saldo</label>
+                            <div class="col-sm-9">
+                                <input type="text" value ="$<?= (isset($datos->saldo)) ? $datos->saldo : '' ;?>" class="form-control Letras">
                             </div>        
                         </div>
                     </div>

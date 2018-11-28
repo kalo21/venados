@@ -50,7 +50,7 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Usuario</th>
-                                            <th>fecha</th>
+                                            <th>Fecha</th>
                                             <th>Monto</th>
                                         </tr>
                                     </thead>

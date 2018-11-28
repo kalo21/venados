@@ -9,7 +9,7 @@
                 <div class="col-md-6">
                     <div class="box box-solid">
                         <div class="box-header with-border" style="background-color: #f6032f">
-                            <h3 class="box-title" style="color:white">Lista de pedidos</h3>
+                            <h3 class="box-title" style="color:white">Lista de Pedidos</h3>
                         </div>
                         <div class="box box-body" id="divPedido">
                             <!--  Listado de pedidos  -->
@@ -124,7 +124,18 @@
                                         $('#infoPedido').fadeOut('slow');
                                     }
                                     else {
-                                        alert('ID incorrecto');
+                                        BootstrapDialog.show({
+                                        title: 'Aviso',
+                                        message: 'ID incorrecto',
+                                        type: BootstrapDialog.TYPE_DANGER,
+                                        buttons: [{ //agrega los botones del modal
+                                            label: 'Cerrar',
+                                            cssClass: 'btn-default',
+                                            action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+                                                dialogItself.close();
+                                            },
+                                        }]
+                                    });
                                     }
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
@@ -201,9 +212,24 @@
 							beforeSend: function(){
 								$('#load').show();
 							},
-							success: function() {
-                                obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
+							success: function(data) {
+                                data = JSON.parse(data);
+                                if(!data['exito']) {
+                                    BootstrapDialog.show({
+                                        title: 'Aviso',
+                                        message: data['msg'],
+                                        type: BootstrapDialog.TYPE_DANGER,
+                                        buttons: [{ //agrega los botones del modal
+                                            label: 'Cerrar',
+                                            cssClass: 'btn-default',
+                                            action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+                                                dialogItself.close();
+                                            },
+                                        }]
+                                    });
+                                }
                                 $('#infoPedido').fadeOut('slow');
+                                obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
 							},
 							error: function(jqXHR, textStatus, errorThrown) {
 								console.log('error::'+errorThrown);
@@ -294,6 +320,12 @@
             divInfo += '        <h3 class="box-title col-xs-8 text-right" style="color:white">Cliente: '+data[0]['nombre']+'</h3>'
             divInfo += '    </div>'
             divInfo += '    <div class="box box-body">'
+            divInfo += '<div class="row">'
+                divInfo += '    <b class="col-xs-2 col-xs-offset-1">Cantidad</b>'
+                divInfo += '    <b class="col-xs-6">Producto</b>'
+                divInfo += '    <b class="col-xs-3">Precio</b>'
+                divInfo += '</div>'
+                divInfo += '<br>';
             data.forEach(function(pedido, index){
                 divInfo += '<div class="row">'
                 divInfo += '    <p class="col-xs-2 col-xs-offset-1">· '+pedido['cantidad']+'</p>'
@@ -303,22 +335,21 @@
             });
             divInfo += '        <div class="row">'
             if(data[0].estatus == 'Realizado') {
-                divInfo += '            <b class="col-xs-5 col-xs-offset-7 text-center">Total: $ '+data[0]['total']+'</b>'
+                divInfo += '            <b class="col-xs-6 col-xs-offset-6 text-center">Total: $ '+data[0]['total']+'</b>'
             }
             else if(data[0].estatus == 'En proceso') {
-                divInfo += '            <div class="col-sm-7">'
+                divInfo += '            <div class="col-sm-6">'
                 divInfo += '                <button type="button" id="cancelar" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-default btn-sm">Cancelar</button>'
                 divInfo += '                <button type="button" id="finalizado" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-rojo btn-sm">Finalizado</button>'
                 divInfo += '            </div>'
-                divInfo += '            <b class="col-xs-5 text-center">Total: $ '+data[0]['total']+'</b>'
+                divInfo += '            <b class="col-xs-6 text-center">Total: $ '+data[0]['total']+'</b>'
             }
             else {
-                divInfo += '            <div class="col-sm-7">'
+                divInfo += '            <div class="col-sm-6">'
                 divInfo += '                <button type="button" id="cancelar" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-default btn-sm">Cancelar</button>'
                 divInfo += '                <button type="button" id="enproceso" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-primary btn-sm">En proceso</button>'
-                divInfo += '                <button type="button" id="finalizado" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-rojo btn-sm">Finalizado</button>'
                 divInfo += '            </div>'
-                divInfo += '            <b class="col-xs-5 text-center">Total: $ '+data[0]['total']+'</b>'
+                divInfo += '            <b class="col-xs-6 text-center">Total: $ '+data[0]['total']+'</b>'
             }
             divInfo += '        </div>'
             divInfo += '    </div>'

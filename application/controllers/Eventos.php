@@ -68,8 +68,17 @@ class Eventos extends CI_Controller{
 		$this->form_validation->set_rules('inpNombre', 'Nombre del evento', 'required');
 		$this->form_validation->set_rules('inpDescripcion', 'Descripcion del evento', 'required');
 		$this->form_validation->set_rules('inpInicioD', 'Fecha de inicio del evento', 'required');
-		$this->form_validation->set_rules('inpFinD', 'Fecha en que termina el evento', 'required');
 
+		if($this->input->post('cambio') == 0) {
+			if($this->form_validation->run() === TRUE){
+				echo json_encode($this->Eventos_model->modificarEvento($this->input->post()));
+				return;
+			}
+			else {
+				echo json_encode(array('exito' => false, 'msg' => validation_errors('<li>', '</li>')));
+				return;
+			}
+		}
 		if ($this->upload->do_upload('inpFoto')) {
 			$data = array('upload_data' => $this->upload->data());
 			$file_nombre = $data['upload_data']['file_name'];
@@ -82,6 +91,7 @@ class Eventos extends CI_Controller{
 		else{
 			echo json_encode(array('exito' => false, 'msg' => $this->upload->display_errors()));
 		}
+
 	}
 
 	public function cambiarEstado() {

@@ -34,7 +34,7 @@ class Pedidos extends CI_Controller {
     }
 
     public function enproceso() {
-        $this->Pedidos_modelo->pedidoProceso($this->input->post('id'));
+        echo json_encode($this->Pedidos_modelo->pedidoProceso($this->input->post('id')));
     }
 
     public function entregarPedido() {

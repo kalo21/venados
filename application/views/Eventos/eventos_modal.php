@@ -29,44 +29,95 @@
 </form>
 
 <script>
-    //Funcion que espera un cambio en el input para la foto principal de cada servicio
-    $("#divImagen").delegate("#foto","change", function(){
-        previewImagen(this);
-    });
-    //Esta funcion solo crea un img nuevo para la foto principal, quitando la que estaba y añadiendo una nueva.
-    function previewImagen(input){
-        if(input.files && input.files[0]){
-            var x="";
-            var reader = new FileReader();
-            reader.readAsDataURL(input.files[0]);
-            reader.onload = function(e){
-                //$('#formServicio + img').remove();
-                x+='<label for="foto"> <img style="height: 150px;" src="'+e.target.result+'" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>';
-                $('#labelImg').html("");
-                $('#labelImg').html(x);
-            }                
+
+    $(document).ready(function() {
+
+        cambio = 0;
+
+
+        //Funcion que espera un cambio en el input para la foto principal de cada servicio
+        $("#divImagen").delegate("#foto","change", function(){
+            previewImagen(this);
+        });
+        //Esta funcion solo crea un img nuevo para la foto principal, quitando la que estaba y añadiendo una nueva.
+        function previewImagen(input){
+            if(input.files && input.files[0]){
+                var x="";
+                var reader = new FileReader();
+                reader.readAsDataURL(input.files[0]);
+                reader.onload = function(e){
+                    //$('#formServicio + img').remove();
+                    x+='<label for="foto"> <img style="height: 150px;" src="'+e.target.result+'" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>';
+                    $('#labelImg').html("");
+                    $('#labelImg').html(x);
+                }                
+            }
         }
-    }
 
-      $('#inpInicioD').daterangepicker({
-         autoUpdateInput: false,
-          locale: {
-             cancelLabel: 'Clear'
-         }
-     });
+        $('#inpInicioD').daterangepicker({
+            "timePicker": true,
+            "timePickerSeconds": true,
+            "applyClass": "btn-rojo",
+            "locale": {
+                "format": "DD/MM/YYYY hh:mm:ss",
+                "separator": " - ",
+                "applyLabel": "Aplicar",
+                "cancelLabel": "Cancelar",
+                "fromLabel": "Desde",
+                "toLabel": "Hasta",
+                "customRangeLabel": "Custom",
+                "weekLabel": "W",
+                "daysOfWeek": [
+                    "Do",
+                    "Lu",
+                    "Ma",
+                    "Mi",
+                    "Ju",
+                    "Vi",
+                    "Sa"
+                ],
+                "monthNames": [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre"
+                ],
+                "firstDay": 1
+            },
+            "autoUpdateInput": false,
+            "applyButtonClasses": "btn-danger"
+            
+        });
 
-     $('#inpInicioD').on('apply.daterangepicker', function(ev, picker) {
-         $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-     });
+        
 
-     $('#inpInicioD').on('cancel.daterangepicker', function(ev, picker) {
-         $(this).val('');
-     });
+        $('#inpInicioD').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY hh:mm:ss') + ' - ' + picker.endDate.format('MM/DD/YYYY hh:mm:ss'));
+        });
+
+        $('#inpInicioD').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+        });
 
 
-     $('#inpInicioD').on('apply.daterangepicker', function(ev, picker) {
-         fechaInicio = picker.startDate.format('YYYY-MM-DD');
-         fechaFinal= picker.endDate.format('YYYY-MM-DD');
-     });
+        $('#inpInicioD').on('apply.daterangepicker', function(ev, picker) {
+            fechaInicio = picker.startDate.format('YYYY-MM-DD hh:mm:ss');
+            fechaFinal= picker.endDate.format('YYYY-MM-DD hh:mm:ss');
+        });
+
+        $('#foto').change(function() {
+            cambio++;
+        });
+
+    });
+
 
 </script>
