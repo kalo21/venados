@@ -81,7 +81,7 @@ class Api_model extends CI_Model {
 
 
 	public function getProductos($id){
-		$q = $this->db->select('*')->from('productos')->where('idempresa',$id)->get();
+		$q = $this->db->select('*')->from('productos')->where(array('idempresa'=>$id, 'estatus' => 1))->get();
 		return $q->result();
 	}
 
@@ -103,13 +103,13 @@ class Api_model extends CI_Model {
 			$this->db->trans_start();
 			$this->db->select('vendedores.id');
 			$this->db->join('usuarios','vendedores.id_usuario = usuarios.id');
-			$this->db->where('usuarios.id',$data->id_empleado);
+			$this->db->where('usuarios.id',$data['id_empleado']);
 			$q = $this->db->get('vendedores')->row();
 			if($q !== null){
-				$data->id_empleado = $q->id;
+				$data['id_empleado'] = $q->id;
 				if($this->db->insert('recargas', $data)){
-					$this->db->set('clientes.saldo','`clientes`.`saldo` + '.$data->monto, false);
-					$this->db->where('clientes.id', $data->id_cliente);
+					$this->db->set('clientes.saldo','`clientes`.`saldo` + '.$data['monto'], false);
+					$this->db->where('clientes.id', $data['id_cliente']);
 					$this->db->update('clientes');
 					//echo $this->db->last_query();
 					if($this->db->affected_rows()==0){
@@ -130,15 +130,17 @@ class Api_model extends CI_Model {
 		    return 'Error en la conexión, por favor inténtelo de nuevo.';
 		}
 	}
-
+	/**
+	 * Retorna true si coincide y false si no 
+	 */
 	public function verificar_pin($pin, $usuario_id){
 		$this->db->select('vendedores.id');
 		$this->db->where(array('vendedores.pin'=>$pin, 'vendedores.id_usuario'=>$usuario_id));
 		if(is_null($this->db->get('vendedores')->row())){
-			return -1;
+			return false;
 		}
 		else{
-			return 1;
+			return true;
 		}
 	}
 
@@ -226,9 +228,8 @@ class Api_model extends CI_Model {
 
 	public function isThereAnEvent($fecha){
 		$this->db->where(array('eventos.fecha_inicial <=' => $fecha, 'eventos.fecha_fin >=' => $fecha, 'status' => 1));
+		$this->db->limit(1);
 		$q = $this->db->get('eventos');
 		return $q->row();
 	}
-	
-	
 }
