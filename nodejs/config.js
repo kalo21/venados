@@ -6,9 +6,9 @@
 } */
 
 dbConfig = {
-    host: "localhost",
-    user: "root",
-    password: "",
+    host: "Pespeciales.upsin.edu.mx",
+    user: "pt1v3n2d0s",
+    password: "L4ti9o5s",
     database: "venadospruebas"
 }
 
