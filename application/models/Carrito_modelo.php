@@ -20,8 +20,6 @@ class Carrito_modelo extends CI_Model{
             $pedido = array(
                 'idempresa' => $idEmpresa,
                 'idusuario' => $this->session->idUsuario,
-                'fecha'     => date('Y/m/d'),
-                'hora'      => date('h:i:sa'),
                 'total'     => $total,
                 'estatus'   => 'Solicitado'
             );
@@ -79,7 +77,7 @@ class Carrito_modelo extends CI_Model{
                     'description'   => $info->descripcion,
                     'price'         => $producto->precio,
                     'qty'           => $producto->cantidad,
-                    'idPedido'      => $empresa->id
+                    'idPedido'      => dechex($empresa->id)
                 );
             }
         }
@@ -127,7 +125,7 @@ class Carrito_modelo extends CI_Model{
                     'description'   => $info->descripcion,
                     'price'         => $producto->precio,
                     'qty'           => $producto->cantidad,
-                    'idPedido'      => $empresa->id
+                    'idPedido'      => dechex($empresa->id)
                 );
             }
         }
@@ -155,7 +153,7 @@ class Carrito_modelo extends CI_Model{
                     'description'   => $info->descripcion,
                     'price'         => $producto->precio,
                     'qty'           => $producto->cantidad,
-                    'idPedido'      => $empresa->id
+                    'idPedido'      => dechex($empresa->id)
                 );
             }
         }

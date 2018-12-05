@@ -15,7 +15,7 @@ class Registros_modelo extends CI_Model{
             $this->db->select('pedidos.total');
             $this->db->where('pedidos.idempresa', $empresa->id);
             $this->db->where('pedidos.fecha >=', $fechas['fechaInicio']);
-            $this->db->where('pedidos.fecha <=', $fechas['fechaFinal']);
+            $this->db->where('pedidos.fecha <=', $fechas['fechaInicio']);
             $this->db->where('pedidos.estatus !=', 'Cancelado');
             $this->db->where('pedidos.estatus !=', 'Eliminado');
             $aux = $this->db->get('pedidos');
@@ -41,7 +41,7 @@ class Registros_modelo extends CI_Model{
             $this->db->select('recargas.monto');
             $this->db->where('recargas.id_vendedor', $vendedor->id);
             $this->db->where('date(recargas.fecha) >=', $fechas['fechaInicio']);
-            $this->db->where('date(recargas.fecha) <=', $fechas['fechaFinal']);
+            $this->db->where('date(recargas.fecha) <=', $fechas['fechaInicio']);
             $aux = $this->db->get('recargas');
             foreach($aux->result() as $monto) {
                 $total += $monto->monto;

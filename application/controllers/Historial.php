@@ -12,7 +12,7 @@ class Historial extends CI_Controller {
     public function index() {
         if(validacion()){
             $data['modulos'] = modulos();
-            $data['informacion'] = informacionInicial("Venados | Empresa");
+            $data['informacion'] = informacionInicial("Venados | Historial");
     		$this->load->view('Historial/historial_vista',$data);
         }
     }

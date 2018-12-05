@@ -12,7 +12,7 @@ class Pagos extends CI_Controller {
     public function index(){
     	if(validacion()){
             $data['modulos'] = modulos();
-            $data['informacion'] = informacionInicial("Venados | Administrador");
+            $data['informacion'] = informacionInicial("Venados | Pagos");
     		$this->load->view('Pagos/pagos_vista',$data);
         }
     }

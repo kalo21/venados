@@ -142,7 +142,7 @@
                 contenedor += '</div>';
             });
             $('#contenedor').html(contenedor);
-            $('#header').html('<div style="height:56.4px; display: flex; align-items: center; justify-content: center"><strong style="font-size:24px">Empresas</strong></div>');
+            $('#header').html('<div style="height:56.4px; display: flex; align-items: center; justify-content: center"><strong style="font-size:24px">Tiendas</strong></div>');
         }
         
         function dibujarProductos(info) {
@@ -156,7 +156,7 @@
                 contenedor += '       <div class="col-md-7 col-xs-6 text-left">';
                 contenedor += '           <strong>'+producto['nombre']+'</strong>';
                 contenedor += '       </div>';
-                contenedor += '       <div class="col-md-4 col-xs-6 col-xs-offset-1">';
+                contenedor += '       <div class="col-md-5 col-xs-6">';
                 contenedor += '           <p class="text-success">$ '+producto['precio']+'</p>';
                 contenedor += '       </div>';
                 contenedor += '   </div>';

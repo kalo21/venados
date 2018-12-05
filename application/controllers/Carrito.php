@@ -11,7 +11,7 @@ class Carrito extends CI_Controller {
     public function index(){
     	if($this->session->idPerfil == 4) {
             $data['modulos'] = modulos();
-            $data['informacion'] = informacionInicial("Venados | Cliente");
+            $data['informacion'] = informacionInicial("Venados | Carrito");
     		$this->load->view('Carrito/carrito_vista',$data);
         }
     }
@@ -22,14 +22,14 @@ class Carrito extends CI_Controller {
 
     public function cancelarCarrito() {
         foreach($this->cart->contents() as $productos) {
-            if($productos['idEmpresa'] == $this->input->post('idEmpresa')) {
+            if($productos['idEmpresa'] == hexdec($this->input->post('idEmpresa'))) {
                 $this->cart->remove($productos['rowid']);
             }
         }
     }
 
     public function realizarPedido() {
-        echo json_encode($this->Carrito_modelo->realizarPedido($this->input->post('idEmpresa')));
+        echo json_encode($this->Carrito_modelo->realizarPedido(hexdec($this->input->post('idEmpresa'))));
     }
 
     public function actualizarCantidad() {
@@ -55,7 +55,7 @@ class Carrito extends CI_Controller {
     }
 
     public function cancelarPedido() {
-        echo json_encode($this->Carrito_modelo->cancelarPedido($this->input->post('idPedido')));
+        echo json_encode($this->Carrito_modelo->cancelarPedido(hexdec($this->input->post('idPedido'))));
     }
 
     public function obtenerRealizados() {
@@ -67,6 +67,6 @@ class Carrito extends CI_Controller {
     }
 
     public function eliminarPedido() {
-        $this->Carrito_modelo->eliminarPedido($this->input->post('idPedido'));
+        $this->Carrito_modelo->eliminarPedido(hexdec($this->input->post('idPedido')));
     }
 }

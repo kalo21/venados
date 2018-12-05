@@ -312,6 +312,7 @@
         }
 
         .btn-rojo:focus, .btn-rojo.focus {
+          color: #fff;
           box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
         }
 
@@ -597,13 +598,6 @@
         <span class="sr-only">Toggle navigation</span>
       </a>
 
-	  <?php 
-	  	if($this->session->idPerfil == 4) {
-			 echo '<a id="carrito" href="'.base_url('index.php/Carrito/').'" class="sidebar-toggle carrito" role="button">
-					   <span class="sr-only"></span>
-			  	   </a>';
-		  }
-	  ?>
       
       <div class="navbar-custom-menu"> 
         <ul class="nav navbar-nav">
@@ -618,7 +612,7 @@
               <li class="user-header">
                 <?php
                   function fechaEspañol ($fecha) {
-                      $fecha = substr($fecha, 0, 10);
+                    $fecha = substr($fecha, 0, 10);
                       $numeroDia = date('d', strtotime($fecha));
                       $dia = date('l', strtotime($fecha));
                       $mes = date('F', strtotime($fecha));
@@ -630,8 +624,8 @@
                       $meses_EN = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
                       $nombreMes = str_replace($meses_EN, $meses_ES, $mes);
                       return $nombredia." ".$numeroDia." de ".$nombreMes." del ".$anio;
-                  }
-                  ?>
+                    }
+                    ?>
                 <img src="<?= base_url(); echo (isset($informacion['imagen'])) ? $informacion['imagen'] : 'hacker.png' ;?>" class="user-image" alt="<?php echo(isset($informacion['imagen'])) ? $informacion['imagen'] : 'No seleccionada' ;?>" class="img-circle" >
                 <p style="color : black;">
                   <?php echo(isset($informacion['nombre'])) ? $informacion['nombre'] : 'Infiltrado :o' ;?>
@@ -643,9 +637,14 @@
             </ul>
           </li>
         </ul>
-
-
       </div>
+      <?php 
+        if($this->session->idPerfil == 4) {
+          echo '<a id="carrito" href="'.base_url('index.php/Carrito/').'" class="sidebar-toggle carrito" role="button" style="float: right">
+                <span class="sr-only"></span>
+                </a>';
+        }
+      ?>
     </nav>
 
    

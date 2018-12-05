@@ -11,7 +11,7 @@ class Notificaciones extends CI_Controller {
     public function index(){
     	if(validacion()){
             $data['modulos'] = modulos();
-            $data['informacion'] = informacionInicial("Venados | Cliente");
+            $data['informacion'] = informacionInicial("Venados | Notificaciones");
     		$this->load->view('Notificaciones/notificaciones_vista',$data);
         }
     }

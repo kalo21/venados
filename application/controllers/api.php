@@ -177,13 +177,7 @@ class Api extends CI_Controller {
 			$message = $this->input->post("msg");
 			$user = $this->input->post("user");
 			$id = $this->input->post("id");
-			$notification = array(
-				'titulo' 	 => $this->session->nombreEmpresa,
-				'mensaje'	 => $message,
-				'estatus'    => 1,
-				'id_usuario' => $id
-			);
-			$this->storeNotification($notification);
+			$this->Api_model->saveNotification($message, $id);
 			//Falta agregar unas cosas para que agregue la notificación a la bd.
 		}
 		//Si viene desde la app, para recargas

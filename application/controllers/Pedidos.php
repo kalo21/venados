@@ -12,7 +12,7 @@ class Pedidos extends CI_Controller {
     public function index() {
         if(validacion()){
             $data['modulos'] = modulos();
-            $data['informacion'] = informacionInicial("Venados | Empresa");
+            $data['informacion'] = informacionInicial("Venados | Pedidos");
     		$this->load->view('Pedidos/pedidos_vista',$data);
         }
     }
@@ -38,8 +38,9 @@ class Pedidos extends CI_Controller {
     }
 
     public function entregarPedido() {
-        if($this->input->post('id') == $this->input->post('idPedido')) {
-            $this->Pedidos_modelo->entregarPedido($this->input->post('idPedido'));
+        $idPedido = hexdec($this->input->post('idPedido'));
+        if($this->input->post('id') == $idPedido) {
+            $this->Pedidos_modelo->entregarPedido($idPedido);
             echo true;
         }
         else {

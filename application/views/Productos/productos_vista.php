@@ -61,8 +61,9 @@
 <?php $this->load->view('Global/footer'); ?>
 <script>
 	$(document).ready(function(){
+
 		var cambio = 0;
-		var tabla = insertarPaginado('tabla');
+		var tabla = insertarPaginado('tabla', 10, true);
 		obtenerDatos($('#opciones').val());
 		
 		$('#opciones').change(function(){

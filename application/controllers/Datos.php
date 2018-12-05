@@ -18,4 +18,8 @@ class Datos extends CI_Controller {
     		$this->load->view('Datos/datos_vista',$data);
         }
     }
+
+    public function cambiarDisponibilidad() {
+        $this->Datos_modelo->cambiarDisponibilidad($this->input->post('disponibilidad'));
+    }
 }

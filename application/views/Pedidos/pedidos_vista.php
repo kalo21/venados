@@ -12,6 +12,7 @@
                             <h3 class="box-title" style="color:white">Lista de Pedidos</h3>
                         </div>
                         <div class="box box-body" id="divPedido">
+                            
                             <!--  Listado de pedidos  -->
                         </div>
                     </div>
@@ -31,7 +32,7 @@
 <script>
     //var socket = io.connect('http://localhost:3000',{'forceNew': true});
     //socket.emit('add-user', {idEmpresa: <?php echo $this->session->idEmpresa;?>});
-
+    nombreEmpresa = '<?php echo $this->session->nombreEmpresa;?>'; 
     $(document).ready(function(){
         obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
         /*
@@ -95,6 +96,8 @@
 
         $(document).on('click', '#entregar', function() {
             id = $(this).attr('data-id');
+            var user = $(this).attr('data-name');
+            var msg = "Su pedido de "+nombreEmpresa+" ha sido entregado";
             BootstrapDialog.show({
 				title: 'Entregar pedido',
                 message: `Se cambiará el estado del pedido seleccionado a Entregado. Por favor introduzca el ID del pedido proporcionado por el usuario para continuar.<br>
@@ -121,6 +124,7 @@
                                 success: function(data) {
                                     if(data) {
                                         obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
+                                        sendNotification(user, msg, id);
                                         $('#infoPedido').fadeOut('slow');
                                     }
                                     else {
@@ -160,7 +164,7 @@
         $(document).on('click', '#finalizado', function() {
             id = $(this).attr('data-id');
             var user = $(this).attr('data-name');
-            var msg = "Su pedido está listo para recogerse";
+            var msg = "Su pedido de "+nombreEmpresa+" está listo para recogerse";
             BootstrapDialog.confirm({
 				title: 'Finalizar pedido',
 				message: 'Se cambiará el estado del pedido seleccionado a finalizado ¿Desea continuar?',
@@ -281,9 +285,15 @@
                 }
             });
         }
-
         function dibujarPedidos(data) {
             var divPedido = '';
+            divPedido += '<div class="row">';
+            divPedido += '<b class="col-xs-4">Nombre</b>';
+            divPedido += '<b class="col-xs-4 text-center">Estado</b>';
+            divPedido += '<b class="col-xs-2 text-right">Entregar</b>';
+            divPedido += '<b class="col-xs-2 text-right">Detalles</b>';
+            divPedido += '</div>';
+            divPedido += '<br>';
             data.forEach(function(pedido, index){
                 divPedido += '<div class="row">';
                 divPedido +=    '<div class="col-xs-4" style="word-wrap: break-word">';
@@ -304,7 +314,7 @@
                         break;
                 }
                 divPedido +=    '</div>';
-                divPedido +=    '<a  class="col-xs-2 pull-left" ><span id="entregar" data-id="'+pedido['id']+'" class="mano fa fa-check-square-o" style="font-size: 20px; color: green"></span></a>';
+                divPedido +=    '<a  class="col-xs-2 pull-left" ><span id="entregar" data-name="'+pedido['usuario']+'" data-id="'+pedido['id']+'" class="mano fa fa-check-square-o" style="font-size: 20px; color: green"></span></a>';
                 divPedido +=    '<a  class="col-xs-2 pull-left" ><span id="informacion" data-id="'+pedido['id']+'" class="mano fa fa-plus" style="font-size: 20px; color: #f6032f"></span></a>';
                 divPedido += '</div>'
             });
@@ -317,15 +327,15 @@
             divInfo += '<div class="box box-solid">'
             divInfo += '    <div class="box-header with-border" style="background-color: #f6032f">'
             divInfo += '        <h3 class="box-title col-xs-4" style="color:white">Pedido</h3>'
-            divInfo += '        <h3 class="box-title col-xs-8 text-right" style="color:white">Cliente: '+data[0]['nombre']+'</h3>'
+            divInfo += '        <h3 class="box-title col-xs-8 text-right" style="color:white; word-wrap: break-word">Cliente: '+data[0]['nombre']+'</h3>'
             divInfo += '    </div>'
             divInfo += '    <div class="box box-body">'
             divInfo += '<div class="row">'
-                divInfo += '    <b class="col-xs-2 col-xs-offset-1">Cantidad</b>'
-                divInfo += '    <b class="col-xs-6">Producto</b>'
-                divInfo += '    <b class="col-xs-3">Precio</b>'
-                divInfo += '</div>'
-                divInfo += '<br>';
+            divInfo += '    <b class="col-xs-2 col-xs-offset-1">Cantidad</b>'
+            divInfo += '    <b class="col-xs-6">Producto</b>'
+            divInfo += '    <b class="col-xs-3">Precio</b>'
+            divInfo += '</div>'
+            divInfo += '<br>';
             data.forEach(function(pedido, index){
                 divInfo += '<div class="row">'
                 divInfo += '    <p class="col-xs-2 col-xs-offset-1">· '+pedido['cantidad']+'</p>'
@@ -339,15 +349,15 @@
             }
             else if(data[0].estatus == 'En proceso') {
                 divInfo += '            <div class="col-sm-6">'
-                divInfo += '                <button type="button" id="cancelar" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-default btn-sm">Cancelar</button>'
-                divInfo += '                <button type="button" id="finalizado" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-rojo btn-sm">Finalizado</button>'
+                divInfo += '                <button type="button" id="cancelar" data-id='+data[0]['id']+' data-name="'+data[0]['usuario']+'" class="btn btn-default btn-sm">Cancelar</button>'
+                divInfo += '                <button type="button" id="finalizado" data-id='+data[0]['id']+' data-name="'+data[0]['usuario']+'" class="btn btn-rojo btn-sm">Finalizado</button>'
                 divInfo += '            </div>'
                 divInfo += '            <b class="col-xs-6 text-center">Total: $ '+data[0]['total']+'</b>'
             }
             else {
                 divInfo += '            <div class="col-sm-6">'
-                divInfo += '                <button type="button" id="cancelar" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-default btn-sm">Cancelar</button>'
-                divInfo += '                <button type="button" id="enproceso" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-primary btn-sm">En proceso</button>'
+                divInfo += '                <button type="button" id="cancelar" data-id='+data[0]['id']+' data-name="'+data[0]['usuario']+'" class="btn btn-default btn-sm">Cancelar</button>'
+                divInfo += '                <button type="button" id="enproceso" data-id='+data[0]['id']+' data-name="'+data[0]['usuario']+'" class="btn btn-primary btn-sm">En proceso</button>'
                 divInfo += '            </div>'
                 divInfo += '            <b class="col-xs-6 text-center">Total: $ '+data[0]['total']+'</b>'
             }

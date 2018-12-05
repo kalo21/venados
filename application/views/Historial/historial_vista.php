@@ -56,8 +56,8 @@
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>Nombre</th>
-										<th>Precio</th>
+										<th>Usuario</th>
+										<th>Total</th>
                                         <th>Fecha</th>
                                         <th style='text-align:center'>Detalles</th>
 										<th style='text-align:center'>Estado</th>

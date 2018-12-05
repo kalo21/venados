@@ -3,8 +3,9 @@
 class Pedidos_modelo extends CI_Model{
     
     public function obtenerPedidos($id) {
-        $this->db->select('pedidos.id, pedidos.estatus, usuarios.nombre');
+        $this->db->select('pedidos.id, usuarios.nombre as usuario,pedidos.estatus, CONCAT(clientes.nombre, " ", clientes.apellidopaterno, " ", clientes.apellidomaterno) as nombre');
         $this->db->from('pedidos');
+        $this->db->join('clientes', 'clientes.id_usuario = pedidos.idusuario');
         $this->db->join('usuarios', 'usuarios.id = pedidos.idusuario');
         $this->db->where('pedidos.idempresa', $id);
         $this->db->where('pedidos.estatus !=', 'Entregado');
@@ -15,9 +16,10 @@ class Pedidos_modelo extends CI_Model{
     }
 
     public function informacionPedidos($id) {
-        $this->db->select('pedidos.estatus, pedidos.id, usuarios.nombre, productos.nombre as productoNombre, detallepedidos.precio, detallepedidos.cantidad, pedidos.total');
+        $this->db->select('pedidos.estatus, usuarios.id as idUsuario, pedidos.id, usuarios.nombre as usuario, CONCAT(clientes.nombre, " ", clientes.apellidopaterno, " ", clientes.apellidomaterno) as nombre, productos.nombre as productoNombre, detallepedidos.precio, detallepedidos.cantidad, pedidos.total');
         $this->db->from('detallepedidos');
         $this->db->join('pedidos', 'pedidos.id = detallepedidos.idpedido');
+        $this->db->join('clientes', 'clientes.id_usuario = pedidos.idusuario');
         $this->db->join('usuarios', 'usuarios.id = pedidos.idusuario');
         $this->db->join('productos', 'productos.id = detallepedidos.idproducto');
         $this->db->where('detallepedidos.idpedido', $id);

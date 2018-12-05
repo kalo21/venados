@@ -7,8 +7,19 @@ class Tiendas_modelo extends CI_Model{
     }
 
     public function infoEmpresas() {
+
+        $fecha = date('Y-m-d H:i:s');
+        $this->db->select('eventos.id');
+        $this->db->where('eventos.fecha_inicial <=', $fecha);
+        $this->db->where('eventos.fecha_fin >=', $fecha);
+        $empresas = $this->db->get('eventos')->row();
+
         $this->db->select('empresas.id, empresas.nombre, empresas.descripcion, empresas.img_fondo');
-        $query = $this->db->get('empresas');
+        $this->db->from('empresas');
+        $this->db->join('detallesevento', 'detallesevento.id_empresa = empresas.id');
+        $this->db->where('detallesevento.id_evento', $empresas->id);
+        $this->db->where('empresas.estatus', 1);
+        $query = $this->db->get();
         return $query->result();
     }
 

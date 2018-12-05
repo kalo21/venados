@@ -11,7 +11,7 @@ class Tiendas extends CI_Controller {
     public function index(){
     	if(validacion()){
             $data['modulos'] = modulos();
-            $data['informacion'] = informacionInicial("Venados | Empresa");
+            $data['informacion'] = informacionInicial("Venados | Tiendas");
     		$this->load->view('Tiendas/tiendas_vista',$data);
         }
     }

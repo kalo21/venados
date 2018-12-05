@@ -11,7 +11,7 @@ class Disponibilidad extends CI_Controller {
     public function index(){
     	if(validacion()){
             $data['modulos'] = modulos();
-            $data['informacion'] = informacionInicial("Venados | Empresa");
+            $data['informacion'] = informacionInicial("Venados | Disponibilidad");
     		$this->load->view('Disponibilidad/disponibilidad_vista',$data);
         }
     }

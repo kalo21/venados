@@ -11,7 +11,7 @@ class Productos extends CI_Controller {
     public function index(){
         if(validacion()){
             $data['modulos'] = modulos();
-            $data['informacion'] = informacionInicial("Venados | Modulos");
+            $data['informacion'] = informacionInicial("Venados | Productos");
             $this->load->view('Productos/productos_vista',$data);
         }
     }

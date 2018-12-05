@@ -12,7 +12,7 @@ class Eventos extends CI_Controller{
 	public function index(){
 		if(validacion()){
             $data['modulos'] = modulos();
-            $data['informacion'] = informacionInicial("Venados | Empresa");
+            $data['informacion'] = informacionInicial("Venados | Eventos");
     		$this->load->view('Eventos/Eventos_vista',$data);
         }
 	}
