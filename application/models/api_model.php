@@ -81,12 +81,13 @@ class Api_model extends CI_Model {
 
 
 	public function getProductos($id){
-		$q = $this->db->select('*')->from('productos')->where('idempresa',$id)->get();
+		$q = $this->db->select('*')->from('productos')->where(array('idempresa'=>$id, 'estatus' => 1))->get();
 		return $q->result();
 	}
 
 	public function getNotifications($idUser){
 		$this->db->where(array('notificaciones.id_usuario'=>$idUser, 'notificaciones.estatus'=>1));
+		$this->db->order_by('id','desc');
 		$q = $this->db->get('notificaciones')->result();
 		return $q;
 	}
@@ -100,38 +101,55 @@ class Api_model extends CI_Model {
 	public function recargarSaldo($data){
 		try{
 			$this->db->trans_start();
-		    if($this->db->insert('recargas', $data)){
-				$this->db->set('clientes.saldo','`clientes`.`saldo` + '.$data->monto, false);
-				$this->db->where('clientes.id', $data->id_cliente);
-				$this->db->update('clientes');
-				if($this->db->affected_rows()==0){
-					return 'El usuario no existe, reingreselo e inténte de nuevo.';
+			$this->db->select('vendedores.id');
+			$this->db->join('usuarios','vendedores.id_usuario = usuarios.id');
+			$this->db->where('usuarios.id',$data['id_empleado']);
+			$q = $this->db->get('vendedores')->row();
+			if($q !== null){
+				$data['id_empleado'] = $q->id;
+				if($this->db->insert('recargas', $data)){
+					$this->db->set('clientes.saldo','`clientes`.`saldo` + '.$data['monto'], false);
+					$this->db->where('clientes.id', $data['id_cliente']);
+					$this->db->update('clientes');
+					//echo $this->db->last_query();
+					if($this->db->affected_rows()==0){
+						return 'El usuario no existe, reingreselo e inténte de nuevo.';
+					}
+					$this->db->trans_complete();
+					return 1;
 				}
-				$this->db->trans_complete();
-		    	return 1;
-		    }
-		    else{
-		    	return 'Error en la conexión, por favor inténtelo de nuevo.';
-		    }
+				else{
+					return 'Error en la conexión, por favor inténtelo de nuevo.';
+				}
+			}
+			else{
+				return 'Error en la conexión, por favor inténtelo de nuevo.';
+			}
 		}
 		catch(Exception $e){
 		    return 'Error en la conexión, por favor inténtelo de nuevo.';
 		}
 	}
-
+	/**
+	 * Retorna true si coincide y false si no 
+	 */
 	public function verificar_pin($pin, $usuario_id){
 		$this->db->select('vendedores.id');
 		$this->db->where(array('vendedores.pin'=>$pin, 'vendedores.id_usuario'=>$usuario_id));
 		if(is_null($this->db->get('vendedores')->row())){
-			return -1;
+			return false;
 		}
 		else{
-			return 1;
+			return true;
 		}
 	}
 
 	public function get_historial_recargas($id_empleado, $limit, $offset){
-		$this->db->where('recargas.id_empleado',$id_empleado);
+		$this->db->select('vendedores.id');
+		$this->db->join('usuarios', 'vendedores.id_usuario = usuarios.id');
+		$this->db->where('vendedores.id_usuario',$id_empleado);
+		$id_vendedor = $this->db->get('vendedores')->row()->id;
+		$this->db->where('recargas.id_empleado',$id_vendedor);
 		$this->db->order_by("id", "desc");
 		$query = $this->db->get('recargas', $limit, $offset);
 		//echo $this->db->last_query();
@@ -220,6 +238,11 @@ class Api_model extends CI_Model {
 			return $this->db->error();
 		}
 	}
-	
-	
+
+	public function isThereAnEvent($fecha){
+		$this->db->where(array('eventos.fecha_inicial <=' => $fecha, 'eventos.fecha_fin >=' => $fecha, 'status' => 1));
+		$this->db->limit(1);
+		$q = $this->db->get('eventos');
+		return $q->row();
+	}
 }

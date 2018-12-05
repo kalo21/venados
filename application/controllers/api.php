@@ -3,25 +3,57 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/libraries/implementJwt.php';
 
 class Api extends CI_Controller {
+	private $perfil;
 	function __construct() {
 
 	    header('Access-Control-Allow-Origin: *');
-	    header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
-	    header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-	    $method = $_SERVER['REQUEST_METHOD'];
-	    if($method == "OPTIONS") {
-	        die();
-		}
+	    header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
+		header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 		$this->objOfJwt = new implementJwt();
 		parent::__construct();
+		define("CLIENTE", 4);
+		define("EMPLEADO", 5);
+		$method = $_SERVER['REQUEST_METHOD'];
+		if($method == "OPTIONS") {
+			die();
+		}
+
+		//Esta variable es para que no haga la autentificación para las funciones que contiene
+		$noAuthRequiredUris = array("login","isThereAnEvent","decodeToken");	
+		$functionRequested = end( (explode("/", $_SERVER['REQUEST_URI'])) );
+		$isAuthRequired = true;
+		foreach ($noAuthRequiredUris as $element){
+			if($functionRequested == $element){
+				$isAuthRequired = false;
+				break;
+			}
+		}
+
+		if($isAuthRequired){
+			try{
+				$token = $this->input->request_headers()["Authorization"];
+				$this->perfil = $this->objOfJwt->DecodeToken($token)->tipo_usuario;
+			}
+			catch(Exception $e){
+				echo "Error de autentificación";
+				die();
+			}
+		}
+
 		$this->load->model('Api_model');
 	}
 	public function index(){
 		echo "sirbp";
 	}
+
 	public function getStores(){
-		$stores = $this->Api_model->getStores();
-		echo json_encode($stores);
+		if($this->perfil == CLIENTE){
+			$stores = $this->Api_model->getStores();
+			echo json_encode($stores);
+		}
+		else{
+			$this->printProhibitedAccess();
+		}
 		//$json= json_encode($stores);
 		//$key = 'SuperSecretKeyss';
 		 //To Encrypt: 
@@ -32,56 +64,71 @@ class Api extends CI_Controller {
 	}
 
 	public function addPedido(){
-		$json_str = file_get_contents('php://input');
-		$json_obj = json_decode($json_str);
-		
-		echo $this->Api_model->addPedido($json_obj, true);
+		if($this->perfil == CLIENTE){
+			$json_str = file_get_contents('php://input');
+			$json_obj = json_decode($json_str);
+			
+			echo $this->Api_model->addPedido($json_obj, true);
+		}
+		else{
+			$this->printProhibitedAccess();
+		}
 	}
 	/**
 	 * Registro
 	 */
 	public function addUser(){
-		$json_obj = json_decode(file_get_contents('php://input'));
+		if($this->perfil == CLIENTE){
+			$json_obj = json_decode(file_get_contents('php://input'));
 
-		$usuario = $json_obj[0];
-		$cliente = $json_obj[1];
-		$apellidos = explode(" ",$cliente->apellidos);
-		
-		$clienteDB = array(
-			'nombre' => $cliente->nombre,
-			'apellidopaterno' => $apellidos[0],
-			'apellidomaterno'=>sizeof($apellidos)== 2?$apellidos[1]:' ',
-			'telefono' => $cliente->telefono,
-			'saldo' => 0.0
-		);
-		if($usuario != ''){
-			if(($msg = $this->Api_model->register($usuario,$clienteDB)) == 1){
-				$id = $this->getIdByUser($usuario->nombre);
-				$dataToken = array('id' => $id, 
-								   'nombre' => $usuario->nombre);
-				$token = $this->objOfJwt->GenerateToken($dataToken);
-				$response = array('id' => $id,
-							      'nombre' => $usuario->nombre,
-								  'token' => $token);
-				echo json_encode($response);
-			}else{
-				switch ($msg['code']) {
-					case 1062:
-						echo '{"error":"Ya existe un usuario con este nombre"}';
-						break;
-					
-					default:
-						echo '{"error":"Hubo un error en la conexión"}';
-						break;
+			$usuario = $json_obj[0];
+			$cliente = $json_obj[1];
+			$apellidos = explode(" ",$cliente->apellidos);
+			
+			$clienteDB = array(
+				'nombre' => $cliente->nombre,
+				'apellidopaterno' => $apellidos[0],
+				'apellidomaterno'=>sizeof($apellidos)== 2?$apellidos[1]:' ',
+				'telefono' => $cliente->telefono,
+				'saldo' => 0.0
+			);
+			if($usuario != ''){
+				if(($msg = $this->Api_model->register($usuario,$clienteDB)) == 1){
+					$id = $this->getIdByUser($usuario->nombre);
+					$dataToken = array('id' => $id, 
+									'nombre' => $usuario->nombre);
+					$token = $this->objOfJwt->GenerateToken($dataToken);
+					$response = array('id' => $id,
+									'nombre' => $usuario->nombre,
+									'token' => $token);
+					echo json_encode($response);
+				}else{
+					switch ($msg['code']) {
+						case 1062:
+							echo '{"error":"Ya existe un usuario con este nombre"}';
+							break;
+						
+						default:
+							echo '{"error":"Hubo un error en la conexión"}';
+							break;
+					}
 				}
 			}
+		}
+		else{
+			$this->printProhibitedAccess();
 		}
 
 	}
 
 	public function getIdByUser($user){
-		$id = $this->Api_model->getIdByUser($user)->id;
-		return $id;
+		if($this->perfil == CLIENTE){
+			$id = $this->Api_model->getIdByUser($user)->id;
+			return $id;
+		}
+		else{
+			$this->printProhibitedAccess();
+		}
 	}
 
 	public function decodeToken(){
@@ -96,7 +143,8 @@ class Api extends CI_Controller {
 			$data = $this->Api_model->getUser($json_obj);
 			if (!(isset($data['code']))){
 				$dataToken = array('id' => $data['id'], 
-								   'nombre' => $data['nombre']);
+								   'nombre' => $data['nombre'],
+								   'tipo_usuario'=>$data['idperfil']);
 				$token = $this->objOfJwt->GenerateToken($dataToken);
 				$response = array('id' => $data['id'],
 								  'nombre' => $data['nombre'],
@@ -119,28 +167,41 @@ class Api extends CI_Controller {
 		}
 	}
 
-
-	public function getProducts()
-	{
-		$id = $this->input->get('id');
-		$productos = $this->Api_model->getProductos($id);
-		echo json_encode($productos);
-		//$this->load->view('welcome_message');
+	
+	public function getProducts(){
+		if($this->perfil == CLIENTE){
+			$id = $this->input->get('id');
+			$productos = $this->Api_model->getProductos($id);
+			echo json_encode($productos);
+			//$this->load->view('welcome_message');
+		}
+		else{
+			$this->printProhibitedAccess();
+		}
 	}
 
 	public function getPedidos(){
-		$idUser = $this->input->get('idUser');
-		$pedidos = $this->Api_model->getPedidos($idUser);
-		echo json_encode($pedidos);
+		if($this->perfil == CLIENTE){
+			$idUser = $this->input->get('idUser');
+			$pedidos = $this->Api_model->getPedidos($idUser);
+			echo json_encode($pedidos);
+		}
+		else{
+			$this->printProhibitedAccess();
+		}
 	}
 
 	public function getDetallesPedidos(){
-		$idPedido = $this->input->get('idPedido');
-		$detalles = $this->Api_model->getDetallesPedidos($idPedido);
-		echo json_encode($detalles);
+		if($this->perfil == CLIENTE){
+			$idPedido = $this->input->get('idPedido');
+			$detalles = $this->Api_model->getDetallesPedidos($idPedido);
+			echo json_encode($detalles);
+		}
+		else{
+			$this->printProhibitedAccess();
+		}
 	}
-	public function getUserData()
-	{
+	public function getUserData(){
 		$idUser = $this->input->get('idUser');
 		$userData = $this->Api_model->getUserData($idUser);
 		echo json_encode($userData);
@@ -148,17 +209,27 @@ class Api extends CI_Controller {
 	}
 	/**
 	*/
-	
+
 	public function eliminarPedido(){
-		$idPedido = $this->input->get('idPedido');
-		$response = $this->Api_model->eliminarPedido($idPedido);
-		echo json_encode($response);
+		if($this->perfil == CLIENTE){
+			$idPedido = $this->input->get('idPedido');
+			$response = $this->Api_model->eliminarPedido($idPedido);
+			echo json_encode($response);
+		}
+		else{
+			$this->printProhibitedAccess();
+		}
 	}
 
 	public function getUserSaldo(){
-		$idUser = $this->input->get('idUser');
-		$userSaldo = $this->Api_model->getUserSaldo($idUser);
-		echo json_encode($userSaldo);
+		if($this->perfil == CLIENTE){
+			$idUser = $this->input->get('idUser');
+			$userSaldo = $this->Api_model->getUserSaldo($idUser);
+			echo json_encode($userSaldo);
+		}
+		else{
+			$this->printProhibitedAccess();
+		}
 	}
 
 
@@ -229,29 +300,55 @@ class Api extends CI_Controller {
 	}
 	
 	public function getNotifications(){
-		$id_usuario = $this->input->get('id');
-		echo json_encode($this->Api_model->getNotifications($id_usuario));
+		if($this->perfil == CLIENTE){
+			$id_usuario = $this->input->get('id');
+			echo json_encode($this->Api_model->getNotifications($id_usuario));
+		}
+		else{
+			$this->printProhibitedAccess();
+		}
 	}
 
 	public function deleteNotifications(){
-		$idsNotif_str = $this->input->get('ids');
-		$ids = explode(",", $idsNotif_str);
-		$this->Api_model->deleteNotifications($ids);
+		if($this->perfil == CLIENTE){
+			$idsNotif_str = $this->input->get('ids');
+			$ids = explode(",", $idsNotif_str);
+			$this->Api_model->deleteNotifications($ids);
+		}
+		else{
+			$this->printProhibitedAccess();
+		}
 	}
 
 	public function recargarSaldo(){
-		$data = json_decode(file_get_contents('php://input'))[0];
-		echo json_encode($this->Api_model->recargarSaldo($data));
+		if($this->perfil == EMPLEADO){
+			$data = json_decode(file_get_contents('php://input'))[0];
+			$dataPin = array('user_id'=>$data->id_empleado, 'pin'=>$data->pin);
+			$dataRecarga = array('id_cliente'=>$data->id_cliente, 'monto'=>$data->monto,'id_empleado'=>$data->id_empleado);
+			if($this->verificarPin($dataPin)){
+				echo json_encode($this->Api_model->recargarSaldo($dataRecarga));
+			}
+			else{
+				echo json_encode("Pin incorrecto, por favor intente de nuevo.");
+			}
+		}
+		else{
+			$this->printProhibitedAccess();
+		}
 	}
 
-	public function verificarPin(){
-		$data = json_decode(file_get_contents('php://input'));
-		echo $this->Api_model->verificar_pin($data->pin, $data->user_id);
+	public function verificarPin($data){
+		return $this->Api_model->verificar_pin($data['pin'], $data['user_id']);
 	}
 
 	public function getHistorialRecargas(){
-		$data = json_decode(file_get_contents('php://input'));
-		echo json_encode($this->Api_model->get_historial_recargas($data->id_empleado, $data->limit,$data->offset));
+		if($this->perfil == EMPLEADO){
+			$data = json_decode(file_get_contents('php://input'));
+			echo json_encode($this->Api_model->get_historial_recargas($data->id_empleado, $data->limit,$data->offset));
+		}
+		else{
+			$this->printProhibitedAccess();
+		}
 	}
 
 	public function getUserByIdClient($id_cliente){
@@ -260,6 +357,21 @@ class Api extends CI_Controller {
 
 	public function storeNotification($data){
 		$this->Api_model->storeNotification($data);
+	}
 
+	public function isThereAnEvent(){
+		date_default_timezone_set('America/Mazatlan');
+		$date = date('Y-m-d H:i:s', time());
+		$datos = $this->Api_model->isThereAnEvent($date);
+		if(empty($datos)){
+			echo -1;
+		}
+		else{
+			echo $datos->id;
+		}
+	}
+
+	public function printProhibitedAccess(){
+		echo "No tiene permisos para acceder a este enlace.";
 	}
 }

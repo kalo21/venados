@@ -3,10 +3,34 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var db = require ('./db.js');
-var clients = {};
+var config = require('./config.js');
+var jwt = require('jsonwebtoken');
+var empresas = [];
 
 //Se pasa el directorio de donde se va a usar express.
 app.use(express.static('public'));
+app.use(function (req, res, next) {
+    var token = req.headers['Authorization'];
+    if (token) {
+        jwt.verify(token, config.jwtSecretKey, function (err, decoded) {
+            if (err) {
+                return res.json({
+                    success: false,
+                    message: 'Failed to authenticate token.'
+                });
+            } else {
+                req.user = decoded;
+                next();
+            }
+        });
+    }
+    else{
+        return res.json({
+            success: false,
+            message: 'Failed to authenticate token.'
+        }); 
+    }
+});
 //Cuando reciba un get en la ruta raiz
 app.get('/', function(req, res){
     //Retorna un status 200 con el mensaje "Hola mundo"
@@ -19,75 +43,67 @@ io.on("connection", function(socket){
      * Función para enviar un pedido a la empresa
      */
     socket.on('send-pedido',function(data){
-        //db.insertPedido(data.algo)
-
-        //Si el receptor existe
-        if (clients[data.idEmpresa]){
-            io.sockets.connected[clients[data.idEmpresa]].emit("pedido", data);
-            //socket.disconnect();
-        }
-        //Si no existe el receptor
-        else{
-            console.log("User does not exist: " + data.idEmpresa); 
-            //socket.disconnect();
-        }
+        
     });
 
-    socket.on('add-pedido',function(data, fn){
-        db.insertPedido(data, fn);
-        console.log(data.idEmpresa);
-        console.log(clients);
-        //Si el receptor existe
-        if (clients[data.idEmpresa]){
-            io.sockets.connected[clients[data.idEmpresa]].emit("pedido", data);
-            //socket.disconnect();
-            fn(true);
-        }
-        //Si no existe el receptor
-        else{
-            fn("No se encontró la tienda");
-            //socket.disconnect();
-        }
+    socket.on('add-pedido',function(data, callback){
+        db.insertPedido(data, function(res){
+            if(!res){
+                callback(false);
+            } 
+            else{
+                callback(true);
+                updateStore(data);
+            }
+        });
     });
 
-    socket.on('cancelar-pedido',function(data, fn){
-        console.log("IDEMPRESA: "+data.idEmpresa);
-
-        db.cancelarPedido(data.idPedido);
-        //Si el receptor existe
-        console.log(clients);
-        console.log(clients[data.idEmpresa]);
-        if (clients[data.idEmpresa]){
-            io.sockets.connected[clients[data.idEmpresa]].emit("pedido", data);
-            fn(true);
-            //socket.disconnect();
-        }
-        //Si no existe el receptor
-        else{
-            fn("No se encontró la tienda");
-            //socket.disconnect();
-        }
+    socket.on('cancelar-pedido',function(data, callback){
+        db.cancelarPedido(data, function(res){
+            if(!res){
+                callback(false);
+            } 
+            else{
+                callback(true);
+                updateStore(data);
+            }
+        });
     });
 
     /**
      * Esta función es para agregar un usuario.
      */
     socket.on('add-user',function(data){
-        clients[data.idEmpresa] = socket.id;
-        console.log(clients);
+
+        var empresa = {
+            idEmpresa: data.idEmpresa,
+            idSocket: socket.id
+        };
+        empresas.push(empresa);
+        console.log(empresas);
     });
 
     socket.on('disconnect', (reason) => {
-        console.log("A client disconnected. "+socket.id);
-        var length = Object.keys(clients).length;
-        for( var key in clients ) {
-            if(socket.id == clients[key]){
-                delete clients[key];
+        console.log("Alguien se ha desconectado");
+        for(var x = 0; x < empresas.length; x++){
+            if(empresas[x].idSocket == socket.id){
+                empresas.splice(x,1);
+                break;
             }
         }
-    })
+    });
 });
-
-server.listen(3000, function(){
-    console.log("Servidor corriendo en http://localhost:3000")
+   
+function updateStore(data){
+    for(var x = 0; x < empresas.length; x++){
+        if (empresas[x].idEmpresa == data.idEmpresa){
+            io.sockets.connected[empresas[x].idSocket].emit("pedido", data);
+        }
+        else{
+            console.log("User does not exist: " + element); 
+        }
+    }
+}
+server.listen(3006, function(){
+    console.log("Servidor corriendo en http://localhost:3006")
 })  
