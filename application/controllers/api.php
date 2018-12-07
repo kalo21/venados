@@ -19,8 +19,15 @@ class Api extends CI_Controller {
 		}
 
 		//Esta variable es para que no haga la autentificación para las funciones que contiene
-		$noAuthRequiredUris = array("login","isThereAnEvent","decodeToken");	
-		$functionRequested = end( (explode("/", $_SERVER['REQUEST_URI'])) );
+		$noAuthRequiredUris = array("login","isThereAnEvent","decodeToken","send_notif");	
+		if(substr($_SERVER['REQUEST_URI'], -1) != '/'){
+			$UriExploded = explode("/", $_SERVER['REQUEST_URI']);
+		}	
+		else{	
+			$uri = substr($_SERVER['REQUEST_URI'], 0, -1);
+			$UriExploded = explode("/", $uri);
+		}	
+		$functionRequested = end( ($UriExploded) );
 		$isAuthRequired = true;
 		foreach ($noAuthRequiredUris as $element){
 			if($functionRequested == $element){
@@ -28,6 +35,7 @@ class Api extends CI_Controller {
 				break;
 			}
 		}
+
 
 		if($isAuthRequired){
 			try{

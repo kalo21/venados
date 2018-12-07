@@ -74,7 +74,6 @@ io.on("connection", function(socket){
      * Esta función es para agregar un usuario.
      */
     socket.on('add-user',function(data){
-
         var empresa = {
             idEmpresa: data.idEmpresa,
             idSocket: socket.id
