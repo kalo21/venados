@@ -56,7 +56,8 @@ class Api extends CI_Controller {
 
 	public function getStores(){
 		if($this->perfil == CLIENTE){
-			$stores = $this->Api_model->getStores();
+			$idEvento = $this->input->get('idEvento');
+			$stores = $this->Api_model->getStores($idEvento);
 			echo json_encode($stores);
 		}
 		else{
