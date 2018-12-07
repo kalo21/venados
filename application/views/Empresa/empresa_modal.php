@@ -5,23 +5,6 @@
 </div>
 
 <form class="form-horizontal" id="frmEmpresa">
-    <div>
-        <h4 class=" col-md-5 col-md-offset-1 text-center"><b>logo<b></h4>
-        <h4 class=" col-md-5 text-center"><b>fondo<b></h4>
-    </div>
-    <div class=" col-md-5 col-md-offset-1">
-        <div id="divImagen">
-            <label for="foto" id="labelImg">  <img style="height: 200px; width:200px;" src="<?= (isset($datos->logotipo)) ? base_url($datos->logotipo) : base_url('assets/images/empresa.png')?>" class="img-circles img-responsive text-center" alt="imagen_producto"> </label>
-            <input class="form-control" name="foto" type="file" id="foto" style="display: none" accept="image/*">
-        </div>
-    </div>
-    <div class="col-md-5">
-        <div id="divImagenV"> 
-            <label for="fotoV" id="labelImgV">  <img style="height: 200px; width:200px;" src="<?= (isset($datos->img_fondo)) ? base_url($datos->img_fondo) : base_url('assets/images/empresa.png')?>" class="img-circles img-responsive text-center" alt="imagen_producto"> </label>
-            <input class="form-control" name="fotoV" type="file" id="fotoV" style="display: none" accept="image/*">
-        </div>
-    </div> 
-    <div class="container"></div>
     <div class="form-group">
         <label class="col-sm-3 control-label">Empresa</label>
         <div class="col-sm-9">
@@ -64,80 +47,5 @@
             <input type="text" value ="<?php echo(isset($datos->local)) ? $datos->local : '' ;?>" data-local="<?php echo(isset($datos->local)) ? $datos->local : '' ;?>" class="form-control" id="inpLocal" name="inpLocal">
         </div> 
     </div>
-    
-<!-------------------------------------------------------------------------------------------------------------->  
-     
-    <div class="form-group" <?php echo(isset($usuario->nombre)) ? 'hidden' : '' ;?>>
-        <label class="col-sm-3 control-label">Usuario</label>
-        <div class="col-sm-9">
-            <input type="text" value ="<?php echo(isset($usuario->nombre)) ? $usuario->nombre : '' ;?>" class="form-control" id="inpNombre" name="inpNombre">
-        </div>        
-    </div>
-    <div class="form-group" <?php echo(isset($usuario->contraseña)) ? 'hidden' : '' ;?>>
-        <label class="col-sm-3 control-label">Contraseña</label>
-        <div class="col-sm-9">
-            <input type="password" value ="<?php echo(isset($usuario->contraseña)) ? $usuario->contraseña : '' ;?>" class="form-control" id="inpContrasena" name="inpContrasena">
-        </div> 
-    </div>
-    <div class="form-group" <?php echo(isset($usuario->contraseña)) ? 'hidden' : '' ;?>>
-        <label class="col-sm-3 control-label">Verificar Contraseña</label>
-        <div class="col-sm-9">
-            <input type="password" value ="<?php echo(isset($usuario->contraseña)) ? $usuario->contraseña : '' ;?>" class="form-control" id="inpVerificar" name="inpVerificar">
-        </div> 
-    </div>
-    <div class="form-group" <?php echo(isset($usuario->correo)) ? 'hidden' : '' ;?>>
-        <label class="col-sm-3 control-label">Correo</label>
-        <div class="col-sm-9">
-            <input type="text" value ="<?php echo(isset($usuario->correo)) ? $usuario->correo : '' ;?>" class="form-control" id="inpCorreo" name="inpCorreo">
-        </div> 
-    </div>
 </form>
 <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap-tagsinput.min.js'); ?>"></script>
-
-<!----------------------------------------------------------------------------------------------------------------->
-
-<script>
-//Funcion que espera un cambio en el input para la foto principal de cada servicio
-$("#divImagen").delegate("#foto","change", function(){
-    previewImagen(this);
-});
-//Esta funcion solo crea un img nuevo para la foto principal, quitando la que estaba y añadiendo una nueva.
-function previewImagen(input){
-    if(input.files && input.files[0]){
-        var x="";
-        var reader = new FileReader();
-        reader.readAsDataURL(input.files[0]);
-        reader.onload = function(e){
-            //$('#formServicio + img').remove();
-            x+='<label for="foto"> <img style="height: 200px;" src="'+e.target.result+'" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>';
-            $('#labelImg').html("");
-            $('#labelImg').html(x);
-        }                
-    }
-    
-    $('#inpDescripcion').tagsinput({
-        splitOn:'-'
-    })
-}
-$("#divImagenV").delegate("#fotoV","change", function(){
-    previewImagenV(this);
-});
-//Esta funcion solo crea un img nuevo para la foto principal, quitando la que estaba y añadiendo una nueva.
-function previewImagenV(input){
-    if(input.files && input.files[0]){
-        var x="";
-        var reader = new FileReader();
-        reader.readAsDataURL(input.files[0]);
-        reader.onload = function(e){
-            //$('#formServicio + img').remove();
-            x+='<label for="fotoV"> <img style="height: 200px;" src="'+e.target.result+'" class="img-thumbnail img-responsive text-center" alt="imagen_producto"> </label>';
-            $('#labelImgV').html("");
-            $('#labelImgV').html(x);
-        }                
-    }
-    
-    $('#inpDescripcion').tagsinput({
-        splitOn:'-'
-    })
-}
-</script>

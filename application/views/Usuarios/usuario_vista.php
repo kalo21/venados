@@ -21,7 +21,7 @@
 			<div class="col-md-12">
 				<div class="box box-danger">
 					<div class="box-header with-border">
-						<h3 class="box-title">Listado de usuarios</h3>
+						<h3 class="box-title">Listado de Usuarios</h3>
 						<div class="box-tools pull-right">
 							 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
@@ -35,7 +35,7 @@
 										<th>Nombre</th>
 										<th>Perfil</th>
 										<th>Correo</th>
-										<th style="text-align:center">Estado</th>
+										<th style="text-align:center">Estatus</th>
 										<th style="text-align:center">Modificar</th>
 									</tr>
 								</thead>

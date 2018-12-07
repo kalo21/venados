@@ -49,7 +49,7 @@ class Vendedores_modelo extends CI_Model{
 			return array('exito' => false, 'msg' => '<li>El nombre del vendedor ya se encuentra registrado</li>');
 		}
 		$this->db->where('nombre', $data['inpNombre']);
-		$aux = $this->db->get('Usuarios');
+		$aux = $this->db->get('usuarios');
 		if($aux->num_rows() > 0) {
 			return array('exito' => false, 'msg' => '<li>El nombre ya se encuentra registrado</li>');
 		}

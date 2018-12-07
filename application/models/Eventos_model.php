@@ -22,8 +22,8 @@ class Eventos_model extends CI_Model{
 		$data = array(
 			'nombre' => $datos['inpNombre'],
 			'descripcion' => $datos['inpDescripcion'],
-			'fecha_inicial' => $datos['inpInicioD'],
-			'fecha_fin' => $datos['inpFinD'],
+			'fecha_inicial' => $datos['fechaInicio'],
+			'fecha_fin' => $datos['fechaFinal'],
 			'imagen' => $file_nombre,
 			'status' => 1
 		);
@@ -38,22 +38,41 @@ class Eventos_model extends CI_Model{
 		//echo $this->db->last_query();
 	}
 
-	public function modificarEvento($datos, $file_nombre){
-		$data = array(
-			'nombre' => $datos['inpNombre'],
-			'descripcion' => $datos['inpDescripcion'],
-			'fecha_inicial' => $datos['inpInicioD'],
-			'fecha_fin' => $datos['inpFinD'],
-			'imagen' => $file_nombre,
-			'status' => 1
-		);
-		$this->db->where('id', $datos['id']);
-		$this->db->update('eventos', $data);
-		if($this->db->affected_rows() > 0) {
-			return array('exito' => true, 'msg' => 'todo bien baby');
+	public function modificarEvento($datos, $file_nombre = ''){
+		if($datos['cambio'] > 0) {
+			$data = array(
+				'nombre' => $datos['inpNombre'],
+				'descripcion' => $datos['inpDescripcion'],
+				'fecha_inicial' => $datos['fechaInicio'],
+				'fecha_fin' => $datos['fechaFinal'],
+				'imagen' => $file_nombre,
+				'status' => 1
+			);
+			$this->db->where('id', $datos['id']);
+			$this->db->update('eventos', $data);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => 'todo bien baby');
+			}
+			else {
+				return array('exito' => false, 'msg' => '<li>No se guardo el producto en la base de datos, intente de nuevo</li>');
+			}
 		}
 		else {
-			return array('exito' => false, 'msg' => '<li>No se guardo el producto en la base de datos, intente de nuevo</li>');
+			$data = array(
+				'nombre' => $datos['inpNombre'],
+				'descripcion' => $datos['inpDescripcion'],
+				'fecha_inicial' => $datos['fechaInicio'],
+				'fecha_fin' => $datos['fechaFinal'],
+				'status' => 1
+			);
+			$this->db->where('id', $datos['id']);
+			$this->db->update('eventos', $data);
+			if($this->db->affected_rows() > 0) {
+				return array('exito' => true, 'msg' => 'todo bien baby');
+			}
+			else {
+				return array('exito' => false, 'msg' => '<li>No se guardo el producto en la base de datos, intente de nuevo</li>');
+			}
 		}
 	}
 

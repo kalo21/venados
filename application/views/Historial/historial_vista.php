@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="row">
-  			<div class="form-group col-md-2">
+  			<div class="form-group col-md-3">
 			  <div class="input-group">
 					<select name="" id="opciones" class="form-control">
 						<option value="0">Todos</option>
@@ -17,6 +17,8 @@
 						<option value="2">Cancelado</option>
 						<option value="3">Entregado</option>
 						<option value="4">Realizado</option>
+						<option value="5">En proceso</option>
+						<option value="6">Eliminado</option>
 					</select>
 					<div class="input-group-addon" id="buscarEstado"><span class="fa fa-search mano"></span></div>
 			  </div>
@@ -24,13 +26,13 @@
 			<div class="form-group col-md-4">
 				<div class="input-group">
 					<div class="input-group-addon"><span class="fa fa-calendar"></span></div>
-					<input type="text" class="form-control" id="inpFecha">
+					<input type="text" class="form-control" id="inpFecha" placeholder="Fecha inicial - Fecha final">
 					<div class="input-group-addon" id="buscarFecha"><span class="fa fa-search mano"></span></div>
 				</div>
 			</div>
 			<div class="form-group col-md-3">
 				<div class="input-group">
-					<input type="text" class="form-control" id="inpUsuario">
+					<input type="text" class="form-control" id="inpUsuario" placeholder="Nombre del usuario">
 					<div class="input-group-addon" id="buscarUsuario"><span class="fa fa-search mano"></span></div>
 				</div>
 			</div>
@@ -43,7 +45,7 @@
 			<div class="col-md-12">
 				<div class="box box-danger">
 					<div class="box-header with-border">
-						<h3 class="box-title">Listado de pedidos</h3>
+						<h3 class="box-title">Listado de Pedidos</h3>
 						<div class="box-tools pull-right">
 							 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
@@ -54,8 +56,8 @@
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>Nombre</th>
-										<th>Precio</th>
+										<th>Usuario</th>
+										<th>Total</th>
                                         <th>Fecha</th>
                                         <th style='text-align:center'>Detalles</th>
 										<th style='text-align:center'>Estado</th>
@@ -79,8 +81,20 @@
 
 		$('#inpFecha').daterangepicker({
 			autoUpdateInput: false,
+			"applyClass": "btn-rojo",
 			locale: {
-				cancelLabel: 'Clear'
+				"cancelLabel": 'Clear',
+				"applyLabel": "Aplicar",
+        		"cancelLabel": "Cancelar",
+				"daysOfWeek": [
+					"Do",
+					"Lu",
+					"Ma",
+					"Mi",
+					"Ju",
+					"Vi",
+					"Sa"
+				],
 			}
 		});
 
@@ -127,27 +141,31 @@
 
 		$('#buscarUsuario').click(function() {
 			var usuario = $('#inpUsuario').val();
-			$.ajax({
-				url: base_url+'index.php/Historial/buscarUsuario/'+usuario,
-				beforeSend: function(){
-                    $('#load').show();
-                },
-				success: function(data) {
-					data = JSON.parse(data);
-					if(!data){
-						tabla.clear().draw();
+			if(usuario != '') {
+				$.ajax({
+					url: base_url+'index.php/Historial/buscarUsuario/',
+					type: 'POST',
+					data: {usuario:usuario},
+					beforeSend: function(){
+						$('#load').show();
+					},
+					success: function(data) {
+						data = JSON.parse(data);
+						if(!data){
+							tabla.clear().draw();
+						}
+						else {
+							dibujarTabla(data);
+						}
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						console.log('error::'+errorThrown);
+					},
+					complete:function(){
+						$('#load').hide();
 					}
-					else {
-						dibujarTabla(data);
-					}
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					console.log('error::'+errorThrown);
-				},
-                complete:function(){
-                    $('#load').hide();
-                }
-			});
+				});
+			}
 		});
 
 		$('#btnBuscar').click(function() {

@@ -12,7 +12,7 @@ class Pedidos extends CI_Controller {
     public function index() {
         if(validacion()){
             $data['modulos'] = modulos();
-            $data['informacion'] = informacionInicial("Venados | Empresa");
+            $data['informacion'] = informacionInicial("Venados | Pedidos");
     		$this->load->view('Pedidos/pedidos_vista',$data);
         }
     }
@@ -26,7 +26,7 @@ class Pedidos extends CI_Controller {
     }
 
     public function cancelarPedido() {
-        $this->Pedidos_modelo->cancelarPedido($this->input->post('id'), $this->input->post('msg'));
+        $this->Pedidos_modelo->cancelarPedido($this->input->post('id'));
     }
 
     public function finalizarPedido() {
@@ -34,7 +34,18 @@ class Pedidos extends CI_Controller {
     }
 
     public function enproceso() {
-        $this->Pedidos_modelo->pedidoProceso($this->input->post('id'));
+        echo json_encode($this->Pedidos_modelo->pedidoProceso($this->input->post('id')));
+    }
+
+    public function entregarPedido() {
+        $idPedido = hexdec($this->input->post('idPedido'));
+        if($this->input->post('id') == $idPedido) {
+            $this->Pedidos_modelo->entregarPedido($idPedido);
+            echo true;
+        }
+        else {
+            echo false;
+        }
     }
 
 }

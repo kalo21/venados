@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="row">
-  			<div class="col-xs-3">
+  			<div class="col-xs-3 col-md-offset-1">
 				<select name="" id="opciones" class="form-control">
 					<option value="-1">Todos</option>
 					<option value="1">Activos</option>
@@ -18,10 +18,10 @@
   		</div>
   		<br>
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-10 col-md-offset-1">
 				<div class="box box-danger">
 					<div class="box-header with-border">
-						<h3 class="box-title">Listado de empresas</h3>
+						<h3 class="box-title">Listado de Empresas</h3>
 						<div class="box-tools pull-right">
 							 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
@@ -31,12 +31,10 @@
 						 	<table id="tabla" class="table table-hover">
 								<thead>
 									<tr>
-										<th>ID</th>
 										<th>Nombre</th>
-										<th>Local</th>
 										<th style='text-align:center'>Logotipo</th>
 										<th style='text-align:center'>Estatus</th>
-										<th style='text-align:center'>Modificar</th>
+										<th style='text-align:center'>Ver Mas</th>
 										<th style='text-align:center'>Activar/Desactivar</th>
 									</tr>
 								</thead>
@@ -79,139 +77,305 @@
             var id = $(this).attr('data-id');
             var estatus = $(this).attr('data-estatus');  
             BootstrapDialog.confirm({
-              title: 'Advertencia',
-              message: 'Se cambiará el estatus de la empresa seleccionada ¿Desea continuar?',
-              type: BootstrapDialog.TYPE_DANGER, 
-              btnCancelLabel: 'Cancelar', 
-              btnOKLabel: 'Continuar', 
-              btnOKClass: 'btn-rojo', 
-              callback: function(result) {
-                if(result){
-                     $.ajax({
-                        url: base_url+'index.php/Empresa/cambiarEstado/',
-                        type:'POST',
-                        data: {
-                            id:id,
-                            estatus:estatus
-                        },
-                        beforeSend: function(){
-                            $('#load').show();
-                        },
-                        success: function() {
-                            obtenerDatos($('#opciones').val());
-                            /*BootstrapDialog.show({
-                                title: 'No se actualizó',
-                                message: 'No se modificó el estatus del perfil seleccionado'
-                            });*/
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            console.log('error::'+errorThrown);
-                        },
-                        complete: function(){
-                          $('#load').hide();
-                       }
-                    });
-                }
-              }
-          });
+				title: 'Advertencia',
+				message: 'Se cambiará el estatus de la empresa seleccionada ¿Desea continuar?',
+				type: BootstrapDialog.TYPE_DANGER, 
+				btnCancelLabel: 'Cancelar', 
+				btnOKLabel: 'Continuar', 
+				btnOKClass: 'btn-rojo', 
+				callback: function(result) {
+                	if(result){
+                     	$.ajax({
+							url: base_url+'index.php/Empresa/cambiarEstado/',
+							type:'POST',
+                        	data: {
+								id:id,
+								estatus:estatus
+                        	},
+                        	beforeSend: function(){
+                            	$('#load').show();
+                        	},
+                        	success: function() {
+                            	obtenerDatos($('#opciones').val());
+                        	},
+                        	error: function(jqXHR, textStatus, errorThrown) {
+                            	console.log('error::'+errorThrown);
+                        	},
+                        	complete: function(){
+                          	$('#load').hide();
+                       		}
+                    	});
+                	}
+              	}
+          	});
     	});
 
         $('#btnAgregar').click(function() {
 			BootstrapDialog.show({
-				
-                title: 'Agregar Empresa', // Aquí se pone el título
-				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
+                title: '<b>Agregar Empresa</b>(1/3 - Usuario)',
+				size: BootstrapDialog.SIZE_NORMAL,
 				message: function(dialog) { 
 					var $message = $('<div></div>');
 					var pageToLoad = dialog.getData('pageToLoad');
-					$message.load(pageToLoad); //Cargamos la vista
+					$message.load(pageToLoad);
 					return $message;
 				},
 				data: {
-					'pageToLoad': base_url+'index.php/Empresa/formulario/'
+					'pageToLoad': base_url+'index.php/Empresa/formulariousuario/'
 				},
-				buttons: [{ //agrega los botones del modal
+				buttons: [{
 					label: 'Cancelar',
 					cssClass: 'btn-default',
-					action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+					action: function(dialogItself) {
 						dialogItself.close();
 					},
-
 				},
-                {	 //agrega los botones del modal
-				  	label: 'Guardar',
+                {
+				  	label: 'Siguiente',
 				  	cssClass: 'btn-rojo',
-                  	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
-                    //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
-						var form = $('#frmEmpresa')[0];
-                        var formData = new FormData(form);
-                        console.log(formData);
-                        $.ajax({
-							url: base_url+'index.php/Empresa/agregarEmpresa/',
-						  	type: 'POST',
-						  	data: formData,
-                            processData:false,
-                            contentType:false,
-                            cache:false,
-						  	beforeSend: function(){
-				                $('#load').show();
+                  	action: function(dialogItself) {
+						var form = $('#frmEmpresaUsuario')[0];
+						var formData = new FormData(form);
+						$.ajax({
+							url: base_url+'index.php/Empresa/agregarUsuario/',
+							type: 'POST',
+							data: formData,
+							processData:false,
+							contentType:false,
+							cache:false,
+							beforeSend: function(){
+								$('#load').show();
 							},
 							success: function (data) {
 								data = JSON.parse(data);
 								if(!data['exito']) {
-									$('#error').html(data['msg']);
-									$('#error').show();
-                                    location.href = '#error';
+									$('#error2').html(data['msg']);
+									$('#error2').show();
+									location.href = '#error';
 								}
 								else if(data['exito']) {
 									obtenerDatos($('#opciones').val());
-									$('#frmEmpresa')[0].reset();
+									$('#frmEmpresaUsuario')[0].reset();
+									ids = data['msg'];
 									dialogItself.close();
+									BootstrapDialog.show({
+										title: '<b>Agregar Empresa</b>(2/3 - Informacion)',
+										size: BootstrapDialog.SIZE_NORMAL,
+										message: function(dialog) { 
+											var $message = $('<div></div>');
+											var pageToLoad = dialog.getData('pageToLoad');
+											$message.load(pageToLoad);
+											return $message;
+										},
+										data: {
+											'pageToLoad': base_url+'index.php/Empresa/formularioinformacion/'
+										},
+										buttons: [{ 
+											label: 'Cancelar',
+											cssClass: 'btn-default',
+											action: function(dialogItself) {
+												dialogItself.close();
+											},	
+										},
+										{
+											label: 'Siguiente',
+											cssClass: 'btn-rojo',
+											action: function(dialogItself) {
+												var form = $('#frmEmpresaInfo')[0];
+												var formData = new FormData(form);
+												formData.append('idUsuario', ids);
+												$.ajax({
+													url: base_url+'index.php/Empresa/agregarInfo/',
+													type: 'POST',
+													data: formData,
+													processData:false,
+													contentType:false,
+													cache:false,
+													beforeSend: function(){
+														$('#load').show();
+													},
+													success: function (data) {
+														data = JSON.parse(data);
+														if(!data['exito']) {
+															$('#error1').html(data['msg']);
+															$('#error1').show();
+															location.href = '#error';
+														}
+														else if(data['exito']) {
+															obtenerDatos($('#opciones').val());
+															$('#frmEmpresaInfo')[0].reset();
+															idEmpresa = data['msg'];
+															dialogItself.close();
+															BootstrapDialog.show({
+																title: '<b>Agregar Empresa</b>(3/3 - Imagenes)',
+																size: BootstrapDialog.SIZE_NORMAL,
+																message: function(dialog) { 
+																	var $message = $('<div></div>');
+																	var pageToLoad = dialog.getData('pageToLoad');
+																	$message.load(pageToLoad);
+																	return $message;
+																},
+																data: {
+																	'pageToLoad': base_url+'index.php/Empresa/formulario/'
+																},
+																buttons: [{
+																	label: 'Cancelar',
+																	cssClass: 'btn-default',
+																	action: function(dialogItself) {
+																		dialogItself.close();
+																	},
+
+																},
+																{
+																	label: 'Agregar',
+																	cssClass: 'btn-rojo',
+																	action: function(dialogItself) {
+																		var form = $('#frmEmpresaImagen')[0];
+																		var formData = new FormData(form);
+																		formData.append('idEmpresa', idEmpresa);
+																		$.ajax({
+																			url: base_url+'index.php/Empresa/agregarImagen/',
+																			type: 'POST',
+																			data: formData,
+																			processData:false,
+																			contentType:false,
+																			cache:false,
+																			beforeSend: function(){
+																				$('#load').show();
+																			},
+																			success: function (data) {
+																				data = JSON.parse(data);
+																				if(!data['exito']) {
+																					$('#error').html(data['msg']);
+																					$('#error').show();
+																					location.href = '#error';
+																				}
+																				else if(data['exito']) {
+																					obtenerDatos($('#opciones').val());
+																					$('#frmEmpresaImagen')[0].reset();
+																					dialogItself.close();
+																				}
+																			},
+																			error: function(jqXHR, textStatus, errorThrown) {
+																				console.log('error::'+errorThrown);
+																			},
+																			complete: function(){
+																				$('#load').hide();
+																				cambio = 0;
+																				cambioV = 0;
+																			}
+																		});
+																	},
+																}]
+															});
+														}
+													},
+													error: function(jqXHR, textStatus, errorThrown) {
+														console.log('error::'+errorThrown);
+													},
+													complete: function(){
+														$('#load').hide();
+													}
+												});
+											},
+										}]
+									});
 								}
-						  	},
-						  	error: function(jqXHR, textStatus, errorThrown) {
+							},
+							error: function(jqXHR, textStatus, errorThrown) {
 								console.log('error::'+errorThrown);
 							},
 							complete: function(){
 								$('#load').hide();
-                                cambio = 0;
-								cambioV = 0;
-						  	}
-					  	});
+							}
+						});
 					},
 			  	}]
-            });        
+            });     
 		});
 
-		$(document).on("click", "#modificar", function () {
+		$(document).on("click", "#ver", function () {
 			var id = $(this).attr('data-id');
+			var nombre = $(this).parent().siblings(':first').html();
 			BootstrapDialog.show({
-				
-                title: 'Modificar Empresa', // Aquí se pone el título
-				size: BootstrapDialog.SIZE_NORMAL, //Indica el tamaño
+                title: nombre,
+				size: BootstrapDialog.SIZE_NORMAL,
 				message: function(dialog) { 
 					var $message = $('<div></div>');
 					var pageToLoad = dialog.getData('pageToLoad');
-					$message.load(pageToLoad); //Cargamos la vista
+					$message.load(pageToLoad);
 					return $message;
 				},
 				data: {
 					'pageToLoad': base_url+'index.php/Empresa/formulario/'+id
 				},
-				buttons: [{ //agrega los botones del modal
-					label: 'Cancelar',
+				buttons: [{
+					label: 'Salir',
 					cssClass: 'btn-default',
-					action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+					action: function(dialogItself) {
 						dialogItself.close();
 					},
-
 				},
-                {	 //agrega los botones del modal
-				  	label: 'Guardar',
+                {
+				  	label: 'Modificar',
 				  	cssClass: 'btn-rojo',
-                  	action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+                  	action: function(dialogItself) { 
+						dialogItself.close();
+						BootstrapDialog.show({
+							title: '<b>Modificar Empresa</b>(1/2 - Imagenes)',
+							size: BootstrapDialog.SIZE_NORMAL,
+							message: function(dialog) { 
+								var $message = $('<div></div>');
+								var pageToLoad = dialog.getData('pageToLoad');
+								$message.load(pageToLoad);
+								return $message;
+							},
+							data: {
+								'pageToLoad': base_url+'index.php/Empresa/modificarImagen/'+id
+							},
+							buttons: [{
+								label: 'Cancelar',
+								cssClass: 'btn-default',
+								action: function(dialogItself) {
+									dialogItself.close();
+								},
+							},
+							{
+								label: 'Guardar',
+								cssClass: 'btn-rojo',
+								action: function(dialogItself) { 
+
+									BootstrapDialog.show({
+										title: '<b>Modificar Empresa</b>(2/2 - Informacion)',
+										size: BootstrapDialog.SIZE_NORMAL,
+										message: function(dialog) { 
+											var $message = $('<div></div>');
+											var pageToLoad = dialog.getData('pageToLoad');
+											$message.load(pageToLoad);
+											return $message;
+										},
+										data: {
+											'pageToLoad': base_url+'index.php/Empresa/modificarTexto/'+id
+										},
+										buttons: [{
+											label: 'Cancelar',
+											cssClass: 'btn-default',
+											action: function(dialogItself) {
+												dialogItself.close();
+											},
+										},
+										{
+											label: 'Guardar',
+											cssClass: 'btn-rojo',
+											action: function(dialogItself) { 
+											},
+										}]
+									});
+								},
+							}]
+						});
                     //AQUI VA TODO LO QUE DEBE DE HACER SI SE DA CLICK
-                        var form = $('#frmEmpresa')[0];
+                        /*var form = $('#frmEmpresa')[0];
 						var formData = new FormData(form);
 						formData.append('cambio', cambio);
 						formData.append('cambioV', cambioV);
@@ -254,7 +418,7 @@
                                 cambio = 0;
 								cambioV = 0;
 						  	}
-					  	});
+					  	});*/
 					},
 			  	}]
             });
@@ -284,6 +448,7 @@
                 }
 			});
 		}
+
 		function dibujarTabla(info) {
 			tabla.clear().draw();
 			$.each(info, function(index, item){
@@ -298,18 +463,16 @@
 					output2 = "<i style='color:#f6032f' data-estatus='"+item['estatus']+"' data-id='"+item['id']+"' id='cambiarEstado' class='fa fa-minus-circle fa-sm fa-2x fa-lg mano '></i>";
 				}
 				var fila = tabla.row.add([
-					item['id'],
 					item['nombre'],
-					item['local'],
-					"<img height='40' width='40' src='"+base_url+item['logotipo']+"'></img>",
+					"<img height='40' src='"+base_url+item['logotipo']+"'></img>",
 					output,
-					"<i id='modificar' data-id='"+item['id']+"' class='fa fa-edit fa-sm fa-2x fa-lg mano'></i>",
+					"<i id='ver' data-id='"+item['id']+"' class='fa  fa-eye fa-sm fa-2x fa-lg mano'></i>",
 					output2
 				]).draw(false).node();
+				$('td:eq(1)', fila).attr('class', 'text-center');
+				$('td:eq(2)', fila).attr('class', 'text-center');
 				$('td:eq(3)', fila).attr('class', 'text-center');
 				$('td:eq(4)', fila).attr('class', 'text-center');
-				$('td:eq(5)', fila).attr('class', 'text-center');
-				$('td:eq(6)', fila).attr('class', 'text-center');
 			});
 		}
 	});

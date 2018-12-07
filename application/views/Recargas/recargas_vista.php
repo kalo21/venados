@@ -50,7 +50,7 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Usuario</th>
-                                            <th>fecha</th>
+                                            <th>Fecha</th>
                                             <th>Monto</th>
                                         </tr>
                                     </thead>
@@ -157,8 +157,6 @@
 		function dibujarTabla(info) {
 			tabla.clear().draw();
 			$.each(info, function(index, item){
-				var output = null;
-				var output2 = null;
 				var fila = tabla.row.add([
 					item['id'],
 					item['nombre'],

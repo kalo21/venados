@@ -5,14 +5,14 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row-fluid">
-                <h3 class="text-center" id="titulo">Recargas</h3>
+                <h3 class="text-center" id="titulo">Registros</h3>
             </div>
             <br>
             <div class="form-group col-md-4 col-md-offset-1">
 				<div class="input-group">
 					<div class="input-group-addon"><span class="fa fa-calendar"></span></div>
-					<input type="text" class="form-control" id="inpFecha">
-                    <div class="input-group-addon" id="buscarFecha"><span class="fa fa-search"></span></div>
+					<input type="text" class="form-control" id="inpFecha" placeholder="Fecha">
+                    <div class="input-group-addon" id="buscarFecha"><span class="mano fa fa-search"></span></div>
 				</div>
 			</div>
             <div class="col-md-offset-1 col-md-10" id="contenedorperro">
@@ -71,10 +71,23 @@
         var tabla2 = insertarPaginado('tabla2');
 
         $('#inpFecha').daterangepicker({
+            singleDatePicker: true,
             autoUpdateInput: false,
-            locale: {
-                cancelLabel: 'Clear'
-            }
+			"applyClass": "btn-rojo",
+			locale: {
+				"cancelLabel": 'Clear',
+				"applyLabel": "Aplicar",
+        		"cancelLabel": "Cancelar",
+				"daysOfWeek": [
+					"Do",
+					"Lu",
+					"Ma",
+					"Mi",
+					"Ju",
+					"Vi",
+					"Sa"
+				],
+			}
         });
 
         $('#inpFecha').on('apply.daterangepicker', function(ev, picker) {
@@ -88,14 +101,13 @@
 
         $('#inpFecha').on('apply.daterangepicker', function(ev, picker) {
                 fechaInicio = picker.startDate.format('YYYY-MM-DD');
-                fechaFinal= picker.endDate.format('YYYY-MM-DD');
         });
 
         $('#buscarFecha').click(function(){
 			
 			$.ajax({
 				url: base_url+'index.php/Registros/obtenerDatos/',
-				data: {fechaInicio:fechaInicio, fechaFinal:fechaFinal},
+				data: {fechaInicio:fechaInicio},
 				type: 'POST',
 				success: function(data) {
 					data = JSON.parse(data);
@@ -113,22 +125,42 @@
 		});
 
         function dibujarTabla(info) {
+            var total1 = 0;
+            var total2 = 0;
+            var id = 0;
             tabla1.clear().draw();
             tabla2.clear().draw();
 			$.each(info.empresas, function(index, item){
+                total1 += item['total'];
+                id = item['id'];
 				var fila = tabla1.row.add([
 					item['id'],
 					item['nombre'],
-					item['total'],
+					'$ '+item['total'],
 				]).draw(false).node();
 			});
+            var fila = tabla1.row.add([
+                '<b>'+id+'</b>',
+                '<b>Total:</b>',
+                '<b>$ '+total1+'</b>',
+            ]).draw(false).node();
+            $('td:eq(0)', fila).attr('style', 'color:white');
+
 			$.each(info.vendedores, function(index, item){
+                total2 += item['total'];
+                id = item['id'];
 				var fila = tabla2.row.add([
 					item['id'],
 					item['nombre'],
-					item['total'],
+					'$ '+item['total'],
 				]).draw(false).node();
 			});
+            var fila = tabla2.row.add([
+                '<b>'+id+'</b>',
+                '<b>Total:</b>',
+                '<b>$ '+total2+'</b>',
+            ]).draw(false).node();
+            $('td:eq(0)', fila).attr('style', 'color:white');
         }
     })
 </script>

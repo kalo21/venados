@@ -12,7 +12,7 @@ class Registros extends CI_Controller {
     public function index(){
     	if(validacion()) {
             $data['modulos'] = modulos();
-            $data['informacion'] = informacionInicial("Venados | Cliente");
+            $data['informacion'] = informacionInicial("Venados | Registros");
     		$this->load->view('Registros/registros_vista',$data);
         }
     }

@@ -166,6 +166,19 @@ class Api_model extends CI_Model {
 	public function storeNotification($data){
 		$this->db->insert('notificaciones',$data);
 	}
+
+	public function saveNotification($msg, $idPedido){
+		$this->db->select('pedidos.idusuario');
+		$this->db->where('pedidos.id', $idPedido);
+		$query = $this->db->get('pedidos')->row();
+		$data = array(
+			'titulo' 	 => $this->session->nombreEmpresa,
+			'mensaje'	 => $msg,
+			'estatus'    => 1,
+			'id_usuario' => $query->idusuario
+		);
+		$this->db->insert('notificaciones', $data);
+	}
 	
 	public function getUserData($idUser){
 		try{

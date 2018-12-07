@@ -9,9 +9,10 @@
                 <div class="col-md-6">
                     <div class="box box-solid">
                         <div class="box-header with-border" style="background-color: #f6032f">
-                            <h3 class="box-title" style="color:white">Lista de pedidos</h3>
+                            <h3 class="box-title" style="color:white">Lista de Pedidos</h3>
                         </div>
                         <div class="box box-body" id="divPedido">
+                            
                             <!--  Listado de pedidos  -->
                         </div>
                     </div>
@@ -31,7 +32,7 @@
 <script>
     //var socket = io.connect('http://localhost:3000',{'forceNew': true});
     //socket.emit('add-user', {idEmpresa: <?php echo $this->session->idEmpresa;?>});
-
+    nombreEmpresa = '<?php echo $this->session->nombreEmpresa;?>'; 
     $(document).ready(function(){
         obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
         /*
@@ -65,13 +66,13 @@
                             $.ajax({
                                 url: base_url+'index.php/Pedidos/cancelarPedido/',
                                 type:'POST',
-                                data: {id:id, msg:msg},
+                                data: {id:id},
                                 beforeSend: function(){
                                     $('#load').show();
                                 },
                                 success: function() {
                                     obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
-                                    sendNotification(user, msg);
+                                    sendNotification(user, msg, id);
                                     $('#infoPedido').fadeOut('slow');
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
@@ -93,8 +94,77 @@
           	});
         });
 
+        $(document).on('click', '#entregar', function() {
+            id = $(this).attr('data-id');
+            var user = $(this).attr('data-name');
+            var msg = "Su pedido de "+nombreEmpresa+" ha sido entregado";
+            BootstrapDialog.show({
+				title: 'Entregar pedido',
+                message: `Se cambiará el estado del pedido seleccionado a Entregado. Por favor introduzca el ID del pedido proporcionado por el usuario para continuar.<br>
+                          <input type="text" class="form-control" id="idPedido" placeholder="ID del pedido">`,
+				type: BootstrapDialog.TYPE_DANGER,
+                buttons: [{
+                    label: 'Cancelar',
+                    action: function(dialogRef){    
+                        dialogRef.close();
+                    }
+                },{
+                    id: 'btn-ok',        
+                    label: 'Continuar',
+                    cssClass: 'btn-rojo',
+                    action: function(result){    
+                        if(result && $('#idPedido').val() != ''){
+                            $.ajax({
+                                url: base_url+'index.php/Pedidos/entregarPedido/',
+                                type:'POST',
+                                data: {id:id, idPedido:$('#idPedido').val()},
+                                beforeSend: function(){
+                                    $('#load').show();
+                                },
+                                success: function(data) {
+                                    if(data) {
+                                        obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
+                                        sendNotification(user, msg, id);
+                                        $('#infoPedido').fadeOut('slow');
+                                    }
+                                    else {
+                                        BootstrapDialog.show({
+                                        title: 'Aviso',
+                                        message: 'ID incorrecto',
+                                        type: BootstrapDialog.TYPE_DANGER,
+                                        buttons: [{ //agrega los botones del modal
+                                            label: 'Cerrar',
+                                            cssClass: 'btn-default',
+                                            action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+                                                dialogItself.close();
+                                            },
+                                        }]
+                                    });
+                                    }
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    console.log('error::'+errorThrown);
+                                },
+                                complete: function(){
+                                    $('#load').hide();
+                                    result.close();
+                                }
+                            });
+                        }
+                        else{
+                            var input = $('#idPedido');
+                            input.attr('style','border: solid red 1px');
+                            
+                        }
+                    }
+                }],
+          	});
+        });
+
         $(document).on('click', '#finalizado', function() {
             id = $(this).attr('data-id');
+            var user = $(this).attr('data-name');
+            var msg = "Su pedido de "+nombreEmpresa+" está listo para recogerse";
             BootstrapDialog.confirm({
 				title: 'Finalizar pedido',
 				message: 'Se cambiará el estado del pedido seleccionado a finalizado ¿Desea continuar?',
@@ -113,6 +183,7 @@
 							},
 							success: function() {
                                 obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
+                                sendNotification(user, msg, id);
                                 $('#infoPedido').fadeOut('slow');
 							},
 							error: function(jqXHR, textStatus, errorThrown) {
@@ -145,9 +216,24 @@
 							beforeSend: function(){
 								$('#load').show();
 							},
-							success: function() {
-                                obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
+							success: function(data) {
+                                data = JSON.parse(data);
+                                if(!data['exito']) {
+                                    BootstrapDialog.show({
+                                        title: 'Aviso',
+                                        message: data['msg'],
+                                        type: BootstrapDialog.TYPE_DANGER,
+                                        buttons: [{ //agrega los botones del modal
+                                            label: 'Cerrar',
+                                            cssClass: 'btn-default',
+                                            action: function(dialogItself) { // Funciones del boton del modal. El atributo es obligatorio para cerrarlo
+                                                dialogItself.close();
+                                            },
+                                        }]
+                                    });
+                                }
                                 $('#infoPedido').fadeOut('slow');
+                                obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
 							},
 							error: function(jqXHR, textStatus, errorThrown) {
 								console.log('error::'+errorThrown);
@@ -199,15 +285,37 @@
                 }
             });
         }
-
         function dibujarPedidos(data) {
             var divPedido = '';
+            divPedido += '<div class="row">';
+            divPedido += '<b class="col-xs-4">Nombre</b>';
+            divPedido += '<b class="col-xs-4 text-center">Estado</b>';
+            divPedido += '<b class="col-xs-2 text-right">Entregar</b>';
+            divPedido += '<b class="col-xs-2 text-right">Detalles</b>';
+            divPedido += '</div>';
+            divPedido += '<br>';
             data.forEach(function(pedido, index){
                 divPedido += '<div class="row">';
-                divPedido +=    '<p class="col-xs-2 col-xs-offset-1">'+pedido['id']+'</p>';
-                divPedido +=    '<p class="col-xs-3">'+pedido['nombre']+'</p>';
-                divPedido +=    '<p class="col-xs-3">'+pedido['estatus']+'</p>';
-                divPedido +=    '<a  id="informacion" data-id="'+pedido['id']+'" class="col-xs-1 col-xs-offset-1 text-middle" ><span class="fa fa-plus" style="font-size: 20px; color: #f6032f"></span></a>';
+                divPedido +=    '<div class="col-xs-4" style="word-wrap: break-word">';
+                divPedido +=        '<p>'+pedido['nombre']+'</p>';
+                divPedido +=    '</div>';
+                divPedido +=    '<div class="col-xs-4 text-center">';
+                switch(pedido['estatus']) {
+                    case 'Solicitado':
+                        divPedido +=        '<label class="label label-warning">'+pedido['estatus']+'</label>';
+                        break;
+                    case 'En proceso':
+                        divPedido +=        '<label class="label label-info">'+pedido['estatus']+'</label>';
+                        break;
+                    case 'Realizado':
+                        divPedido +=        '<label class="label label-success">'+pedido['estatus']+'</label>';
+                        break;
+                    default:
+                        break;
+                }
+                divPedido +=    '</div>';
+                divPedido +=    '<a  class="col-xs-2 pull-left" ><span id="entregar" data-name="'+pedido['usuario']+'" data-id="'+pedido['id']+'" class="mano fa fa-check-square-o" style="font-size: 20px; color: green"></span></a>';
+                divPedido +=    '<a  class="col-xs-2 pull-left" ><span id="informacion" data-id="'+pedido['id']+'" class="mano fa fa-plus" style="font-size: 20px; color: #f6032f"></span></a>';
                 divPedido += '</div>'
             });
             $('#divPedido').html('');
@@ -218,10 +326,16 @@
             var divInfo = '';
             divInfo += '<div class="box box-solid">'
             divInfo += '    <div class="box-header with-border" style="background-color: #f6032f">'
-            divInfo += '        <h3 class="box-title col-xs-4" style="color:white">Pedido '+data[0]['id']+'</h3>'
-            divInfo += '        <h3 class="box-title col-xs-8 text-right" style="color:white">Cliente: '+data[0]['nombre']+'</h3>'
+            divInfo += '        <h3 class="box-title col-xs-4" style="color:white">Pedido</h3>'
+            divInfo += '        <h3 class="box-title col-xs-8 text-right" style="color:white; word-wrap: break-word">Cliente: '+data[0]['nombre']+'</h3>'
             divInfo += '    </div>'
             divInfo += '    <div class="box box-body">'
+            divInfo += '<div class="row">'
+            divInfo += '    <b class="col-xs-2 col-xs-offset-1">Cantidad</b>'
+            divInfo += '    <b class="col-xs-6">Producto</b>'
+            divInfo += '    <b class="col-xs-3">Precio</b>'
+            divInfo += '</div>'
+            divInfo += '<br>';
             data.forEach(function(pedido, index){
                 divInfo += '<div class="row">'
                 divInfo += '    <p class="col-xs-2 col-xs-offset-1">· '+pedido['cantidad']+'</p>'
@@ -230,12 +344,23 @@
                 divInfo += '</div>'
             });
             divInfo += '        <div class="row">'
-            divInfo += '            <div class="col-sm-7">'
-            divInfo += '                <button type="button" id="cancelar" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-default btn-sm">Cancelar</button>'
-            divInfo += '                <button type="button" id="enproceso" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-primary btn-sm">En proceso</button>'
-            divInfo += '                <button type="button" id="finalizado" data-id='+data[0]['id']+' data-name="'+data[0]['nombre']+'" class="btn btn-rojo btn-sm">Finalizado</button>'
-            divInfo += '            </div>'
-            divInfo += '            <b class="col-xs-5 text-center">Total: $ '+data[0]['total']+'</b>'
+            if(data[0].estatus == 'Realizado') {
+                divInfo += '            <b class="col-xs-6 col-xs-offset-6 text-center">Total: $ '+data[0]['total']+'</b>'
+            }
+            else if(data[0].estatus == 'En proceso') {
+                divInfo += '            <div class="col-sm-6">'
+                divInfo += '                <button type="button" id="cancelar" data-id='+data[0]['id']+' data-name="'+data[0]['usuario']+'" class="btn btn-default btn-sm">Cancelar</button>'
+                divInfo += '                <button type="button" id="finalizado" data-id='+data[0]['id']+' data-name="'+data[0]['usuario']+'" class="btn btn-rojo btn-sm">Finalizado</button>'
+                divInfo += '            </div>'
+                divInfo += '            <b class="col-xs-6 text-center">Total: $ '+data[0]['total']+'</b>'
+            }
+            else {
+                divInfo += '            <div class="col-sm-6">'
+                divInfo += '                <button type="button" id="cancelar" data-id='+data[0]['id']+' data-name="'+data[0]['usuario']+'" class="btn btn-default btn-sm">Cancelar</button>'
+                divInfo += '                <button type="button" id="enproceso" data-id='+data[0]['id']+' data-name="'+data[0]['usuario']+'" class="btn btn-primary btn-sm">En proceso</button>'
+                divInfo += '            </div>'
+                divInfo += '            <b class="col-xs-6 text-center">Total: $ '+data[0]['total']+'</b>'
+            }
             divInfo += '        </div>'
             divInfo += '    </div>'
             divInfo += '</div>'
@@ -247,11 +372,11 @@
             msg = Mensaje
             empresa = nombre de empresa
          */
-        function sendNotification(user, msg, empresa){
+        function sendNotification(user, msg, id){
             $.ajax({
                 url: base_url+'index.php/Api/send_notif/',
                 type:'POST',
-                data: {user:user, msg:msg, store: empresa},
+                data: {user:user, msg:msg, id:id},
                 success: function() {
                     console.log("Notificación enviada")
                 },

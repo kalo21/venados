@@ -20,8 +20,6 @@ class Carrito_modelo extends CI_Model{
             $pedido = array(
                 'idempresa' => $idEmpresa,
                 'idusuario' => $this->session->idUsuario,
-                'fecha'     => date('Y/m/d'),
-                'hora'      => date('h:i:sa'),
                 'total'     => $total,
                 'estatus'   => 'Solicitado'
             );
@@ -79,11 +77,16 @@ class Carrito_modelo extends CI_Model{
                     'description'   => $info->descripcion,
                     'price'         => $producto->precio,
                     'qty'           => $producto->cantidad,
-                    'idPedido'      => $empresa->id
+                    'idPedido'      => dechex($empresa->id)
                 );
             }
         }
-        return $data;
+        if(empty($data)) {
+            return false;
+        }
+        else {
+            return $data;
+        }
     }
 
     public function cancelarPedido($idPedido) {
@@ -122,11 +125,16 @@ class Carrito_modelo extends CI_Model{
                     'description'   => $info->descripcion,
                     'price'         => $producto->precio,
                     'qty'           => $producto->cantidad,
-                    'idPedido'      => $empresa->id
+                    'idPedido'      => dechex($empresa->id)
                 );
             }
         }
-        return $data;
+        if(empty($data)) {
+            return false;
+        }
+        else {
+            return $data;
+        }
     }
 
     public function obtenerCancelados() {
@@ -145,11 +153,16 @@ class Carrito_modelo extends CI_Model{
                     'description'   => $info->descripcion,
                     'price'         => $producto->precio,
                     'qty'           => $producto->cantidad,
-                    'idPedido'      => $empresa->id
+                    'idPedido'      => dechex($empresa->id)
                 );
             }
         }
-        return $data;
+        if(empty($data)) {
+            return false;
+        }
+        else {
+            return $data;
+        }
     }
 
     public function eliminarPedido($idPedido) {

@@ -12,6 +12,23 @@
     left: 0;
     width: 100%;
 }
+
+    @media screen and (min-width: 768px) {
+        .col-md-4 {
+            width: calc(50% - 20px);
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        .col-md-4 {
+            width: calc(33.3333% - 20px);
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+    }
+}
 </style>
 
 <div class="content-wrapper">
@@ -90,14 +107,14 @@
         function dibujarProductos(data) {
             var divProductos = '';
             data.forEach(function(producto, index){
-                divProductos += '<div id="cambiarEstado" data-estatus="'+producto['estatus']+'" data-id="'+producto['id']+'" class="thumbnail text-center col-md-4">';
-                divProductos += '   <img style="max-width: 312px; max-height:175px" class="img-responsive" src="'+base_url+producto['imagen']+'" alt="">'
+                divProductos += '<div class="thumbnail text-center col-md-4 col-sm-6" style="height:247px">';
+                divProductos += '   <img style="max-width: 100%; max-height:67%" class="img-responsive" src="'+base_url+producto['imagen']+'" alt="">'
                 if(producto['estatus'] == 0) {
-                    divProductos += '   <div class="caption" style="background-color: rgba(246,3, 47)">';
+                    divProductos += '   <div id="cambiarEstado" data-id="'+producto['id']+'" data-estatus="'+producto['estatus']+'" class="mano caption" style="background-color: rgba(246,3, 47)">';
                     divProductos += '       <strong style="color:white">NO DISPONIBLE</strong>';
                 }
                 else {
-                    divProductos += '   <div class="caption" style="background-color: rgba(0,188, 91)">';
+                    divProductos += '   <div id="cambiarEstado" data-id="'+producto['id']+'" data-estatus="'+producto['estatus']+'" class="mano caption" style="background-color: rgba(0,188, 91)">';
                     divProductos += '       <strong style="color:white">DISPONIBLE</strong>';
                 }
                 divProductos += '   </div>';

@@ -12,7 +12,7 @@ class Historial extends CI_Controller {
     public function index() {
         if(validacion()){
             $data['modulos'] = modulos();
-            $data['informacion'] = informacionInicial("Venados | Empresa");
+            $data['informacion'] = informacionInicial("Venados | Historial");
     		$this->load->view('Historial/historial_vista',$data);
         }
     }
@@ -30,8 +30,8 @@ class Historial extends CI_Controller {
         echo json_encode($this->Historial_modelo->buscarFecha($this->input->post('fechaInicio'), $this->input->post('fechaFinal')));
     }
 
-    public function buscarUsuario($usuario) {
-        echo json_encode($this->Historial_modelo->buscarUsuario($usuario));
+    public function buscarUsuario() {
+        echo json_encode($this->Historial_modelo->buscarUsuario($this->input->post('usuario')));
     }
 
     public function buscaEspecifica() {
