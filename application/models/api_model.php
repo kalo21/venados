@@ -17,8 +17,8 @@ class Api_model extends CI_Model {
 	}
 
 	public function getStores(){
-		$query = $this->db->select('empresas.id, empresas.nombre, empresas.descripcion, empresas.img_fondo, empresas.estatus')->from('empresas, detallesevento')->where('empresas.estatus',1)->where('detallesevento.id_empresa=empresas.id')->where('detallesevento.id_evento',1)->get();
-		$query = $this->db->select('empresas.id, empresas.nombre, empresas.descripcion, empresas.img_fondo, empresas.estatus')->from('empresas, detallesevento')->where('empresas.estatus',1)->where('detallesevento.id_empresa=empresas.id')->where('detallesevento.id_evento',2)->get();
+		$query = $this->db->select('empresas.id, empresas.nombre, empresas.descripcion, empresas.img_fondo, empresas.estatus')->from('empresas, detallesevento')->where('empresas.estatus',1)->where('detallesevento.id_empresa=empresas.id')->where('detallesevento.id_evento',2)->where('empresas.disponibilidad','Abierto')->get();
+		
 //		SELECT * FROM empresas, detallesevento WHERE empresas.id = detallesevento.id_empresa AND detallesevento.id_evento = 1
 
 		return $query->result();
