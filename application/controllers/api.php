@@ -19,7 +19,7 @@ class Api extends CI_Controller {
 		}
 
 		//Esta variable es para que no haga la autentificación para las funciones que contiene
-		$noAuthRequiredUris = array("login","isThereAnEvent","decodeToken","send_notif");	
+		$noAuthRequiredUris = array("login","isThereAnEvent","decodeToken","send_notif","addUser");	
 		if(substr($_SERVER['REQUEST_URI'], -1) != '/'){
 			$UriExploded = explode("/", $_SERVER['REQUEST_URI']);
 		}	
@@ -87,57 +87,51 @@ class Api extends CI_Controller {
 	 * Registro
 	 */
 	public function addUser(){
-		if($this->perfil == CLIENTE){
-			$json_obj = json_decode(file_get_contents('php://input'));
+		$json_obj = json_decode(file_get_contents('php://input'));
 
-			$usuario = $json_obj[0];
-			$cliente = $json_obj[1];
-			$apellidos = explode(" ",$cliente->apellidos);
-			
-			$clienteDB = array(
-				'nombre' => $cliente->nombre,
-				'apellidopaterno' => $apellidos[0],
-				'apellidomaterno'=>sizeof($apellidos)== 2?$apellidos[1]:' ',
-				'telefono' => $cliente->telefono,
-				'saldo' => 0.0
-			);
-			if($usuario != ''){
-				if(($msg = $this->Api_model->register($usuario,$clienteDB)) == 1){
-					$id = $this->getIdByUser($usuario->nombre);
-					$dataToken = array('id' => $id, 
-									'nombre' => $usuario->nombre);
-					$token = $this->objOfJwt->GenerateToken($dataToken);
-					$response = array('id' => $id,
-									'nombre' => $usuario->nombre,
-									'token' => $token);
-					echo json_encode($response);
-				}else{
-					switch ($msg['code']) {
-						case 1062:
-							echo '{"error":"Ya existe un usuario con este nombre"}';
-							break;
-						
-						default:
-							echo '{"error":"Hubo un error en la conexión"}';
-							break;
-					}
+		$usuario = $json_obj[0];
+		$cliente = $json_obj[1];
+		$apellidos = explode(" ",$cliente->apellidos);
+		$apellidoMat = "";
+		for($index = 1; $index < sizeof($apellidos); $index++)
+			$apellidoMat.=$apellidos[$index]." ";
+		$clienteDB = array(
+			'nombre' => $cliente->nombre,
+			'apellidopaterno' => $apellidos[0],
+			'apellidomaterno'=>sizeof($apellidos) > 1?$apellidoMat:' ',
+			'telefono' => $cliente->telefono,
+			'saldo' => 0.0
+		);
+		if($usuario != ''){
+			if(($msg = $this->Api_model->register($usuario,$clienteDB)) == 1){
+				$id = $this->getIdByUser($usuario->nombre);
+				$dataToken = array('id' => $id, 
+								'nombre' => $usuario->nombre,
+								'tipo_usuario'=>CLIENTE);
+				$token = $this->objOfJwt->GenerateToken($dataToken);
+				$response = array('id' => $id,
+								'nombre' => $usuario->nombre,
+								'tipo_usuario'=>'Cliente',
+								'token' => $token);
+				echo json_encode($response);
+			}else{
+				switch ($msg['code']) {
+					case 1062:
+						echo '{"error":"Ya existe un usuario con este nombre"}';
+						break;
+					
+					default:
+						echo '{"error":"Hubo un error en la conexión"}';
+						break;
 				}
 			}
-		}
-		else{
-			$this->printProhibitedAccess();
 		}
 
 	}
 
 	public function getIdByUser($user){
-		if($this->perfil == CLIENTE){
-			$id = $this->Api_model->getIdByUser($user)->id;
-			return $id;
-		}
-		else{
-			$this->printProhibitedAccess();
-		}
+		$id = $this->Api_model->getIdByUser($user)->id;
+		return $id;
 	}
 
 	public function decodeToken(){

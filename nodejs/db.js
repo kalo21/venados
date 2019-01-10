@@ -31,19 +31,20 @@ function handleDisconnect() {
   handleDisconnect();
 
 function insertPedido(data, callback){
-    con.beginTransaction(function(err) {
+        con.beginTransaction(function(err) {
         if (err) { 
             console.log(err)
             return callback(false) 
         }
-        var sql = `INSERT INTO pedidos (idempresa, idusuario, total, estatus) VALUES ('${data.idEmpresa}', '${data.idUsuario}', '${data.total}', 'Solicitado') where `;
+        var sql = `INSERT INTO pedidos (idempresa, idusuario, total, estatus) VALUES ('${data.idEmpresa}', '${data.idUsuario}', '${data.total}', 'Solicitado')`;
         con.query(sql, function (err, result) {
         if(err) {
+            console.log(err)
             return callback(false);
         }
         var lastId = result.insertId;
         var detalles = [];
-        var dtlSql = "INSERT INTO detallepedidos (idpedido, idproducto, precio, cantidad) VALUES ? where ";
+        var dtlSql = "INSERT INTO detallepedidos (idpedido, idproducto, precio, cantidad) VALUES ?";
         for (var i = 0; i < data.pedido.length; i++) {
             var detail = [  lastId,
                             data.pedido[i].producto.id,

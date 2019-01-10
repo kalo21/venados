@@ -98,9 +98,6 @@ function updateStore(data){
         if (empresas[x].idEmpresa == data.idEmpresa){
             io.sockets.connected[empresas[x].idSocket].emit("pedido", data);
         }
-        else{
-            console.log("User does not exist: " + element); 
-        }
     }
 }
 server.listen(3006, function(){
