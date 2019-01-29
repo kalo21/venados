@@ -191,7 +191,7 @@ class Api_model extends CI_Model {
 
 	public function getPedidos($idUser){
 		try {
-			$query = $this->db->select('empresas.nombre, pedidos.id, pedidos.idempresa, pedidos.total, pedidos.estatus')->from('pedidos, empresas')->where('pedidos.estatus != "Eliminado"')->where('idusuario', $idUser)->where('empresas.id = pedidos.idempresa')->get();
+			$query = $this->db->select('empresas.nombre, pedidos.*')->from('pedidos, empresas')->where('pedidos.estatus != "Eliminado"')->where('idusuario', $idUser)->where('empresas.id = pedidos.idempresa')->get();
 			return $query->result();
 			
 		} catch (Exception $e) {
