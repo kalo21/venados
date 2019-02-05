@@ -244,13 +244,13 @@ class Api extends CI_Controller {
 	 * -user: El nombre de usuario al que se le va a mandar
 	 */
     function send_notif(){
+		$notif_type = $this->input->post("type");
 		//Si viene desde la página
-		
 		if(sizeof($this->input->post()) > 0){
 			//$title = $this->input->post("title");
 			$message = $this->input->post("msg");
 			$user = $this->input->post("user");
-			$id = $this->input->post("id");
+			$id = $this->input->post("id_pedido");
 			$this->Api_model->saveNotification($message, $id);
 			//Falta agregar unas cosas para que agregue la notificación a la bd.
 		}
@@ -269,19 +269,59 @@ class Api extends CI_Controller {
 				'estatus'=>1,
 				'id_usuario'=>$user_id
 			);
+			$notif_type = $data->type;
 			$this->storeNotification($notificacion);
 		}
         $content = array(
 			"en" => "${message}",
 			"es" => "${message}"
-        );
+		);
+		
+		switch($notif_type){
+			case 1: 
+				$title = "Su pedido esta listo";
+				break;
+			case 2:
+				$title = "Pedido entregado";
+				break;
+			case 3:
+				$title = "Pedido cancelado";
+				break;
+			case 4:
+				$title = "Recarga éxitosa";
+				break;
+		}
+		$headings = array(
+			"en" =>	$title,
+			"es" => $title
+		);
+		echo $notif_type;
+		$data = array();
+		if($notif_type == 1 || $notif_type == 2 || $notif_type == 3){
+			$data = array(
+				'type' => $notif_type,
+				'idEmpresa' => $this->input->post("id_empresa"),
+				'idPedido' => $this->input->post("id_pedido")
+			);
+		}
+		else if($notif_type == 4){
+			echo "Simon";
+			$data = array(
+				'type' => 4
+			);
+		}
+
+		$additionalData = array();
 
         $fields = array(
 			'app_id' => "9ba5748e-6561-4bdf-8c4c-77d4766fbde8",
-            'filters' => array(array("field" => "tag", "key" => "email", "relation" => "=", "value" => "$user")),
+			'filters' => array(array("field" => "tag", "key" => "email", "relation" => "=", "value" => "$user")),
+			'headings' => $headings,
 			'contents' => $content,
+			'android_accent_color' => 'b11010',
 			'priority' => '10',
-			'android_channel_id' => '2d85d014-c228-47af-bed2-f7b47dc94f56'
+			'android_channel_id' => '2d85d014-c228-47af-bed2-f7b47dc94f56',
+			'data' => $data
 		);
 		$fields = json_encode($fields);
         print("\nJSON sent:\n");

@@ -30,16 +30,16 @@
 <?php $this->load->view('Global/footer'); ?>
 <script src="<?php echo base_url();?>nodejs/node_modules/socket.io-client/dist/socket.io.js"></script>
 <script>
-    //var socket = io.connect('http://localhost:3000',{'forceNew': true});
-    //socket.emit('add-user', {idEmpresa: <?php echo $this->session->idEmpresa;?>});
+    var socket = io.connect('http://pespeciales.upsin.edu.mx',{'forceNew': true});
+    socket.emit('add-user', {idEmpresa: <?php echo $this->session->idEmpresa;?>});
     nombreEmpresa = '<?php echo $this->session->nombreEmpresa;?>'; 
     $(document).ready(function(){
         obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
-        /*
+        
         socket.on('pedido',function(data) {
             obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
         });
-        */
+       
         $(document).on('click', '#cancelar', function() {
             id = $(this).attr('data-id');
             var user = $(this).attr('data-name');
@@ -72,7 +72,7 @@
                                 },
                                 success: function() {
                                     obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
-                                    sendNotification(user, msg, id);
+                                    sendNotification(user, msg, id, 3);
                                     $('#infoPedido').fadeOut('slow');
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
@@ -124,7 +124,10 @@
                                 success: function(data) {
                                     if(data) {
                                         obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
-                                        sendNotification(user, msg, id);
+                                        let notifData = {
+
+                                        }
+                                        sendNotification(user, msg, id, 2);
                                         $('#infoPedido').fadeOut('slow');
                                     }
                                     else {
@@ -164,7 +167,7 @@
         $(document).on('click', '#finalizado', function() {
             id = $(this).attr('data-id');
             var user = $(this).attr('data-name');
-            var msg = "Su pedido de "+nombreEmpresa+" está listo para recogerse";
+            var msg = "Su pedido de "+nombreEmpresa+" está listo. Ya puedo pasar a recogerlo.";
             BootstrapDialog.confirm({
 				title: 'Finalizar pedido',
 				message: 'Se cambiará el estado del pedido seleccionado a finalizado ¿Desea continuar?',
@@ -183,7 +186,7 @@
 							},
 							success: function() {
                                 obtenerPedidos(<?php echo $this->session->idEmpresa;?>);
-                                sendNotification(user, msg, id);
+                                sendNotification(user, msg, id, 1);
                                 $('#infoPedido').fadeOut('slow');
 							},
 							error: function(jqXHR, textStatus, errorThrown) {
@@ -370,13 +373,17 @@
         /**
             user = nombre de usuario
             msg = Mensaje
-            empresa = nombre de empresa
+            id_pedido = id del pedido
+            type: 
+                1: Pedido listo
+                2: Pedido entregado
+                3: pedido cancelado
          */
-        function sendNotification(user, msg, id){
+        function sendNotification(user, msg, id_pedido, type){
             $.ajax({
                 url: base_url+'index.php/Api/send_notif/',
                 type:'POST',
-                data: {user:user, msg:msg, id:id},
+                data: {user:user, msg:msg, type: type, id_pedido: id_pedido, id_empresa: <?php echo $this->session->idEmpresa;?>},
                 success: function() {
                     console.log("Notificación enviada")
                 },
