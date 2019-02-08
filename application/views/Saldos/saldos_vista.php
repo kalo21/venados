@@ -5,7 +5,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row-fluid">
-                <h3 class="text-center" id="titulo">Registros</h3>
+                <h3 class="text-center" id="titulo">Reportes</h3>
             </div>
             <br>
             <div class="col-md-offset-1 col-md-10" id="contenedorperro">
@@ -13,8 +13,16 @@
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#tab_1" data-toggle="tab" id="tab1">Empresas</a></li>
                         <li><a href="#tab_2" data-toggle="tab" id="tab2">Vendedores</a></li>
-                        <li><a href="#tab_3" data-toggle="tab" id="tab3">Clientes</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Clientes <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#tab_3" data-toggle="tab" id="tab3">Compras</a></li>
+                                <li><a href="#tab_4" data-toggle="tab" id="tab3">Recargas</a></li>                        
+                            </ul>
+                        </li>
                     </ul>
+
+
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab_1">
                             <div class="form-group col-md-4">
@@ -52,6 +60,10 @@
                                     </table>
                                 </div>
                             </div>
+                            <div class="box-footer" style="text-align: right">
+                                <button class="btn btn-rojo" id="btnGenEmpresa">Generar reporte</button>
+                            </div>
+
                         </div>
                     <div class="tab-pane" id="tab_2">
                         <div class="form-group col-md-4">
@@ -89,20 +101,32 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="box-footer" style="text-align: right">
+                                <button class="btn btn-rojo" id="btnGenVendedor">Generar reporte</button>
+                        </div>
                     </div>
+
+                    <!--Este es la tabla de ClientesCompras -->
                     <div class="tab-pane" id="tab_3">
                         <div class="form-group col-md-4">
-                                <input id="inpCliente" type="text" class="form-control" placeholder="Cliente">
-                            </select>
+                        <select name="" id="inpClienteCompra" class="form-control">
+                                <option selected value="">Clientes</option>
+                                <?php
+                                    foreach($clientesCompras as $cliente) {
+                                        echo '<option value="'.$cliente->id.'">'.$cliente->nombre.'</option>';
+                                    }
+                                ;?>
+                         </select>
+                                
                         </div>
                         <div class="form-group col-md-6">
                             <div class="input-group">
                                 <div class="input-group-addon"><span class="fa fa-calendar"></span></div>
-                                <input type="text" class="form-control" id="inpFechaCliente" placeholder="Fecha inicial - Fecha final">
+                                <input type="text" class="form-control" id="fechaClienteCompra" placeholder="Fecha inicial - Fecha final">
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <button id="btnCliente" type="button" class="btn btn-rojo">Buscar</button>
+                            <button id="btnClienteCompra" type="button" class="btn btn-rojo">Buscar</button>
                         </div>
                         <div class="box-body">
                             <div class="box-body table-responsive no-padding col-md-12">
@@ -111,8 +135,8 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Fecha</th>
-                                            <th>Recarga</th>
-                                            <th>Pedido</th>
+                                            <th>Empresa</th>
+                                            <th>Estatus</th>
                                             <th>Saldo</th>
                                         </tr>
                                     </thead>
@@ -121,7 +145,53 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="box-footer" style="text-align: right">
+                            <button class="btn btn-rojo" id="btnGenClienteCompra">Generar reporte</button>
+                        </div>
                     </div>
+                    <!--Este es la tabla de ClientesRecargas -->
+                    <div class="tab-pane" id="tab_4">
+                        <div class="form-group col-md-4">
+                            <select name="" id="inpClienteRecarga" class="form-control">
+                                    <option selected value="">Clientes</option>
+                                    <?php
+                                        foreach($clientesRecargas as $cliente) {
+                                            echo '<option value="'.$cliente->id.'">'.$cliente->nombre.'</option>';
+                                        }
+                                    ;?>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="input-group">
+                                <div class="input-group-addon"><span class="fa fa-calendar"></span></div>
+                                <input type="text" class="form-control" id="fechaClienteRecarga" placeholder="Fecha inicial - Fecha final">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button id="btnClienteRecarga" type="button" class="btn btn-rojo">Buscar</button>
+                        </div>
+                        <div class="box-body">
+                            <div class="box-body table-responsive no-padding col-md-12">
+                                <table id="tabla4" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Fecha</th>
+                                            <th>Vendedor</th>
+                                            <th>Recarga</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="box-footer" style="text-align: right">
+                            <button class="btn btn-rojo" id="btnGenClienteRecarga">Generar reporte</button>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -132,10 +202,14 @@
 
 <script>
     $(document).ready(function() {
-
+        $("#btnGenEmpresa").css("display", "none");
+        $("#btnGenVendedor").css("display", "none");
+        $("#btnGenClienteCompra").css("display", "none");
+        $("#btnGenClienteRecarga").css("display", "none");
         var tabla1 = insertarPaginado('tabla1');
         var tabla2 = insertarPaginado('tabla2');
         var tabla3 = insertarPaginado('tabla3');
+        var tabla4 = insertarPaginado('tabla4');
 
         function insertarPaginado(id,length=10,search=false){
     	  return $(`#${id}`).DataTable({
@@ -222,7 +296,8 @@
 
         });
 
-        $('#inpFechaCliente').daterangepicker({
+        //**********PARA EL INPUT DE CLIENTE COMPRAS********** */
+        $('#fechaClienteCompra').daterangepicker({
             autoUpdateInput: false,
 			"applyClass": "btn-rojo",
 			locale: {
@@ -241,18 +316,52 @@
 			}
         });
 
-        $('#inpFechaCliente').on('apply.daterangepicker', function(ev, picker) {
+        $('#fechaClienteCompra').on('apply.daterangepicker', function(ev, picker) {
             $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
         });
 
-        $('#inpFechaCliente').on('cancel.daterangepicker', function(ev, picker) {
+        $('#fechaClienteCompra').on('cancel.daterangepicker', function(ev, picker) {
             $(this).val('');
         });
 
 
-        $('#inpFechaCliente').on('apply.daterangepicker', function(ev, picker) {
-                fechaInicioC = picker.startDate.format('YYYY-MM-DD');
-                fechaFinalC = picker.endDate.format('YYYY-MM-DD');
+        $('#fechaClienteCompra').on('apply.daterangepicker', function(ev, picker) {
+                fechaInicioCC = picker.startDate.format('YYYY-MM-DD');
+                fechaFinalCC = picker.endDate.format('YYYY-MM-DD');
+
+        });
+        //**********PARA EL INPUT DE CLIENTE RECARGAS********** */
+        $('#fechaClienteRecarga').daterangepicker({
+            autoUpdateInput: false,
+			"applyClass": "btn-rojo",
+			locale: {
+				"cancelLabel": 'Clear',
+				"applyLabel": "Aplicar",
+        		"cancelLabel": "Cancelar",
+				"daysOfWeek": [
+					"Do",
+					"Lu",
+					"Ma",
+					"Mi",
+					"Ju",
+					"Vi",
+					"Sa"
+				],
+			}
+        });
+
+        $('#fechaClienteRecarga').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+        });
+
+        $('#fechaClienteRecarga').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+        });
+
+
+        $('#fechaClienteRecarga').on('apply.daterangepicker', function(ev, picker) {
+                fechaInicioCR = picker.startDate.format('YYYY-MM-DD');
+                fechaFinalCR = picker.endDate.format('YYYY-MM-DD');
 
         });
 
@@ -267,6 +376,8 @@
                         dibujarEmpresa(data);
                     }
                 });
+            }else {
+                alert("Rellene todos los campos");
             }
         });
 
@@ -281,26 +392,56 @@
                         dibujarVendedor(data);
                     }
                 });
+            }else {
+                alert("Rellene todos los campos");
             }
         });
-
-        $('#btnCliente').click(function() {
-            if($('#inpCliente').val() != '' && typeof(fechaInicioC) !== 'undefined' && typeof(fechaFinalC) !== 'undefined') {
+        /** PARA EL CLIENTE COMPRA */
+        $('#btnClienteCompra').click(function() {
+            if($('#inpClienteCompra').val() != '' && typeof(fechaInicioCC) !== 'undefined' && typeof(fechaFinalCC) !== 'undefined') {
                 $.ajax({
-                    url: base_url+'index.php/Saldos/buscarCliente',
-                    data: {idCliente:$('#inpCliente').val(), fechaInicio:fechaInicioC, fechaFinal:fechaFinalC},
+                    url: base_url+'index.php/Saldos/buscarClienteCompra',
+                    data: {idUsuario:$('#inpClienteCompra').val(), fechaInicio:fechaInicioCC, fechaFinal:fechaFinalCC},
                     type: "POST",
                     success: function(data) {
                         data = JSON.parse(data);
-                        dibujarCliente(data);
+                        //console.log("se logró la conexion");
+                        dibujarClienteCompra(data);
                     }
                 });
+            }else {
+                alert("Rellene todos los campos");
+            }
+
+        });
+        /*** PARA EL CLIENTE RECARGA¨*******/
+        $('#btnClienteRecarga').click(function() {
+            if($('#inpClienteRecarga').val() != '' && typeof(fechaInicioCR) !== 'undefined' && typeof(fechaFinalCR) !== 'undefined') {
+                $.ajax({
+                    url: base_url+'index.php/Saldos/buscarClienteRecarga',
+                    data: {idCliente:$('#inpClienteRecarga').val(), fechaInicio:fechaInicioCR, fechaFinal:fechaFinalCR},
+                    type: "POST",
+                    success: function(data) {
+                        data = JSON.parse(data);
+                        //console.log("Se logró la conexion");
+                        dibujarClienteRecarga(data);
+                    }
+                });
+            }else {
+                alert("Rellene todos los campos");
             }
 
         });
 
         function dibujarEmpresa(data) {
             tabla1.clear().draw();
+            console.log(data.length);
+            //console.log(data);
+            if (data.length != 0) {
+                $("#btnGenEmpresa").css("display", "block");
+            }else{
+                $("#btnGenEmpresa").css("display", "none");
+            }
 			$.each(data, function(index, item){
 				var fila = tabla1.row.add([
 					item['id'],
@@ -313,6 +454,12 @@
 
         function dibujarVendedor(data) {
             tabla2.clear().draw();
+            console.log(data.length);
+            if (data.length != 0) {
+                $("#btnGenVendedor").css("display", "block");
+            }else{
+                $("#btnGenVendedor").css("display", "none");
+            }
 			$.each(data, function(index, item){
 				var fila = tabla2.row.add([
 					item['id'],
@@ -323,18 +470,45 @@
 			});
         }
 
-        function dibujarCliente(data) {
+        function dibujarClienteCompra(data) {
             tabla3.clear().draw();
-            var saldo = Math.abs(data.saldo.monto) - Math.abs(data.pedidos.total);
-            var x = 0;
-			$.each(data.movimientos, function(index, item){
-                saldo = saldo + Math.abs(item['recarga']) - Math.abs(item['pedido'])
+            console.log(data.length);
+            //var saldo = Math.abs(data.saldo.monto) - Math.abs(data.pedidos.total);
+            //var x = 0;
+            if (data.length != 0) {
+                $("#btnGenClienteCompra").css("display", "block");
+            }else{
+                $("#btnGenClienteCompra").css("display", "none");
+            }
+			$.each(data, function(index, item){
+                //saldo = saldo + Math.abs(item['recarga']) - Math.abs(item['pedido'])
                 var fila = tabla3.row.add([
                     item['id'],
                     item['fecha'],
-                    item['recarga'],
-                    item['pedido'],
-                    saldo
+                    item['nombre'],
+                    item['estatus'],
+                    "$ "+item['total'],
+                ]).draw(false).node();
+			});
+        }
+
+        function dibujarClienteRecarga(data) {
+            tabla4.clear().draw();
+            console.log(data.length);
+            //var saldo = Math.abs(data.saldo.monto) - Math.abs(data.pedidos.total);
+            //var x = 0;
+            if (data.length != 0) {
+                $("#btnGenClienteRecarga").css("display", "block");
+            }else{
+                $("#btnGenClienteRecarga").css("display", "none");
+            }
+			$.each(data, function(index, item){
+                //saldo = saldo + Math.abs(item['recarga']) - Math.abs(item['pedido'])
+                var fila = tabla4.row.add([
+                    item['id'],
+                    item['fecha'],
+                    item['nombre'],
+                    "$ "+item['monto'],
                 ]).draw(false).node();
 			});
         }

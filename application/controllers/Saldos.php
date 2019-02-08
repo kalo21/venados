@@ -15,6 +15,8 @@ class Saldos extends CI_Controller {
             $data['informacion'] = informacionInicial("Venados | Saldos");
             $data['empresas'] = $this->Saldos_modelo->obtenerEmpresas();
             $data['vendedores'] = $this->Saldos_modelo->obtenerVendedores();
+            $data['clientesCompras']= $this->Saldos_modelo->obtenerClientesC();
+            $data['clientesRecargas']= $this->Saldos_modelo->obtenerClientesR();
     		$this->load->view('Saldos/saldos_vista',$data);
         }
     }
@@ -33,5 +35,14 @@ class Saldos extends CI_Controller {
         $data['pedidos'] = $this->Saldos_modelo->obtenerTotalPedidos($this->input->post());
         echo json_encode($data);
     }
+
+    public function buscarClienteCompra(){
+        echo json_encode($this->Saldos_modelo->buscarClienteCompra($this->input->post()));
+    }
+
+    public function buscarClienteRecarga(){
+        echo json_encode($this->Saldos_modelo->buscarClienteRecarga($this->input->post()));
+    }
+    
 
 }

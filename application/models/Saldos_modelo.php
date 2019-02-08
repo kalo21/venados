@@ -18,6 +18,20 @@ class Saldos_modelo extends CI_Model{
         return $query->result();
     }
 
+    public function obtenerClientesC(){
+        $this->db->select('usuarios.id, CONCAT(clientes.nombre, " " , clientes.apellidopaterno, " ", clientes.apellidomaterno) as nombre');
+        $this->db->join('usuarios', 'usuarios.id = clientes.id_usuario');
+        $query = $this->db->get('clientes');
+        return $query->result();
+    }
+
+    public function obtenerClientesR(){
+        $this->db->select('clientes.id, CONCAT(clientes.nombre, " " , clientes.apellidopaterno, " ", clientes.apellidomaterno) as nombre');
+        //$this->db->join('usuarios', 'usuarios.id = clientes.id_usuario');
+        $query = $this->db->get('clientes');
+        return $query->result();
+    }
+
     public function buscarEmpresa($data) {
         $this->db->select('pedidos.id, pedidos.fecha, CONCAT(clientes.nombre, " ",clientes.apellidopaterno, " ", clientes.apellidomaterno) as cliente, pedidos.total');
         $this->db->from('pedidos');
@@ -35,7 +49,32 @@ class Saldos_modelo extends CI_Model{
         $this->db->select('recargas.id, recargas.fecha, CONCAT(clientes.nombre, " ",clientes.apellidopaterno, " ", clientes.apellidomaterno) as cliente, recargas.monto');
         $this->db->from('recargas');
         $this->db->join('clientes', 'clientes.id = recargas.id_cliente');
-        $this->db->where('recargas.id_vendedor', $data['idVendedor']);
+        $this->db->where('recargas.id_empleado', $data['idVendedor']);
+        $this->db->where('recargas.fecha >=', $data['fechaInicio']);
+        $this->db->where('recargas.fecha <=', $data['fechaFinal']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function buscarClienteCompra($data){
+        $this->db->select('pedidos.id, pedidos.fecha, empresas.nombre, pedidos.total, pedidos.estatus');
+        $this->db->from('pedidos');
+        $this->db->join('empresas', 'empresas.id = pedidos.idempresa');
+        $this->db->where('pedidos.estatus != "Solicitado"');
+        $this->db->where('pedidos.estatus != "Cancelado"');
+        $this->db->where('pedidos.estatus != "Eliminado"');
+        $this->db->where('pedidos.idusuario', $data['idUsuario']);
+        $this->db->where('pedidos.fecha >=', $data['fechaInicio']);
+        $this->db->where('pedidos.fecha <=', $data['fechaFinal']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function buscarClienteRecarga($data){
+        $this->db->select('recargas.id, recargas.fecha, CONCAT(vendedores.nombre, " " , vendedores.apellidopaterno) as nombre, recargas.monto');
+        $this->db->from('recargas');
+        $this->db->join('vendedores', 'vendedores.id = recargas.id_empleado');
+        $this->db->where('recargas.id_cliente', $data['idCliente']);
         $this->db->where('recargas.fecha >=', $data['fechaInicio']);
         $this->db->where('recargas.fecha <=', $data['fechaFinal']);
         $query = $this->db->get();
@@ -89,4 +128,6 @@ class Saldos_modelo extends CI_Model{
         $query = $this->db->get('pedidos')->row();
         return $query;
     }
+
+    
 }
