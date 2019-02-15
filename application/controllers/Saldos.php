@@ -6,7 +6,8 @@ class Saldos extends CI_Controller {
     public function __construct(){
         parent::__construct(); 
 		$this->load->model('Saldos_modelo');
-		$this->load->helper(array('funciones_generales_helper','url'));
+        $this->load->helper(array('funciones_generales_helper','url'));
+        $this->load->library('Pdf');
     }
 
     public function index(){
@@ -42,6 +43,13 @@ class Saldos extends CI_Controller {
 
     public function buscarClienteRecarga(){
         echo json_encode($this->Saldos_modelo->buscarClienteRecarga($this->input->post()));
+    }
+
+
+    function generarPDFEmpresa(){
+        //$data['infoEmpresa'] = $this->input->post();
+        //$data['datos']= $this->Saldos_modelo->buscarEmpresa($this->input->post());
+        $this->load->view('Saldos/reporteEmpresas');
     }
     
 

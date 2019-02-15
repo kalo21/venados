@@ -8,6 +8,7 @@
                 <h3 class="text-center" id="titulo">Reportes</h3>
             </div>
             <br>
+
             <div class="col-md-offset-1 col-md-10" id="contenedorperro">
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
@@ -137,7 +138,7 @@
                                             <th>Fecha</th>
                                             <th>Empresa</th>
                                             <th>Estatus</th>
-                                            <th>Saldo</th>
+                                            <th>Monto</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -191,7 +192,6 @@
                         </div>
                     </div>
 
-
                 </div>
             </div>
         </div>
@@ -206,6 +206,7 @@
         $("#btnGenVendedor").css("display", "none");
         $("#btnGenClienteCompra").css("display", "none");
         $("#btnGenClienteRecarga").css("display", "none");
+
         var tabla1 = insertarPaginado('tabla1');
         var tabla2 = insertarPaginado('tabla2');
         var tabla3 = insertarPaginado('tabla3');
@@ -225,7 +226,6 @@
     	     "iDisplayLength": length,
     	     "language"     : {  "url": `<?php echo base_url()?>assets/files/SpanishT.json`  }
     	  });
-
     	}
 
         $('#inpFechaEmpresa').daterangepicker({
@@ -259,7 +259,6 @@
         $('#inpFechaEmpresa').on('apply.daterangepicker', function(ev, picker) {
                 fechaInicioE = picker.startDate.format('YYYY-MM-DD');
                 fechaFinalE = picker.endDate.format('YYYY-MM-DD');
-
         });
 
         $('#inpFechaVendedor').daterangepicker({
@@ -433,9 +432,24 @@
 
         });
 
+        //Generar reporte de empresa
+        $('#btnGenEmpresa').click(function(){
+            console.log("se precionó el boton");
+            $.ajax({
+                url: base_url+'index.php/Saldos/generarPDFEmpresa',
+                    data: {idEmpresa:$('#selectEmpresa').val(), fechaInicio:fechaInicioE, fechaFinal:fechaFinalE, nombreEmpresa: $("#selectEmpresa option:selected").html()},
+                    type: "POST",
+                    success: function(data) {
+                        console.log(data);
+                        //$("#results").html(data);   
+
+                }
+            })
+        });
+
         function dibujarEmpresa(data) {
             tabla1.clear().draw();
-            console.log(data.length);
+            console.log("Este es el length: "+data.length);
             //console.log(data);
             if (data.length != 0) {
                 $("#btnGenEmpresa").css("display", "block");
