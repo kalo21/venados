@@ -25,7 +25,7 @@ class Usuarios_modelo extends CI_Model {
 
 	public function agregarUsuario($data) {
 		$this->db->where('nombre', $data['inpNombre']);
-		$aux = $this->db->get('Usuarios');
+		$aux = $this->db->get('usuarios');
 		if($aux->num_rows() > 0) {
 			return array('exito' => false, 'msg' => '<li>El nombre ya se encuentra registrado</li>');
 		}

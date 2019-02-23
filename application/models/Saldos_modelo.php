@@ -128,6 +128,35 @@ class Saldos_modelo extends CI_Model{
         $query = $this->db->get('pedidos')->row();
         return $query;
     }
+    
+
+    public function nombreEmpresa($id){
+        $this->db->select('empresas.nombre as nombre');
+        $this->db->where('empresas.id', $id);
+        $query = $this->db->get('empresas');
+        return $query->result();
+    }
+
+    public function nombreVendedor($id){
+        $this->db->select('CONCAT(vendedores.nombre, " " , vendedores.apellidopaterno , " " , vendedores.apellidomaterno) as nombre');
+        $this->db->where('vendedores.id', $id);
+        $query = $this->db->get('vendedores');
+        return $query->result();
+    }
+
+    public function nombreUsuarioCompra($id){ //este es con el id del usuario
+        $this->db->select('CONCAT(clientes.nombre, " " , clientes.apellidopaterno, " ", clientes.apellidomaterno) as nombre');
+        $this->db->where('clientes.id_usuario', $id);
+        $query = $this->db->get('clientes');
+        return $query->result();
+    }
+    
+    public function nombreUsuarioRecarga($id){ //este es con el id del cliente
+        $this->db->select('CONCAT(clientes.nombre, " " , clientes.apellidopaterno , " " , clientes.apellidomaterno) as nombre');
+        $this->db->where('clientes.id', $id);
+        $query = $this->db->get('clientes');
+        return $query->result();
+    }
 
     
 }

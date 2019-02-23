@@ -8,6 +8,7 @@ class Saldos extends CI_Controller {
 		$this->load->model('Saldos_modelo');
         $this->load->helper(array('funciones_generales_helper','url'));
         $this->load->library('Pdf');
+
     }
 
     public function index(){
@@ -46,10 +47,69 @@ class Saldos extends CI_Controller {
     }
 
 
-    function generarPDFEmpresa(){
-        //$data['infoEmpresa'] = $this->input->post();
-        //$data['datos']= $this->Saldos_modelo->buscarEmpresa($this->input->post());
-        $this->load->view('Saldos/reporteEmpresas');
+    /**
+     * Genera el documento pdf para el reporte
+     * @param id = es el id de lo que se desea buscar
+     * @param fechaInicio = es la fecha de inicio para la consulta del reporte
+     * @param fechaFinal = es la fecha de fin para la consulta del reporte
+     * @param tipo = es el tipo de reporte: {1: Reporte de empresas, 2: Reporte para vendedores, 3: Reporte para compras de los clientes, 4: Reportes para las recargas de los clientes}
+     */
+    public function imprimir($id, $fechaInicio, $fechaFinal, $tipo){
+        if ($tipo == 1) { //Reporte de empresas
+            $input = array(
+                idEmpresa => $id,
+                fechaInicio => $fechaInicio,
+                fechaFinal => $fechaFinal
+            );
+            $data['nombre']= $this->Saldos_modelo->nombreEmpresa($id);
+            $data['total'] = 0.0;
+            $data['datos'] = $input;
+            $data['registros'] = $this->Saldos_modelo->buscarEmpresa($input);
+            $contenido = $this->load->view('Formatos/reporteEmpresas',$data, true);
+            
+        } else if($tipo == 2){ //Reporte para vendedores
+            $input = array(
+                idVendedor => $id,
+                fechaInicio => $fechaInicio,
+                fechaFinal => $fechaFinal
+            );
+
+            $data['nombre']= $this->Saldos_modelo->nombreVendedor($id);
+            $data['total'] = 0.0;
+            $data['datos'] = $input;
+            $data['registros'] = $this->Saldos_modelo->buscarVendedor($input);
+           $contenido = $this->load->view('Formatos/reporteVendedores',$data, true);
+
+        }else if ($tipo == 3) { //Reporte para compras de los clientes
+            $input = array(
+                idUsuario => $id,
+                fechaInicio => $fechaInicio,
+                fechaFinal => $fechaFinal
+            );
+
+            $data['nombre']= $this->Saldos_modelo->nombreUsuarioCompra($id);
+            $data['total'] = 0.0;
+            $data['datos'] = $input;
+            $data['registros'] = $this->Saldos_modelo->buscarClienteCompra($input);
+           $contenido = $this->load->view('Formatos/reporteClienteCompras',$data, true);
+
+        }else { //Reportes para las recargas de los clientes
+            $input = array(
+                idCliente => $id,
+                fechaInicio => $fechaInicio,
+                fechaFinal => $fechaFinal
+            );
+
+            $data['nombre']= $this->Saldos_modelo->nombreUsuarioRecarga($id);
+            $data['total'] = 0.0;
+            $data['datos'] = $input;
+            $data['registros'] = $this->Saldos_modelo->buscarClienteRecarga($input);
+           $contenido = $this->load->view('Formatos/reporteClienteRecarga',$data, true);
+        }
+
+        GenerarPDFLogo($contenido, "i", $id."-".$fechaInicio."-".$fechaFinal);
+        
+        
     }
     
 

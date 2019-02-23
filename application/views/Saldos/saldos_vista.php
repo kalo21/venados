@@ -434,18 +434,34 @@
 
         //Generar reporte de empresa
         $('#btnGenEmpresa').click(function(){
-            console.log("se precionó el boton");
-            $.ajax({
-                url: base_url+'index.php/Saldos/generarPDFEmpresa',
-                    data: {idEmpresa:$('#selectEmpresa').val(), fechaInicio:fechaInicioE, fechaFinal:fechaFinalE, nombreEmpresa: $("#selectEmpresa option:selected").html()},
-                    type: "POST",
-                    success: function(data) {
-                        console.log(data);
-                        //$("#results").html(data);   
-
-                }
-            })
+            //console.log("se precionó el boton");
+            let url = 	base_url + "index.php/Saldos/imprimir/"+$('#selectEmpresa').val()+"/"+fechaInicioE+"/"+fechaFinalE+"/1";
+            window.open(url, '_blank');
         });
+
+        //Generar reporte de Vendedores
+        $('#btnGenVendedor').click(function(){
+            //console.log("se precionó el boton");
+            let url = 	base_url + "index.php/Saldos/imprimir/"+$('#selectVendedor').val()+"/"+fechaInicioV+"/"+fechaFinalV+"/2";
+            window.open(url, '_blank');
+        });
+        
+        //Generar reporte de Compras de clientes
+        $('#btnGenClienteCompra').click(function(){
+            //console.log("se precionó el boton");
+            let url = 	base_url + "index.php/Saldos/imprimir/"+$('#inpClienteCompra').val()+"/"+fechaInicioCC+"/"+fechaFinalCC+"/3";
+            window.open(url, '_blank');
+        });
+
+        //Generar reporte de Recargas de clientes
+        $('#btnGenClienteRecarga').click(function(){
+            //console.log("se precionó el boton");
+            let url = 	base_url + "index.php/Saldos/imprimir/"+$('#inpClienteRecarga').val()+"/"+fechaInicioCR+"/"+fechaFinalCR+"/4";
+            window.open(url, '_blank');
+        });
+        /* function imprimirFicha (data, nombre, tipo) {			
+			window.location = base_url + "index.php/Saldos/imprimir/" + data + "/" + nombre + "/" + tipo;
+		} */
 
         function dibujarEmpresa(data) {
             tabla1.clear().draw();
