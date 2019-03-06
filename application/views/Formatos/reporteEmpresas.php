@@ -54,9 +54,16 @@
         <tr>
         
             <th width="200">Empresa</th>
-            <td width="420"><?php foreach ($nombre as $key => $value) {
-                echo $value->nombre;
-            }?></td>
+            <td width="420"><?php 
+            if(is_array($nombre)) {    
+                foreach
+                   ($nombre as $key => $value) {
+                    echo $value->nombre;
+                };
+            }else{
+                echo "Todas las empresas";
+            }
+            ?></td>
         </tr>
         
         <tr>
@@ -86,16 +93,16 @@
 
     <table class="tabla-regitros"> <!--Para los registros del reporte -->
         <tr>
-            <th width="100">ID</th>
+            <th width="150">EMPRESA</th>
             <th>FECHA (A-M-D) </th>
-            <th width="220">CLIENTE</th>
+            <th width="200">CLIENTE</th>
             <th>MONTO</th>
         </tr>
         <?php
         if (is_array($registros)) {
             foreach($registros as $index => $registro) {
                 echo '<tr>
-                        <td width="100">'.$registro->id.'</td>
+                        <td width="150">'.$registro->nombre.'</td>
                         <td>'.$registro->fecha.'</td>
                         <td>'.$registro->cliente.'</td>
                         <td>$ '.$registro->total.' MXN</td>

@@ -61,7 +61,7 @@ class Saldos extends CI_Controller {
                 fechaInicio => $fechaInicio,
                 fechaFinal => $fechaFinal
             );
-            $data['nombre']= $this->Saldos_modelo->nombreEmpresa($id);
+            ($id == 0) ? $data['nombre']= "" : $data['nombre']= $this->Saldos_modelo->nombreEmpresa($id) ;
             $data['total'] = 0.0;
             $data['datos'] = $input;
             $data['registros'] = $this->Saldos_modelo->buscarEmpresa($input);

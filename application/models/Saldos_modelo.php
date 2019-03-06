@@ -33,14 +33,28 @@ class Saldos_modelo extends CI_Model{
     }
 
     public function buscarEmpresa($data) {
-        $this->db->select('pedidos.id, pedidos.fecha, CONCAT(clientes.nombre, " ",clientes.apellidopaterno, " ", clientes.apellidomaterno) as cliente, pedidos.total');
-        $this->db->from('pedidos');
-        $this->db->join('clientes', 'clientes.id_usuario = pedidos.idusuario');
-        $this->db->where('pedidos.idempresa', $data['idEmpresa']);
-        $this->db->where('pedidos.fecha >=', $data['fechaInicio']);
-        $this->db->where('pedidos.fecha <=', $data['fechaFinal']);
-        $this->db->where('pedidos.estatus !=', 'Cancelado');
-        $this->db->where('pedidos.estatus !=', 'Eliminado');
+        if ($data['idEmpresa'] == 0) {
+            $this->db->select('pedidos.id, empresas.nombre, pedidos.fecha, CONCAT(clientes.nombre, " ",clientes.apellidopaterno, " ", clientes.apellidomaterno) as cliente, pedidos.total');
+            $this->db->from('pedidos');
+            $this->db->join('clientes', 'clientes.id_usuario = pedidos.idusuario');
+            $this->db->join('empresas', 'empresas.id = pedidos.idempresa');
+            $this->db->order_by("empresas.nombre", "asc");
+            $this->db->where('pedidos.fecha >=', $data['fechaInicio']);
+            $this->db->where('pedidos.fecha <=', $data['fechaFinal']);
+            $this->db->where('pedidos.estatus !=', 'Cancelado');
+            $this->db->where('pedidos.estatus !=', 'Eliminado');
+        }else {
+            $this->db->select('pedidos.id, empresas.nombre, pedidos.fecha, CONCAT(clientes.nombre, " ",clientes.apellidopaterno, " ", clientes.apellidomaterno) as cliente, pedidos.total');
+            $this->db->from('pedidos');
+            $this->db->join('clientes', 'clientes.id_usuario = pedidos.idusuario');
+            $this->db->join('empresas', 'empresas.id = pedidos.idempresa');
+            $this->db->where('pedidos.idempresa', $data['idEmpresa']);
+            $this->db->where('pedidos.fecha >=', $data['fechaInicio']);
+            $this->db->where('pedidos.fecha <=', $data['fechaFinal']);
+            $this->db->where('pedidos.estatus !=', 'Cancelado');
+            $this->db->where('pedidos.estatus !=', 'Eliminado');
+        }
+        
         $query = $this->db->get();
         return $query->result();
     }

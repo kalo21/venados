@@ -14,13 +14,9 @@
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#tab_1" data-toggle="tab" id="tab1">Empresas</a></li>
                         <li><a href="#tab_2" data-toggle="tab" id="tab2">Vendedores</a></li>
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Clientes <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#tab_3" data-toggle="tab" id="tab3">Compras</a></li>
-                                <li><a href="#tab_4" data-toggle="tab" id="tab3">Recargas</a></li>                        
-                            </ul>
-                        </li>
+                        <li><a href="#tab_3" data-toggle="tab" id="tab3">Ventas por cliente</a></li>
+                        <li><a href="#tab_4" data-toggle="tab" id="tab3">Recargas de clientes</a></li> 
+                        
                     </ul>
 
 
@@ -28,7 +24,8 @@
                         <div class="tab-pane active" id="tab_1">
                             <div class="form-group col-md-4">
                                 <select id="selectEmpresa" class="form-control">
-                                    <option selected value="">Empresa</option>
+                                    <option selected value="">Seleccione una empresa</option>
+                                    <option value="0">Todas las empresas</option>
                                     <?php
                                         foreach($empresas as $empresa) {
                                             echo '<option value="'.$empresa->id.'">'.$empresa->nombre.'</option>';
@@ -50,7 +47,7 @@
                                     <table id="tabla1" class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
+                                                <th>Empresa</th>
                                                 <th>Fecha</th>
                                                 <th>Cliente</th>
                                                 <th>Monto</th>
@@ -61,15 +58,22 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="box-footer" style="text-align: right">
-                                <button class="btn btn-rojo" id="btnGenEmpresa">Generar reporte</button>
+                            <div class="box-footer" style="text-align: left">
+                                <div class="row" >
+                                    <div class="col-md-6">
+                                        <button class="btn btn-rojo" id="btnGenEmpresa">Generar reporte</button>
+                                    </div>
+                                    
+                                    <div class="col-md-6" style="text-align: right !important; ">
+                                        <h4 id="totEmpCont" style="padding-right: 15% !important;">Total: <span id="totalEmpresa" style="color: green">$323</span> </h4> 
+                                    </div>
+                                </div>
                             </div>
-
-                        </div>
+                    </div>
                     <div class="tab-pane" id="tab_2">
                         <div class="form-group col-md-4">
                             <select name="" id="selectVendedor" class="form-control">
-                                <option selected value="">Vendedores</option>
+                                <option selected value="">Seleccione un vendedor</option>
                                 <?php
                                     foreach($vendedores as $vendedor) {
                                         echo '<option value="'.$vendedor->id.'">'.$vendedor->nombre.'</option>';
@@ -103,7 +107,15 @@
                             </div>
                         </div>
                         <div class="box-footer" style="text-align: right">
-                                <button class="btn btn-rojo" id="btnGenVendedor">Generar reporte</button>
+                            <div class="row" >
+                                <div class="col-md-6">
+                                    <button class="btn btn-rojo" id="btnGenVendedor">Generar reporte</button>
+                                </div>
+                                
+                                <div class="col-md-6" style="text-align: right !important; ">
+                                    <h4 id="totVenCont" style="padding-right: 15% !important;">Total: <span id="totalVededor" style="color: green">$323</span> </h4> 
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -111,7 +123,7 @@
                     <div class="tab-pane" id="tab_3">
                         <div class="form-group col-md-4">
                         <select name="" id="inpClienteCompra" class="form-control">
-                                <option selected value="">Clientes</option>
+                                <option selected value="">Seleccione un cliente</option>
                                 <?php
                                     foreach($clientesCompras as $cliente) {
                                         echo '<option value="'.$cliente->id.'">'.$cliente->nombre.'</option>';
@@ -147,14 +159,22 @@
                             </div>
                         </div>
                         <div class="box-footer" style="text-align: right">
-                            <button class="btn btn-rojo" id="btnGenClienteCompra">Generar reporte</button>
+                            <div class="row" >
+                                <div class="col-md-6">
+                                    <button class="btn btn-rojo" id="btnGenClienteCompra">Generar reporte</button>
+                                </div>
+                                
+                                <div class="col-md-6" style="text-align: right !important; ">
+                                    <h4 id="totClCont" style="padding-right: 15% !important;">Total: <span id="totalCC" style="color: green">$323</span> </h4> 
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!--Este es la tabla de ClientesRecargas -->
                     <div class="tab-pane" id="tab_4">
                         <div class="form-group col-md-4">
                             <select name="" id="inpClienteRecarga" class="form-control">
-                                    <option selected value="">Clientes</option>
+                                    <option selected value="">Seleccione un cliente</option>
                                     <?php
                                         foreach($clientesRecargas as $cliente) {
                                             echo '<option value="'.$cliente->id.'">'.$cliente->nombre.'</option>';
@@ -188,7 +208,15 @@
                             </div>
                         </div>
                         <div class="box-footer" style="text-align: right">
-                            <button class="btn btn-rojo" id="btnGenClienteRecarga">Generar reporte</button>
+                            <div class="row" >
+                                <div class="col-md-6">
+                                    <button class="btn btn-rojo" id="btnGenClienteRecarga">Generar reporte</button>
+                                </div>
+                                
+                                <div class="col-md-6" style="text-align: right !important; ">
+                                    <h4 id="totCRCont" style="padding-right: 15% !important;">Total: <span id="totalCR" style="color: green">$323</span> </h4> 
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -202,10 +230,16 @@
 
 <script>
     $(document).ready(function() {
+        var totalEmpresa = 0;
+        //$("#totalEmpresa").HTML(totalEmpresa);
         $("#btnGenEmpresa").css("display", "none");
         $("#btnGenVendedor").css("display", "none");
         $("#btnGenClienteCompra").css("display", "none");
         $("#btnGenClienteRecarga").css("display", "none");
+        $("#totEmpCont").css("display", "none");
+        $("#totVenCont").css("display", "none");
+        $("#totClCont").css("display", "none");
+        $("#totCRCont").css("display", "none");
 
         var tabla1 = insertarPaginado('tabla1');
         var tabla2 = insertarPaginado('tabla2');
@@ -465,32 +499,42 @@
 
         function dibujarEmpresa(data) {
             tabla1.clear().draw();
-            console.log("Este es el length: "+data.length);
-            //console.log(data);
+            let totalEmpresa = 0;
             if (data.length != 0) {
                 $("#btnGenEmpresa").css("display", "block");
+                $("#totEmpCont").css("display", "block");
+                
             }else{
                 $("#btnGenEmpresa").css("display", "none");
+                $("#totEmpCont").css("display", "none");
             }
 			$.each(data, function(index, item){
+                totalEmpresa += Number(item['total']);
 				var fila = tabla1.row.add([
-					item['id'],
-					item['fecha'],
+                    item['nombre'],
+                    item['fecha'],
 					item['cliente'],
 					'$ '+item['total'],
 				]).draw(false).node();
+                
 			});
+            $('#totalEmpresa').text("$ "+totalEmpresa);
+            //console.log(totalEmpresa);
         }
 
         function dibujarVendedor(data) {
+            let total = 0;
             tabla2.clear().draw();
             console.log(data.length);
             if (data.length != 0) {
                 $("#btnGenVendedor").css("display", "block");
+                $("#totVenCont").css("display", "block");
             }else{
                 $("#btnGenVendedor").css("display", "none");
+                $("#totVenCont").css("display", "none");
             }
 			$.each(data, function(index, item){
+                total += Number(item['monto']);
 				var fila = tabla2.row.add([
 					item['id'],
 					item['fecha'],
@@ -498,20 +542,25 @@
 					'$ '+item['monto'],
 				]).draw(false).node();
 			});
+            $('#totalVededor').text("$ "+total);
         }
 
         function dibujarClienteCompra(data) {
+            let totalCC = 0;
             tabla3.clear().draw();
             console.log(data.length);
             //var saldo = Math.abs(data.saldo.monto) - Math.abs(data.pedidos.total);
             //var x = 0;
             if (data.length != 0) {
                 $("#btnGenClienteCompra").css("display", "block");
+                $("#totClCont").css("display", "block");
             }else{
                 $("#btnGenClienteCompra").css("display", "none");
+                $("#totClCont").css("display", "none");
             }
 			$.each(data, function(index, item){
                 //saldo = saldo + Math.abs(item['recarga']) - Math.abs(item['pedido'])
+                totalCC += Number(item['total']);
                 var fila = tabla3.row.add([
                     item['id'],
                     item['fecha'],
@@ -520,19 +569,24 @@
                     "$ "+item['total'],
                 ]).draw(false).node();
 			});
+            $('#totalCC').text("$ "+totalCC);
         }
 
         function dibujarClienteRecarga(data) {
+            let totalCR = 0;
             tabla4.clear().draw();
             console.log(data.length);
             //var saldo = Math.abs(data.saldo.monto) - Math.abs(data.pedidos.total);
             //var x = 0;
             if (data.length != 0) {
                 $("#btnGenClienteRecarga").css("display", "block");
+                $("#totCRCont").css("display", "block");
             }else{
                 $("#btnGenClienteRecarga").css("display", "none");
+                $("#totCRCont").css("display", "none");
             }
 			$.each(data, function(index, item){
+                totalCR += Number(item['monto']);
                 //saldo = saldo + Math.abs(item['recarga']) - Math.abs(item['pedido'])
                 var fila = tabla4.row.add([
                     item['id'],
@@ -541,6 +595,7 @@
                     "$ "+item['monto'],
                 ]).draw(false).node();
 			});
+            $('#totalCR').text("$ "+totalCR);
         }
 
     })
