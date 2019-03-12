@@ -65,7 +65,7 @@
                                     </div>
                                     
                                     <div class="col-md-6" style="text-align: right !important; ">
-                                        <h4 id="totEmpCont" style="padding-right: 15% !important;">Total: <span id="totalEmpresa" style="color: green">$323</span> </h4> 
+                                        <h2 id="totEmpCont" style="padding-right: 15% !important;">Total: <span id="totalEmpresa" style="color: green"></span> </h2> 
                                     </div>
                                 </div>
                             </div>
@@ -113,7 +113,7 @@
                                 </div>
                                 
                                 <div class="col-md-6" style="text-align: right !important; ">
-                                    <h4 id="totVenCont" style="padding-right: 15% !important;">Total: <span id="totalVededor" style="color: green">$323</span> </h4> 
+                                    <h2 id="totVenCont" style="padding-right: 15% !important;">Total: <span id="totalVededor" style="color: green"></span> </h2> 
                                 </div>
                             </div>
                         </div>
@@ -165,7 +165,7 @@
                                 </div>
                                 
                                 <div class="col-md-6" style="text-align: right !important; ">
-                                    <h4 id="totClCont" style="padding-right: 15% !important;">Total: <span id="totalCC" style="color: green">$323</span> </h4> 
+                                    <h2 id="totClCont" style="padding-right: 15% !important;">Total: <span id="totalCC" style="color: green"></span> </h> 
                                 </div>
                             </div>
                         </div>
@@ -214,7 +214,7 @@
                                 </div>
                                 
                                 <div class="col-md-6" style="text-align: right !important; ">
-                                    <h4 id="totCRCont" style="padding-right: 15% !important;">Total: <span id="totalCR" style="color: green">$323</span> </h4> 
+                                    <h2 id="totCRCont" style="padding-right: 15% !important;">Total: <span id="totalCR" style="color: green"></span> </h2> 
                                 </div>
                             </div>
                         </div>
